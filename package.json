@@ -1,0 +1,27 @@
+{
+  "name": "licenka",
+  "version": "1.0.0",
+  "description": "Web3 license management API",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MaximePremont/Licenka.git"
+  },
+  "keywords": [
+    "blockchain",
+    "license",
+    "hackathon",
+    "starton",
+    "licenka"
+  ],
+  "author": "Pocker Team",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/MaximePremont/Licenka/issues"
+  },
+  "homepage": "https://github.com/MaximePremont/Licenka#readme"
+}
