@@ -23,5 +23,8 @@
   "bugs": {
     "url": "https://github.com/MaximePremont/Licenka/issues"
   },
-  "homepage": "https://github.com/MaximePremont/Licenka#readme"
+  "homepage": "https://github.com/MaximePremont/Licenka#readme",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
 }
