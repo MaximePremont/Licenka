@@ -1,32 +1,18 @@
 {
   "name": "licenka",
-  "version": "1.0.0",
-  "description": "Web3 license management API",
-  "main": "index.js",
+  "version": "0.1.0",
+  "private": true,
   "scripts": {
-    "start": "node index.js",
-    "dev": "export PORT=8080 && npm start",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/MaximePremont/Licenka.git"
-  },
-  "keywords": [
-    "blockchain",
-    "license",
-    "hackathon",
-    "starton",
-    "licenka"
-  ],
-  "author": "Pocker Team",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/MaximePremont/Licenka/issues"
-  },
-  "homepage": "https://github.com/MaximePremont/Licenka#readme",
   "dependencies": {
-    "dotenv": "^16.0.3",
-    "express": "^4.18.2"
+    "eslint": "8.28.0",
+    "eslint-config-next": "13.0.4",
+    "next": "13.0.4",
+    "react": "18.2.0",
+    "react-dom": "18.2.0"
   }
 }
