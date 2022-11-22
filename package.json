@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
+    "dev": "export PORT=8080 && npm start",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
