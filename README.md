@@ -11,13 +11,18 @@ It is recommanded to use [NVM](https://github.com/nvm-sh/nvm) to have the correc
 3. Install dependencies with `npm install`
 4. Build the app with `npm run build`
 5. Start the app with `npm start`
-
 ## Problem
-
-*What problem does your project solve? How does it fit into the theme "Building a Decentralized Future"?*
+**It is difficult for small businesses to manage their license sale**
 
 After thinking about the tracks proposed in this hackathon, we have finally found this problem: "It's difficult for small businesses to manage their sold licenses" wich is into the "E-Society" track.
 
+Nowadays, many companies want to sell their software products through the sale of licenses to its users.  
+However, in order to be able to sell licenses, these companies are forced to choose between two options: develop their own license and user management solution, or pay another company for a license management service.
+
+In both cases, doing this is very expensive for businesses, which is very complicated for small businesses. This problem can also affect open source projects, which do not have funds, and which must also find their own solution to make the companies that use the project pay, for example.
+The other problem that can arise concerns users, indeed if the platform managing their license were to close, there is no longer any evidence that the user has the paid license.
+
+In our opinion, this issue falls within the theme of "Building a decentralized Future" because the important themes of real possession of its information, infalsiability and democratization of decentralized technologies are at the heart of the challenges of Web3.
 ## Solution
 
 *How did you resolve this issue? What technologies did you use? What was your biggest technical challenge and how does your solution solve it?*
