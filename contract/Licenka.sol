@@ -1,10 +1,14 @@
-pragma solidity 0.8.9;
+pragma solidity >=0.8.0 <0.9.0;
 // SPDX-License-Identifier: MIT License
 
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-import "./licenkaPassword.sol";
+import "@openzeppelin/contracts/utils/math/SafeMath.sol";
+import "./LicenkaPassword.sol";
+import "./ILicenka.sol";
 
-contract Licenka is licenkaPassword {
+contract Licenka is ILicenka, licenkaPassword {
+
+    using SafeMath for uint;
 
     IERC20 _busd;
     IERC20 _usdt;
@@ -14,18 +18,19 @@ contract Licenka is licenkaPassword {
         string name;
         address owner;
         uint price;
-        uint256 duration;
+        uint duration;
     }
 
     struct LicenseSubscribe {
         uint licenseId;
-        uint256 validTime;
+        uint validTime;
         bool isInfinite;
     }
 
     address _owner;
     uint _nextLicenseId = 1;
     uint _nextLicenseSubscriptionId = 1;
+    uint _percentageFee = 10;
 
     //Licences
     mapping (uint => License) public licenses;
@@ -42,7 +47,7 @@ contract Licenka is licenkaPassword {
         _usdt = IERC20(usdtAdresse_);
     }
 
-    function createLicence(address owner, string memory name, uint price, uint256 duration) external {
+    function createLicence(address owner, string memory name, uint price, uint duration) external {
         License memory license = License(name, owner, price, duration);
         licenses[_nextLicenseId] = license;
         _licenseOwner[owner].push(_nextLicenseId);
@@ -71,10 +76,11 @@ contract Licenka is licenkaPassword {
         if (license.duration == 0)
             subscriptions[index].isInfinite = true;
         else {
-            uint256 rootTimestamp = subscription_.validTime < block.timestamp  ? block.timestamp : subscription_.validTime;
+            uint rootTimestamp = subscription_.validTime < block.timestamp  ? block.timestamp : subscription_.validTime;
             subscriptions[index].validTime = rootTimestamp + license.duration;
         }
         token.transferFrom(owner, address(this), license.price);
+        token.transfer(license.owner, license.price.mul(100 - _percentageFee).div(100));
     }
 
     function subscribe(uint licenseId, uint tokenId) external {
