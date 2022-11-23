@@ -1,7 +1,6 @@
 import Image from "next/image";
 import DefaultLayout from "../modules/layout";
 import MainButton from "../components/MainButton";
-import { Main } from "next/document";
 
 const ApprovePage = () => {
   return (
@@ -43,7 +42,7 @@ const ApprovePage = () => {
             <MainButton label="Set password"></MainButton>
           </div>
           <div className="container flex justify-end py-4">
-            <MainButton label="Get license"></MainButton>
+            <MainButton label="Get license" iconSrc={"/add_icon.svg"}></MainButton>
           </div>
         </div>
       </section>
