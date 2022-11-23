@@ -2,7 +2,30 @@ import Image from "next/image";
 import DefaultLayout from "../modules/layout";
 import MainButton from "../components/MainButton";
 
+import React, {useState, useEffect} from 'react';
+const Web3js = require('web3');
+
 const ApprovePage = () => {
+  const [web3, setWeb3] = useState(null)
+  const [contract, setContract] = useState(null)
+  const [password, setPassword] = useState("")
+
+  let abi = process.env.CONTRACT_ABI
+  let contractAddress = process.env.LICENKA_ADDRESS
+
+  useEffect(() => {
+    window.ethereum ? ethereum.request({ method: "eth_requestAccounts" }) : console.log("Please install MetaMask")
+    if (!contract) {
+      let web3_ = new Web3js(ethereum)
+      setWeb3(web3_)
+      setContract(new web3_.eth.Contract(abi, contractAddress))
+    }
+  }, [])
+
+  function handleClick() {
+    contract.methods.passwordSet(Web3js.utils.keccak256(password)).send({from: window.ethereum.selectedAddress}).catch((err) => console.log(err))
+  }
+
   return (
     <div className="space-l-2">
       <section className="flex">
@@ -38,8 +61,9 @@ const ApprovePage = () => {
               id="first_name"
               class="bg-background border border-gray-300 rounded-lg  p-2.5 w-1/2"
               placeholder="Password"
+              onChange={e => setPassword(e.target.value)}
             />
-            <MainButton label="Set password"></MainButton>
+            <MainButton label="Set password" callback={handleClick}></MainButton>
           </div>
           <div className="container flex justify-end py-4">
             <MainButton label="Get license" iconSrc={"/add_icon.svg"}></MainButton>
