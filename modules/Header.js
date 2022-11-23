@@ -1,11 +1,14 @@
 import Image from "next/image";
+import Link from "next/link";
 
 const Header = () => {
     return (
         <div>
-            <p className='font-cabinet font-bold'>Header</p>
-            <Image src="/Logo.svg" width={390} height={101} alt="An SVG of an eye" />
-            <h1 className="">Salut</h1>
+            <div className="columns-3">
+                <Link href="/">
+                    <Image className="columns-3 ml-3 mt-3" src="/Logo.svg" width={390} height={101} alt="logo" />
+                </Link>
+            </div>
         </div>
     );
 };

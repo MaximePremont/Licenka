@@ -5,6 +5,7 @@
 @layer base {
     html {
         scroll-behavior: smooth;
+        @apply text-white;
     }
 
     h1 {
