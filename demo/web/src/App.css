@@ -1,20 +1,23 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat:100,200,300');
+
 .App {
   text-align: center;
 }
 
 .App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
+  /* ion:game-controller */
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+
+  position: absolute;
+  width: 207px;
+  height: 207px;
+  left: 857px;
+  top: 223px;
+
 }
 
 .App-header {
-  background-color: #282c34;
+  background-image: url("./../public/background.png");
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -35,4 +38,172 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+#title {
+  /* CloudGames */
+
+
+  position: absolute;
+  width: 640px;
+  height: 117px;
+  left: 642px;
+  top: 98px;
+
+  font-family: 'Montserrat', serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 64px;
+  line-height: 78px;
+  /* identical to box height */
+
+  text-align: center;
+
+  color: #FFFFFF;
+
+  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+#address {
+  box-sizing: border-box;
+  background-color: transparent;
+
+  position: absolute;
+  width: 450px;
+  height: 68px;
+  left: 735px;
+  top: 495px;
+
+  border: 1px solid #FFFFFF;
+  border-radius: 6px;
+
+  font-family: 'Montserrat', serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 20px;
+  color: #FFFFFF;
+
+  padding-left: 60px;
+}
+
+#password {
+  box-sizing: border-box;
+  background-color: transparent;
+
+  position: absolute;
+  width: 450px;
+  height: 68px;
+  left: 735px;
+  top: 590px;
+
+  border: 1px solid #FFFFFF;
+  border-radius: 6px;
+  font-family: 'Montserrat', serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 20px;
+  color: #FFFFFF;
+
+  padding-left: 60px;
+}
+
+input[type='password'] {
+  font-family: Verdana;
+  letter-spacing: 0.125em;
+}
+
+#login {
+  background-color: white;
+
+  position: absolute;
+  width: 450px;
+  height: 68px;
+  left: 735px;
+  top: 725px;
+
+  font-family: 'Montserrat', serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 32px;
+  line-height: 30px;
+  /* identical to box height */
+
+  color: #2148C0;
+  text-align: center;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.3);
+  border-radius: 6px;
+}
+
+a:link {
+  position: absolute;
+  width: 302px;
+  height: 30px;
+  left: 879px;
+  top: 809px;
+
+  font-family: 'Montserrat', serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 30px;
+  /* identical to box height */
+
+  text-align: center;
+
+  color: #FFFFFF;
+  text-decoration: none;
+}
+
+a:visited {
+  position: absolute;
+  width: 204px;
+  height: 20px;
+  left: 586px;
+  top: 539px;
+
+  font-family: 'Montserrat', serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 20px;
+  /* identical to box height */
+
+  text-align: center;
+
+  color: #FFFFFF;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #000000;
+}
+
+#login:hover {
+  background-color: floralwhite;
+}
+
+.licenka-power {
+  position: absolute;
+  width: 471px;
+  height: 60px;
+  left: 725px;
+  top: 964px;
+}
+
+#logo-user {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  left: 751px;
+  top: 514px;
+}
+
+#logo-lock {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  left: 751px;
+  top: 612px;
 }
