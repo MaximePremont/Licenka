@@ -1,28 +1,36 @@
-### **How to setup your project**
+## How to setup your project
 
-So that it is easier for us to test your project.
+### 🐳 With Docker (recommanded)
+1. Make sure Docker is working with `docker run hello-world`
+2. Build and start the app with `docker compose up`
 
-TODO
+### 🫳🏼 By hand
+It is recommanded to use [NVM](https://github.com/nvm-sh/nvm) to have the correct node version.
+1. Install the correct version of node with `nvm install 16`
+2. Use the correct version of node with `nvm use`
+3. Install dependencies with `npm install`
+4. Build the app with `npm run build`
+5. Start the app with `npm start`
 
-### Problem
+## Problem
 
 *What problem does your project solve? How does it fit into the theme "Building a Decentralized Future"?*
 
 After thinking about the tracks proposed in this hackathon, we have finally found this problem: "It's difficult for small businesses to manage their sold licenses" wich is into the "E-Society" track.
 
-### Solution
+## Solution
 
 *How did you resolve this issue? What technologies did you use? What was your biggest technical challenge and how does your solution solve it?*
 
 TODO
 
-### Facility
+## Facility
 
 *Explain, step-by-step, how someone can install your project and use it. The jury will mainly use MacOS, Ubuntu, Android, and iOS. Setting up a docker/docker-compose is a good idea to allow someone to test the project easily.*
 
 TODO
 
-### Team and comments
+## Team and comments
 
 *Specify the name of your team (the same as on the discord/gather), and tell us what you learned during this hackathon!*
 
@@ -30,7 +38,7 @@ Team name: POCKER
 
 During this hackathon we learned ... TODO
 
-### Project Submission
+## Project Submission
 
 - Provide an explanation of the features of your projects. You must link a demonstration video with commentary and screen recording of your presentation (10 slides max) or demo product (example: Loom, 4 minutes max).
 - Include a brief demonstration of the use of **Starton** or its partners **iExec**, **BNB Chain**, **NodeReal,** or **Ledger**.
