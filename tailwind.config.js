@@ -15,6 +15,7 @@ module.exports = {
         primary: '#FF4405',
         secondary: '#AD00FF',
         special: 'text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary',
+        speColor: 'bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-primary to-secondary',
       },
     },
   },
