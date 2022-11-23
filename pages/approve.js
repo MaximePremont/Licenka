@@ -9,21 +9,31 @@ const ApprovePage = () => {
   const [web3, setWeb3] = useState(null)
   const [contract, setContract] = useState(null)
   const [password, setPassword] = useState("")
+  const [isPasswordSet, setIsPasswordSet] = useState(false)
 
   let abi = process.env.CONTRACT_ABI
   let contractAddress = process.env.LICENKA_ADDRESS
 
   useEffect(() => {
     window.ethereum ? ethereum.request({ method: "eth_requestAccounts" }) : console.log("Please install MetaMask")
-    if (!contract) {
-      let web3_ = new Web3js(ethereum)
+    let web3_
+    let contract_ = contract
+    if (!contract_) {
+      web3_ = new Web3js(ethereum)
       setWeb3(web3_)
-      setContract(new web3_.eth.Contract(abi, contractAddress))
+      contract_ = new web3_.eth.Contract(abi, contractAddress)
+      setContract(contract_)
     }
+    let isSet = contract_.methods.passwordMatch(window.ethereum.selectedAddress, 0).call().then((res) => {
+      setIsPasswordSet(!res)
+    })
   }, [])
 
   function handleClick() {
-    contract.methods.passwordSet(Web3js.utils.keccak256(password)).send({from: window.ethereum.selectedAddress}).catch((err) => console.log(err))
+    contract.methods.passwordSet(Web3js.utils.keccak256(password)).send({from: window.ethereum.selectedAddress}).then((res) => {
+      }).catch((err) => console.log(err))
+    setIsPasswordSet(true)
+    setPassword("")
   }
 
   return (
@@ -53,19 +63,20 @@ const ApprovePage = () => {
         />
       </section>
       <section className="mx-32 py-4">
-        <p className="py-4">Set a password to access your licenses</p>
+        <p className="py-4">Set a password to access your licenses:</p>
         <div className="flex justify-between">
-          <div className="container flex justify-between py-4">
+          <div className="container items-center flex justify-between py-4">
             <input
               type="password"
               id="first_name"
-              class="bg-background border border-gray-300 rounded-lg  p-2.5 w-1/2"
+              class="bg-background border border-gray-300 rounded-lg  p-2.5 w-1/2 mr-8 h-12"
               placeholder="Password"
+              value={password}
               onChange={e => setPassword(e.target.value)}
             />
-            <MainButton label="Set password" callback={handleClick}></MainButton>
+            <MainButton label={isPasswordSet? "Change password" : "Set Pasword"} callback={handleClick}></MainButton>
           </div>
-          <div className="container flex justify-end py-4">
+          <div className="container items-center flex justify-end py-4">
             <MainButton label="Get license" iconSrc={"/add_icon.svg"}></MainButton>
           </div>
         </div>
