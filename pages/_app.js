@@ -1,7 +1,15 @@
-import '../styles/globals.css'
+import HeaderMeta from '../modules/HeaderMeta';
+import '../styles/globals.css';
 
-function MyApp({ Component, pageProps }) {
-  return <Component {...pageProps} />
+function RootApp({ Component, pageProps }) {
+  const getLayout = Component.getLayout || ((page) => page);
+
+  return (
+      <div>
+        <HeaderMeta/>
+        {getLayout(<Component {...pageProps} />)}
+      </div>    
+  )
 }
 
-export default MyApp
+export default RootApp
