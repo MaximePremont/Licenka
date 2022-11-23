@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Montserrat:100,200,300');
+@import url('https://fonts.googleapis.com/css?family=Montserrat:wght@900');
 
 .App {
   text-align: center;
@@ -52,7 +52,7 @@
 
   font-family: 'Montserrat', serif;
   font-style: normal;
-  font-weight: 700;
+  font-weight: bolder;
   font-size: 64px;
   line-height: 78px;
   /* identical to box height */
