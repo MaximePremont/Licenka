@@ -1,8 +1,8 @@
-import logo from './game-controller.png';
-import powered from './powered_licenka.png';
-import user from './user.png';
-import lock from './lock.png';
-import './App.css';
+import logo from './assets/game-controller.png';
+import powered from './assets/powered_licenka.png';
+import user from './assets/user.png';
+import lock from './assets/lock.png';
+import './css/App.css';
 
 function App() {
   return (
