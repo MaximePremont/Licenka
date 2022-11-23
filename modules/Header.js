@@ -1,9 +1,11 @@
-import Head from 'next/head';
+import Image from "next/image";
 
 const Header = () => {
     return (
         <div>
-            <p>Header</p>
+            <p className='font-cabinet font-bold'>Header</p>
+            <Image src="/Logo.svg" width={390} height={101} alt="An SVG of an eye" />
+            <h1 className="">Salut</h1>
         </div>
     );
 };
