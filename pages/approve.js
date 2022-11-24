@@ -1,23 +1,19 @@
 import Image from "next/image";
 import DefaultLayout from "../modules/layout";
 import MainButton from "../components/MainButton";
-
+import { useRouter } from "next/router";
 import React, { useState, useEffect } from "react";
+
 const Web3js = require("web3");
 
 const ApprovePage = () => {
   const [contract, setContract] = useState(null);
   const [password, setPassword] = useState("");
+  const [license, setLicense] = useState(undefined);
   const [isPasswordSet, setIsPasswordSet] = useState(false);
-
+  const router = useRouter();
   let abi = process.env.CONTRACT_ABI;
   let contractAddress = process.env.LICENKA_ADDRESS;
-
-  let license = {
-    name: "minecraft",
-    price: 19.99,
-    time: -1,
-  };
 
   useEffect(() => {
     window.ethereum
@@ -37,7 +33,21 @@ const ApprovePage = () => {
             });
         })
       : console.log("Please install MetaMask");
-  }, []);
+    if (router.query.id && contract) {
+      contract.methods
+        .licenses(router.query.id)
+        .call({ from: window.ethereum.selectedAddress })
+        .then((res) => {
+          setLicense({
+            name: res.name,
+            price: Web3js.utils.fromWei(res.price, "ether"),
+            duration: res.duration,
+          });
+          console.log(license.name);
+        })
+        .catch((err) => console.log(err));
+    }
+  }, [contract, router.query.id]);
 
   function handleClick() {
     contract.methods
@@ -50,32 +60,34 @@ const ApprovePage = () => {
 
   return (
     <div className="space-l-2">
-      <section className="flex items-center justify-between pt-10" style={{height: '65vh'}}>
+      <section
+        className="flex items-center justify-between pt-10"
+        style={{ height: "65vh" }}
+      >
         <div className="ml-32 w-3/5 container flex flex-col">
-          <h1>
-            Get a <span className="text-primary">{license.name}</span> license,
-            for <span className="text-primary">{license.price}</span> BUSD,&nbsp;
-            <span className="text-primary">
-              {license.time == -1 ? "forever" : license.time}
-            </span>
-            .
-          </h1>
+          {license ? (
+            <h1>
+              Get a <span className="text-primary">{license.name}</span>{" "}
+              license, for <span className="text-primary">{license.price}</span>{" "}
+              BUSD,&nbsp;
+              <span className="text-primary">
+                {!license.duration ? "forever" : license.duration + " day(s)"}
+              </span>
+              .
+            </h1>
+          ) : (
+            <h1>No licenses found with this id</h1>
+          )}
           <p className="text-2xl mt-4">
             By clicking on “get license” you agree to have transaction between
             you and the license&#39; provider
           </p>
         </div>
         <div>
-          <Image
-            // className="w-2/5"
-            src="/joker.svg"
-            width={570}
-            height={800}
-            alt="logo"
-            />
+          <Image src="/joker.svg" width={570} height={800} alt="logo" />
         </div>
       </section>
-      <section className="mx-32 py-4" style={{height: '20vh'}}>
+      <section className="mx-32 py-4" style={{ height: "20vh" }}>
         <p className="py-4">Set a password to access your licenses:</p>
         <div className="flex justify-between">
           <div className="container items-center flex justify-between py-4">
