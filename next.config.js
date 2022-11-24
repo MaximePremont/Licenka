@@ -2,7 +2,7 @@
 const nextConfig = {
   reactStrictMode: true,
   env: {
-    LICENKA_ADDRESS: "0x039CF1B6c8152fec9cb5afbf84220EEC74c0A527",
+    LICENKA_ADDRESS: "0x1aE04F30E59f1c38E72E12bd2bD94e7434E218f8",
     CONTRACT_ABI: [
       {
         "inputs": [
@@ -14,19 +14,6 @@ const nextConfig = {
         ],
         "stateMutability": "nonpayable",
         "type": "constructor"
-      },
-      {
-        "inputs": [
-          {
-            "internalType": "uint256",
-            "name": "newFee",
-            "type": "uint256"
-          }
-        ],
-        "name": "changeFee",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
       },
       {
         "inputs": [
@@ -193,6 +180,32 @@ const nextConfig = {
         "inputs": [
           {
             "internalType": "uint256",
+            "name": "newFee",
+            "type": "uint256"
+          }
+        ],
+        "name": "setFee",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "token_",
+            "type": "address"
+          }
+        ],
+        "name": "setToken",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "uint256",
             "name": "licenseId",
             "type": "uint256"
           }
@@ -249,6 +262,19 @@ const nextConfig = {
             "internalType": "bool",
             "name": "isInfinite",
             "type": "bool"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [],
+        "name": "token",
+        "outputs": [
+          {
+            "internalType": "contract IERC20",
+            "name": "",
+            "type": "address"
           }
         ],
         "stateMutability": "view",
