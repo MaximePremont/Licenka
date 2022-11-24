@@ -2,291 +2,307 @@
 const nextConfig = {
   reactStrictMode: true,
   env: {
-    LICENKA_ADDRESS: "0x181caCc2D85a41580c60Ef8EE0d8D1e1930C3103",
+    LICENKA_ADDRESS: "0xa1D947E01FC27b1FA0654593f05F92975d07D99C",
     CONTRACT_ABI: [
       {
-        "inputs": [
+        inputs: [
           {
-            "internalType": "address",
-            "name": "busdAdresse_",
-            "type": "address"
+            internalType: "uint256",
+            name: "newFee",
+            type: "uint256",
           },
-          {
-            "internalType": "address",
-            "name": "usdtAdresse_",
-            "type": "address"
-          }
         ],
-        "stateMutability": "nonpayable",
-        "type": "constructor"
+        name: "changeFee",
+        outputs: [],
+        stateMutability: "nonpayable",
+        type: "function",
       },
       {
-        "inputs": [
+        inputs: [
           {
-            "internalType": "address",
-            "name": "owner",
-            "type": "address"
+            internalType: "address",
+            name: "owner",
+            type: "address",
           },
           {
-            "internalType": "string",
-            "name": "name",
-            "type": "string"
+            internalType: "string",
+            name: "name",
+            type: "string",
           },
           {
-            "internalType": "uint256",
-            "name": "price",
-            "type": "uint256"
+            internalType: "uint256",
+            name: "price",
+            type: "uint256",
           },
           {
-            "internalType": "uint256",
-            "name": "duration",
-            "type": "uint256"
-          }
+            internalType: "uint256",
+            name: "duration",
+            type: "uint256",
+          },
         ],
-        "name": "createLicence",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
+        name: "createLicence",
+        outputs: [],
+        stateMutability: "nonpayable",
+        type: "function",
       },
       {
-        "inputs": [
+        inputs: [
           {
-            "internalType": "address",
-            "name": "owner",
-            "type": "address"
-          }
+            internalType: "uint256",
+            name: "hash",
+            type: "uint256",
+          },
         ],
-        "name": "getLicenses",
-        "outputs": [
-          {
-            "internalType": "uint256[]",
-            "name": "",
-            "type": "uint256[]"
-          }
-        ],
-        "stateMutability": "view",
-        "type": "function"
+        name: "passwordSet",
+        outputs: [],
+        stateMutability: "nonpayable",
+        type: "function",
       },
       {
-        "inputs": [
+        inputs: [
           {
-            "internalType": "address",
-            "name": "owner",
-            "type": "address"
-          }
+            internalType: "uint256",
+            name: "licenseId",
+            type: "uint256",
+          },
         ],
-        "name": "getSubscriptions",
-        "outputs": [
-          {
-            "internalType": "uint256[]",
-            "name": "",
-            "type": "uint256[]"
-          }
-        ],
-        "stateMutability": "view",
-        "type": "function"
+        name: "subscribe",
+        outputs: [],
+        stateMutability: "nonpayable",
+        type: "function",
       },
       {
-        "inputs": [
+        inputs: [
           {
-            "internalType": "uint256",
-            "name": "",
-            "type": "uint256"
-          }
+            internalType: "address",
+            name: "owner",
+            type: "address",
+          },
+          {
+            internalType: "uint256",
+            name: "hash",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "licenseId",
+            type: "uint256",
+          },
         ],
-        "name": "licenses",
-        "outputs": [
-          {
-            "internalType": "string",
-            "name": "name",
-            "type": "string"
-          },
-          {
-            "internalType": "address",
-            "name": "owner",
-            "type": "address"
-          },
-          {
-            "internalType": "uint256",
-            "name": "price",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "duration",
-            "type": "uint256"
-          }
-        ],
-        "stateMutability": "view",
-        "type": "function"
+        name: "subscribeWeb2",
+        outputs: [],
+        stateMutability: "nonpayable",
+        type: "function",
       },
       {
-        "inputs": [
+        inputs: [
           {
-            "internalType": "address",
-            "name": "owner",
-            "type": "address"
+            internalType: "address",
+            name: "dest",
+            type: "address",
           },
           {
-            "internalType": "uint256",
-            "name": "hash",
-            "type": "uint256"
-          }
+            internalType: "uint256",
+            name: "amount",
+            type: "uint256",
+          },
         ],
-        "name": "passwordMatch",
-        "outputs": [
-          {
-            "internalType": "bool",
-            "name": "",
-            "type": "bool"
-          }
-        ],
-        "stateMutability": "view",
-        "type": "function"
+        name: "transferFunds",
+        outputs: [],
+        stateMutability: "nonpayable",
+        type: "function",
       },
       {
-        "inputs": [
+        inputs: [
           {
-            "internalType": "uint256",
-            "name": "hash",
-            "type": "uint256"
-          }
+            internalType: "address",
+            name: "tokenAdresse_",
+            type: "address",
+          },
         ],
-        "name": "passwordSet",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
+        stateMutability: "nonpayable",
+        type: "constructor",
       },
       {
-        "inputs": [
+        inputs: [
           {
-            "internalType": "uint256",
-            "name": "licenseId",
-            "type": "uint256"
+            internalType: "address",
+            name: "owner",
+            type: "address",
           },
-          {
-            "internalType": "uint256",
-            "name": "tokenId",
-            "type": "uint256"
-          }
         ],
-        "name": "subscribe",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
+        name: "getLicenses",
+        outputs: [
+          {
+            internalType: "uint256[]",
+            name: "",
+            type: "uint256[]",
+          },
+        ],
+        stateMutability: "view",
+        type: "function",
       },
       {
-        "inputs": [
+        inputs: [
           {
-            "internalType": "address",
-            "name": "owner",
-            "type": "address"
+            internalType: "address",
+            name: "owner",
+            type: "address",
           },
-          {
-            "internalType": "uint256",
-            "name": "hash",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "licenseId",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "tokenId",
-            "type": "uint256"
-          }
         ],
-        "name": "subscribeWeb2",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
+        name: "getSubscriptions",
+        outputs: [
+          {
+            internalType: "uint256[]",
+            name: "",
+            type: "uint256[]",
+          },
+        ],
+        stateMutability: "view",
+        type: "function",
       },
       {
-        "inputs": [
+        inputs: [
           {
-            "internalType": "uint256",
-            "name": "",
-            "type": "uint256"
-          }
+            internalType: "uint256",
+            name: "",
+            type: "uint256",
+          },
         ],
-        "name": "subscriptions",
-        "outputs": [
+        name: "licenses",
+        outputs: [
           {
-            "internalType": "uint256",
-            "name": "licenseId",
-            "type": "uint256"
+            internalType: "string",
+            name: "name",
+            type: "string",
           },
           {
-            "internalType": "uint256",
-            "name": "validTime",
-            "type": "uint256"
+            internalType: "address",
+            name: "owner",
+            type: "address",
           },
           {
-            "internalType": "bool",
-            "name": "isInfinite",
-            "type": "bool"
-          }
+            internalType: "uint256",
+            name: "price",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "duration",
+            type: "uint256",
+          },
         ],
-        "stateMutability": "view",
-        "type": "function"
+        stateMutability: "view",
+        type: "function",
       },
       {
-        "inputs": [
+        inputs: [
           {
-            "internalType": "address",
-            "name": "owner",
-            "type": "address"
+            internalType: "address",
+            name: "owner",
+            type: "address",
           },
           {
-            "internalType": "uint256",
-            "name": "licenseId",
-            "type": "uint256"
-          }
+            internalType: "uint256",
+            name: "hash",
+            type: "uint256",
+          },
         ],
-        "name": "verifySubscription",
-        "outputs": [
+        name: "passwordMatch",
+        outputs: [
           {
-            "internalType": "bool",
-            "name": "",
-            "type": "bool"
-          }
+            internalType: "bool",
+            name: "",
+            type: "bool",
+          },
         ],
-        "stateMutability": "view",
-        "type": "function"
+        stateMutability: "view",
+        type: "function",
       },
       {
-        "inputs": [
+        inputs: [
           {
-            "internalType": "address",
-            "name": "owner",
-            "type": "address"
+            internalType: "uint256",
+            name: "",
+            type: "uint256",
+          },
+        ],
+        name: "subscriptions",
+        outputs: [
+          {
+            internalType: "uint256",
+            name: "licenseId",
+            type: "uint256",
           },
           {
-            "internalType": "uint256",
-            "name": "hash",
-            "type": "uint256"
+            internalType: "uint256",
+            name: "validTime",
+            type: "uint256",
           },
           {
-            "internalType": "uint256",
-            "name": "licenseId",
-            "type": "uint256"
-          }
+            internalType: "bool",
+            name: "isInfinite",
+            type: "bool",
+          },
         ],
-        "name": "verifySubscriptionWeb2",
-        "outputs": [
+        stateMutability: "view",
+        type: "function",
+      },
+      {
+        inputs: [
           {
-            "internalType": "bool",
-            "name": "",
-            "type": "bool"
-          }
+            internalType: "address",
+            name: "owner",
+            type: "address",
+          },
+          {
+            internalType: "uint256",
+            name: "licenseId",
+            type: "uint256",
+          },
         ],
-        "stateMutability": "view",
-        "type": "function"
-      }
+        name: "verifySubscription",
+        outputs: [
+          {
+            internalType: "bool",
+            name: "",
+            type: "bool",
+          },
+        ],
+        stateMutability: "view",
+        type: "function",
+      },
+      {
+        inputs: [
+          {
+            internalType: "address",
+            name: "owner",
+            type: "address",
+          },
+          {
+            internalType: "uint256",
+            name: "hash",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "licenseId",
+            type: "uint256",
+          },
+        ],
+        name: "verifySubscriptionWeb2",
+        outputs: [
+          {
+            internalType: "bool",
+            name: "",
+            type: "bool",
+          },
+        ],
+        stateMutability: "view",
+        type: "function",
+      },
     ],
-  }
-}
+  },
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;
