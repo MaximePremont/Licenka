@@ -7,25 +7,36 @@ import React, { useState, useEffect } from "react";
 const Web3js = require("web3");
 
 const ApprovePage = () => {
-  const [contract, setContract] = useState(null);
+  const [licenkaContract, setLicenkaContract] = useState(null);
+  const [busdContract, setBusdContract] = useState(null);
   const [password, setPassword] = useState("");
   const [license, setLicense] = useState(undefined);
   const [isPasswordSet, setIsPasswordSet] = useState(false);
   const router = useRouter();
-  let abi = process.env.CONTRACT_ABI;
-  let contractAddress = process.env.LICENKA_ADDRESS;
+
+  let licenkaAbi = process.env.LICENKA_CONTRACT_ABI;
+  let licenkaAddress = process.env.LICENKA_ADDRESS;
+
+  let busdAbi = process.env.BUSD_CONTRACT_ABI;
+  let busdAddress = process.env.BUSD_ADDRESS;
 
   useEffect(() => {
     window.ethereum
       ? window.ethereum.request({ method: "eth_requestAccounts" }).then(() => {
           let web3_;
-          let contract_ = contract;
-          if (!contract_) {
+          let licenkaContract_ = licenkaContract;
+          if (!licenkaContract_) {
             web3_ = new Web3js(window.ethereum);
-            contract_ = new web3_.eth.Contract(abi, contractAddress);
-            setContract(contract_);
+            licenkaContract_ = new web3_.eth.Contract(licenkaAbi, licenkaAddress);
+            setLicenkaContract(licenkaContract_);
           }
-          contract_.methods
+          let busdContract_ = busdContract;
+          if (!busdContract_) {
+            web3_ = new Web3js(window.ethereum);
+            busdContract_ = new web3_.eth.Contract(busdAbi, busdAddress);
+            setBusdContract(busdContract_);
+          }
+          licenkaContract_.methods
             .passwordMatch(window.ethereum.selectedAddress, 0)
             .call()
             .then((res) => {
@@ -33,29 +44,58 @@ const ApprovePage = () => {
             });
         })
       : console.log("Please install MetaMask");
-    if (router.query.id && contract) {
-      contract.methods
+    if (router.query.id && licenkaContract) {
+      licenkaContract.methods
         .licenses(router.query.id)
         .call({ from: window.ethereum.selectedAddress })
         .then((res) => {
           setLicense({
+            id: router.query.id,
             name: res.name,
             price: Web3js.utils.fromWei(res.price, "ether"),
             duration: res.duration,
           });
-          console.log(license.name);
         })
         .catch((err) => console.log(err));
     }
-  }, [contract, router.query.id]);
+  }, [licenkaContract, router.query.id]);
 
   function handleClick() {
-    contract.methods
+    licenkaContract.methods
       .passwordSet(Web3js.utils.keccak256(password))
       .send({ from: window.ethereum.selectedAddress })
       .catch((err) => console.log(err));
     setIsPasswordSet(true);
     setPassword("");
+  }
+
+  function handleGetLicense() {
+    let price = license.price
+    let licenseId = license.id
+    busdContract.methods
+      .allowance(window.ethereum.selectedAddress, licenkaAddress)
+      .call({ from: window.ethereum.selectedAddress })
+      .then((res) => {
+        console.log(res)
+        if (res < price) {
+          busdContract.methods
+          .approve(licenkaAddress, price)
+          .send({ from: window.ethereum.selectedAddress })
+          .then(() => {
+            licenkaContract.methods
+            .subscribe(licenseId)
+            .send({ from: window.ethereum.selectedAddress })
+            .catch((err) => console.log(err))
+          })
+          .catch((err) => console.log(err))
+        } else {
+          licenkaContract.methods
+          .subscribe(licenseId)
+          .send({ from: window.ethereum.selectedAddress })
+          .catch((err) => console.log(err))
+        }
+      })
+      .catch((err) => console.log(err))
   }
 
   return (
@@ -108,7 +148,8 @@ const ApprovePage = () => {
             <MainButton
               label="Get license"
               iconSrc={"/add_icon.svg"}
-            ></MainButton>
+              callback={handleGetLicense}
+              ></MainButton>
           </div>
         </div>
       </section>

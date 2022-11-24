@@ -11,27 +11,27 @@
 ### 🫳🏼 By hand
 It is recommanded to use [NVM](https://github.com/nvm-sh/nvm) to have the correct node version.
 1. Export your Starton API Key with `export API_KEY=xx_xxx_xxxxxxx-xxxx-xxxx-xxxxxxxxxx`, replacing *xxxxx* with your key
-2. Install the correct version of node with `nvm install 16`
+2. Install the correct version of node with `nvm install 18`
 3. Use the correct version of node with `nvm use`
 4. Install dependencies with `npm install`
 5. Build the app with `npm run build`
 6. Start the app with `npm start`
 
-You can now access to the app at [http://localhost:3000](http://localhost:3000)
-#### See the deployed project on [licenka.space](licenka.space) !
+You can now access to the app at [http://localhost:3000](http://localhost:3000) or [http://localhost:80](http://localhost:80)
+#### See the deployed project on [licenka.space](https://licenka.space) !
 ## 💣 Problem
 **It is difficult for small businesses to manage their license sale.**
 
-After thinking about the tracks proposed in this hackathon, we have finally found this problem: "It's difficult for small businesses to manage their sold licenses" wich is into the "E-Society" track.
+After thinking about the tracks proposed in this hackathon, we have finally found this problem: "It's difficult for small businesses to manage their sold licenses" which is into the "E-Society" track.
 
 Nowadays, many companies want to sell their software products through the sale of licenses to its users.  
 However, in order to be able to sell licenses, these companies are forced to choose between two options: develop their own license and user management solution, or pay another company for a license management service.
 
-In both cases, doing this is very expensive for businesses, which is very complicated for small businesses. This problem can also affect open source projects, which do not have funds, and which must also find their own solution to make the companies that use the project pay, for example.
-The other problem that can arise concerns users, indeed if the platform managing their license were to close, there is no longer any evidence that the user has the paid license.
+In both cases, doing this is very expensive for businesses, which is very complicated for small businesses. This problem can also affect open-source projects, which do not have funds, and which must also find their own solution to make the companies that use the project pay, for example.
+The other problem that can arise concerns users, indeed if the platform managing their license were to close, there is no longer any evidence that the user has paid the license.
 
-In our opinion, this issue falls within the theme of "Building a decentralized Future" because the important themes of real possession of its information, infalsiability and democratization of decentralized technologies are at the heart of the challenges of Web3.
-## 💡 Solution
+In our opinion, this issue falls within the theme of "Building a decentralized Future" because the important themes of real possession of its information, infallibility and democratization of decentralized technologies are at the heart of the challenges of Web3.
+## 💡 Our solution
 To solve this issue, we decided to create a license management platform called **Licenka**.
 
 The objective of our platform is to make it easy to create a license by defining a price in BUSD and linking a wallet that will receive the funds when purchasing the license.
@@ -46,8 +46,12 @@ Our main technical challenge was to be able to buy licenses easily, because it i
 <br>Created figma model
 </p>
 
+Another problem we had to deal with was the fact that we could easily authenticate a user with metamask to verify that he had a license. However, it should be possible on top of that to be able to call the Web2 API without having to authenticate, and without verification everyone could enter the wallet of someone who owns the license. For this, users can set a password to use the Web2 version.
+
+Thus, our solution can work both with the simplicity of authentication in Web3, and both with the Web2 version for companies that do not wish to use Metamask auth.
+
 ## 📄 Facility
-#### See the deployed project on [licenka.space](licenka.space) !
+#### See the deployed project on [licenka.space](https://licenka.space) !
 Here are the steps to install and test our project :
 1. Use `git clone git@github.com:MaximePremont/Licenka.git`
 2. Use `cd Licenka`
@@ -64,14 +68,14 @@ Team members :
 - [Mikael VALLENET](https://github.com/Mikatech)
 - [Ahmed ABOUELLEIL-SAYED](https://github.com/AhmedFr)
 
-During the hackathon we learned how to create contract on the BSC blockchain and deploy it using Statons API/Front. Using next.js and Web3.js we were able to create our first Dapp, and interact with our contract using Starton and direct function calling with Web3.js.
+During the hackathon we learned how to create a contract on the BSC blockchain and deploy it using Starton API/Front. Using next.js and Web3.js we were able to create our first Dapp, and interact with our contract using Starton and direct function calling with Web3.js.
 ## 📌 Technical documentation
 Our solution is deployed and working with 3 parts :  
-1. A main page ([https://licenka.space](https://licenka.space)) for show the project
+1. A main page ([https://licenka.space](https://licenka.space)) to show the project
 2. A license creation page ([https://licenka.space/create](https://licenka.space/create)), to create a new license with our wallet
-3. A license buy page ([https://licenka.space/approve](https://licenka.space/approuve)), wich allow the user to buy a license with his wallet, and redirect to the company page after that.
+3. A license buy page ([https://licenka.space/approve](https://licenka.space/approuve)), which allow the user to buy a license with his wallet, and redirect to the company page after that.
 
-⚠️ To work with the purchase page, the company must indicate the license to be purchased and the page to redirect to like this : *https://licenka.space/approve/?license=XX&redirect=https://xxxxxx.xx*
+⚠️ To work with the purchase page, the company must indicate the license to be purchased and the page to redirects to something like this : *https://licenka.space/approve/?license=XX&redirect=https://xxxxxx.xx*
 
 As explained, our API can be used in 2 different ways: Web2 or Web3 :
 - Web2 API
@@ -103,15 +107,7 @@ As explained, our API can be used in 2 different ways: Web2 or Web3 :
 </p>
 
 ### Our project is deployed and available on [licenka.space](licenka.space) !
-#### 🚀 We also created a demo service available on [demo.licenka.space](demo.licenka.space) , see the code on [this branch](https://github.com/MaximePremont/Licenka/tree/20-create-a-demo-which-use-licenka).
-
-
-- Provide an explanation of the features of your projects. You must link a demonstration video with commentary and screen recording of your presentation (10 slides max) or demo product (example: Loom, 4 minutes max).
-- Include a brief demonstration of the use of **Starton** or its partners **iExec**, **BNB Chain**, **NodeReal,** or **Ledger**.
-The more you use partner technologies, the more points you will earn. Example: Use the **Starton** API on the **BNB Chain** blockchain.
-You have used two partners.
-
-
+#### 🚀 We also created a demo service available on [demo.licenka.space](https://demo.licenka.space) , see the code on [this branch](https://github.com/MaximePremont/Licenka/tree/20-create-a-demo-which-use-licenka).
 ### Features :
 - Web3 implementation
 - Web2 API simple implementation
