@@ -7,8 +7,9 @@ import React, { useState, useEffect } from "react";
 const Web3js = require("web3");
 
 const ApprovePage = () => {
+  const [web3, setWeb3] = useState(null);
+  const [waitingTrans, setWaitingTrans] = useState(false);
   const [licenkaContract, setLicenkaContract] = useState(null);
-  const [busdContract, setBusdContract] = useState(null);
   const [password, setPassword] = useState("");
   const [license, setLicense] = useState(undefined);
   const [isPasswordSet, setIsPasswordSet] = useState(false);
@@ -17,8 +18,7 @@ const ApprovePage = () => {
   let licenkaAbi = process.env.LICENKA_CONTRACT_ABI;
   let licenkaAddress = process.env.LICENKA_ADDRESS;
 
-  let busdAbi = process.env.BUSD_CONTRACT_ABI;
-  let busdAddress = process.env.BUSD_ADDRESS;
+  let ERC20Abi = process.env.BUSD_CONTRACT_ABI;
 
   useEffect(() => {
     window.ethereum
@@ -27,14 +27,9 @@ const ApprovePage = () => {
           let licenkaContract_ = licenkaContract;
           if (!licenkaContract_) {
             web3_ = new Web3js(window.ethereum);
+            setWeb3(web3_);
             licenkaContract_ = new web3_.eth.Contract(licenkaAbi, licenkaAddress);
             setLicenkaContract(licenkaContract_);
-          }
-          let busdContract_ = busdContract;
-          if (!busdContract_) {
-            web3_ = new Web3js(window.ethereum);
-            busdContract_ = new web3_.eth.Contract(busdAbi, busdAddress);
-            setBusdContract(busdContract_);
           }
           licenkaContract_.methods
             .passwordMatch(window.ethereum.selectedAddress, 0)
@@ -52,7 +47,7 @@ const ApprovePage = () => {
           setLicense({
             id: router.query.id,
             name: res.name,
-            price: Web3js.utils.fromWei(res.price, "ether"),
+            price: res.price,
             duration: res.duration,
           });
         })
@@ -69,33 +64,47 @@ const ApprovePage = () => {
     setPassword("");
   }
 
-  function handleGetLicense() {
+  async function handleGetLicense() {
+    var BN = web3.utils.BN
     let price = license.price
     let licenseId = license.id
-    busdContract.methods
+    let tokenAddress = await licenkaContract.methods.token().call({ from: window.ethereum.selectedAddress })
+    let tokenContract = new web3.eth.Contract(ERC20Abi, tokenAddress);
+    setWaitingTrans(true);
+    tokenContract.methods
       .allowance(window.ethereum.selectedAddress, licenkaAddress)
       .call({ from: window.ethereum.selectedAddress })
       .then((res) => {
-        console.log(res)
-        if (res < price) {
-          busdContract.methods
+        // console.log(new BN(res), new BN(price), new BN(res).lt(new BN(price)))
+        if (new BN(res).lt(new BN(price))) {
+          tokenContract.methods
           .approve(licenkaAddress, price)
           .send({ from: window.ethereum.selectedAddress })
           .then(() => {
             licenkaContract.methods
             .subscribe(licenseId)
             .send({ from: window.ethereum.selectedAddress })
-            .catch((err) => console.log(err))
+            .then((res) => {
+              setWaitingTrans(false)
+            })
+            .catch(err => { throw err })
           })
-          .catch((err) => console.log(err))
+          .catch(err => {
+            setWaitingTrans(false)
+          })
         } else {
           licenkaContract.methods
           .subscribe(licenseId)
           .send({ from: window.ethereum.selectedAddress })
-          .catch((err) => console.log(err))
+          .catch(err => {
+            setWaitingTrans(false);
+          })
         }
       })
-      .catch((err) => console.log(err))
+      .catch((err) => {
+        console.log(err)
+        setWaitingTrans(false)
+      })
   }
 
   return (
@@ -108,10 +117,10 @@ const ApprovePage = () => {
           {license ? (
             <h1>
               Get a <span className="text-primary">{license.name}</span>{" "}
-              license, for <span className="text-primary">{license.price}</span>{" "}
+              license, for <span className="text-primary">{Web3js.utils.fromWei(license.price, "ether")}</span>{" "}
               BUSD,&nbsp;
               <span className="text-primary">
-                {!license.duration ? "forever" : license.duration + " day(s)"}
+                {license.duration == 0 ? "forever" : license.duration / 86400 + " day(s)"}
               </span>
               .
             </h1>
@@ -146,7 +155,7 @@ const ApprovePage = () => {
           </div>
           <div className="container items-center flex justify-end py-4">
             <MainButton
-              label="Get license"
+              label={(!waitingTrans) ? "Get license" : "Loading..."}
               iconSrc={"/add_icon.svg"}
               callback={handleGetLicense}
               ></MainButton>
