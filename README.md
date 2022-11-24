@@ -82,8 +82,8 @@ Our solution is deployed and working with 3 parts :
 ⚠️ To work with the purchase page, the company must indicate the license to be purchased and the page to redirects to something like this : *https://licenka.space/approve/?license=XX&redirect=https://xxxxxx.xx*
 
 As explained, our API can be used in 2 different ways: Web2 or Web3 :
-- Web2 API
-    - Know if a user has a license `https://licenka.space/api/license`
+- **`Web2 API`**:
+    - Get license informations for a user `https://licenka.space/api/license`
         ```
         Query:
             userAddress
@@ -94,7 +94,7 @@ As explained, our API can be used in 2 different ways: Web2 or Web3 :
             validTime: 
             isInfinite: 
         }
-    - Get license informations for a user `https://www.licenka.space/api/checkLicense`
+    - Know if a user has a license `https://www.licenka.space/api/checkLicense`
         ```
         Query:
             userAddress
@@ -102,8 +102,71 @@ As explained, our API can be used in 2 different ways: Web2 or Web3 :
             userPassword
         200:
             license: bool
-- Web3  
-(TODO) Victor
+- **`Web3 Licenka`**: &nbsp;Here are the functions which can be called by users (Owner functions and internal functions are not displayed)
+    - Get the `license` information from a given ID.
+    ```sol
+        function licenses(uint index) returns(License)
+
+        struct License {
+            string name;
+            address owner;
+            uint price;
+            uint duration;
+        }
+    ```
+
+    - Get the `subscription` information from a given ID.
+    ```sol
+        function subscriptions(uint index) returns(LicenseSubscribe)
+
+        struct LicenseSubscribe {
+            string name;
+            address owner;
+            uint price;
+            uint duration;
+        }
+    ```
+
+    - Create a `license` with a given **name**, **price**, and **duration** (0 for an endless license). Each payment will be sent to the **destination** address.
+    ```sol
+        function createLicence(address destination, string memory name, uint price, uint duration)
+    ```
+
+    - Create a `subscription` to a `license`.
+    ```sol
+        function subscribe(uint licenseId)
+    ```
+
+    - Check if an address has a valid `subscription` to a `license`. 
+    ```sol
+        function verifySubscription(address owner, uint licenseId) returns(bool)
+    ```
+
+    - Get all the `licenses` owned by a wallet
+    ```sol
+        function getLicenses(address owner) returns(uint[])
+    ```
+
+    - Get all the `subscriptions` owned by a wallet
+    ```sol
+        function getSubscriptions(address owner) returns(uint[])
+    ```
+
+    - Get information about the `subscription` of the owner for a `license`.
+    ```sol
+        function getSubscriptionIdForLicense(address owner, uint licenseId) returns(uint)
+    ```
+- **`Web3 LicenkaChecker`**: &nbsp;LicenkaChecker is a contract to be added to developers' contract who would like to check for users subscription validity.
+    - Add the address of the Licenka contract address.
+    ```sol
+        constructor(address licenkaAddress)
+    ```
+
+    - Modifier to require a wallet to have a valid `subscription` to a `license`.
+    ```sol
+        mustBeSubscribe(address owner, uint licenseId)
+    ```
+
 ## ☀️ Business model & Growth
 The objective of our project is to propose a reliable and very inexpensive alternative. Thus, we will earn money by taking **3 %** when purchasing a license with our system.
 

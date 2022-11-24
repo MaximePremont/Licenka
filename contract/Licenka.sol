@@ -6,6 +6,9 @@ import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 import "./LicenkaPassword.sol";
 import "./ILicenka.sol";
 
+/**
+* @dev Licenka is a contract that allows you to create a license.
+*/
 contract Licenka is ILicenka, licenkaPassword {
 
     using SafeMath for uint;
@@ -39,35 +42,54 @@ contract Licenka is ILicenka, licenkaPassword {
     mapping (address => uint[]) _subscriptionOwner;
     mapping (address => mapping(uint => uint))  _subcriptionIndex;
 
+    /**
+    * @dev Check if the caller is the owner of the contract.
+    */
     modifier isOwner(address sender) {
         require(_owner == sender, "You are not the owner");
         _;
     }
 
+    /**
+    * @dev Init the contract with a token address, which will be the currency.
+    */
     constructor(address tokenAdresse_) {
         _owner = msg.sender;
         token = IERC20(tokenAdresse_);
     }
 
+    /**
+    * @dev Set the fee percentage. Only callable by the owner.
+    */
     function setFee(uint newFee) external isOwner(msg.sender) {
         require(0 <= newFee && newFee <= 100, "The fee must be between 0 and 100");
         percentageFee = newFee;
     }
 
+    /**
+    * @dev Set the token address. Only callable by the owner.
+    */
     function setToken(address token_) external isOwner(msg.sender) {
         token = IERC20(token_);
     }
 
+    /**
+    * @dev Transfert funds from the wallet to a given address. Only callable by the owner.
+    */
     function transferFunds(address dest, uint amount) external isOwner(msg.sender) {
         token.transfer(dest, amount);
     }
 
+    /**
+    * @dev Create a new license.
+    */
     function createLicence(address owner, string memory name, uint price, uint duration) external {
         License memory license = License(name, owner, price, duration);
         licenses[_nextLicenseId] = license;
         _licenseOwner[owner].push(_nextLicenseId);
         _nextLicenseId++;
     }
+
 
     function _subscribe(address owner, uint licenseId) internal {
         License memory license = licenses[licenseId];
@@ -95,10 +117,16 @@ contract Licenka is ILicenka, licenkaPassword {
         token.transfer(license.owner, license.price.mul(100 - percentageFee).div(100));
     }
 
+    /**
+    * @dev Subscribe to a license. With your own wallet
+    */
     function subscribe(uint licenseId) external {
         _subscribe(msg.sender, licenseId);
     }
 
+    /**
+    * @dev Create a new license. With the api call
+    */
     function subscribeWeb2(address owner, uint hash, uint licenseId) external isPasswordSet(owner) isPasswordMatch(owner, hash) {
         _subscribe(owner, licenseId);
     }
@@ -115,22 +143,37 @@ contract Licenka is ILicenka, licenkaPassword {
         return false;
     }
 
+    /**
+    * @dev Verify if a wallet owns a license.
+    */
     function verifySubscription(address owner, uint licenseId) external view returns(bool) {
         return _verifySubscription(owner, licenseId);
     }
 
+    /**
+    * @dev Verify if a wallet owns a license. With the api call
+    */
     function verifySubscriptionWeb2(address owner, uint hash, uint licenseId) external view isPasswordSet(owner) isPasswordMatch(owner, hash) returns(bool) {
         return _verifySubscription(owner, licenseId);
     }
 
+    /**
+    * @dev Get all owned licenses by a wallet.
+    */
     function getLicenses(address owner) external view returns(uint[] memory) {
         return _licenseOwner[owner];
     }
 
+    /**
+    * @dev Get all owned subscriptions by a wallet.
+    */
     function getSubscriptions(address owner) external view returns(uint[] memory) {
         return _subscriptionOwner[owner];
     }
 
+    /**
+    * @dev Get a wallet subscription for a given license.
+    */
     function getSubscriptionIdForLicense(address owner, uint licenseId) external view returns(uint) {
         return _subcriptionIndex[owner][licenseId];
     }
