@@ -54,11 +54,7 @@ const ApprovePage = () => {
         <div className="ml-32 mt-48 w-3/5 container flex flex-col space-y-4">
           <h1>
             Get a <span className="text-primary">{license.name}</span> license,
-          </h1>
-          <h1>
             for <span className="text-primary">{license.price}</span> BUSD,
-          </h1>
-          <h1>
             <span className="text-primary">
               {license.time == -1 ? "forever" : license.time}
             </span>

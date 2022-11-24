@@ -71,8 +71,10 @@ const CreatePage = () => {
               required
             />
             <input
-              type="text"
-              min="0"
+              type="number"
+              min="0.01"
+              max="999999999"
+              step="0.01"
               id="price"
               className="bg-background border border-gray-300 rounded-lg  p-2.5 h-16 w-3/4"
               placeholder="Price in BUSD"
@@ -86,6 +88,7 @@ const CreatePage = () => {
                   value="forever"
                   name="validity"
                   id="answer_forever"
+                  checked
                   required
                 />
                 <label
@@ -116,7 +119,7 @@ const CreatePage = () => {
                 inputmode="numeric"
                 placeholder="Validity in days"
                 pattern="[0-9]*"
-                value="30"
+                defaultValue="30"
                 min={1}
                 className="bg-background border border-gray-300 rounded-lg  p-2.5 h-16"
               ></input>
