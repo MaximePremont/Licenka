@@ -10,11 +10,15 @@
 3. Build and start the app with `docker compose up`
 ### 🫳🏼 By hand
 It is recommanded to use [NVM](https://github.com/nvm-sh/nvm) to have the correct node version.
-1. Install the correct version of node with `nvm install 16`
-2. Use the correct version of node with `nvm use`
-3. Install dependencies with `npm install`
-4. Build the app with `npm run build`
-5. Start the app with `npm start`
+1. Export your Starton API Key with `export API_KEY=xx_xxx_xxxxxxx-xxxx-xxxx-xxxxxxxxxx`, replacing *xxxxx* with your key
+2. Install the correct version of node with `nvm install 16`
+3. Use the correct version of node with `nvm use`
+4. Install dependencies with `npm install`
+5. Build the app with `npm run build`
+6. Start the app with `npm start`
+
+You can now access to the app at [http://localhost:3000](http://localhost:3000)
+#### See the deployed project on [licenka.space](licenka.space) !
 ## 💣 Problem
 **It is difficult for small businesses to manage their license sale.**
 
@@ -42,7 +46,10 @@ Our main technical challenge was to be able to buy licenses easily, because it i
 Here are the steps to install and test our project :
 1. Use `git clone git@github.com:MaximePremont/Licenka.git`
 2. Use `cd Licenka`
-3. Setup and start like described [here](#how-to-setup-your-project), recommanded : `docker compose up`
+3. Add your [Starton API Key](https://app.starton.io/en/projects) `API_KEY` in the [.env](.env) file of the project
+4. Setup and start like described [here](#how-to-setup-your-project), recommanded : `docker compose up`
+
+You can now access to the app at [http://localhost:3000](http://localhost:3000)
 ## 👋 Team and comments
 #### Team name: POCKER
 Team members :
@@ -52,9 +59,38 @@ Team members :
 - [Mikael VALLENET](https://github.com/Mikatech)
 - [Ahmed ABOUELLEIL-SAYED](https://github.com/AhmedFr)
 
-During this hachathon we learned how to use the Starton API with the BNB Chain.
-## 📌 Technical documenttion
-a
+During the hackathon we learned how to create contract on the BSC blockchain and deploy it using Statons API/Front. Using next.js and Web3.js we were able to create our first Dapp, and interact with our contract using Starton and direct function calling with Web3.js.
+## 📌 Technical documentation
+Our solution is deployed and working with 3 parts :  
+1. A main page ([https://licenka.space](https://licenka.space)) for show the project
+2. A license creation page ([https://licenka.space/create](https://licenka.space/create)), to create a new license with our wallet
+3. A license buy page ([https://licenka.space/approve](https://licenka.space/approuve)), wich allow the user to buy a license with his wallet, and redirect to the company page after that.
+
+⚠️ To work with the purchase page, the company must indicate the license to be purchased and the page to redirect to like this : *https://licenka.space/approve/?license=XX&redirect=https://xxxxxx.xx*
+
+As explained, our API can be used in 2 different ways: Web2 or Web3 :
+- Web2 API
+    - Know if a user has a license `https://licenka.space/api/license`
+        ```
+        Query:
+            userAddress
+            licenseId
+        200:
+            license: {
+            licenseId: 
+            validTime: 
+            isInfinite: 
+        }
+    - Get license informations for a user `https://www.licenka.space/api/checkLicense`
+        ```
+        Query:
+            userAddress
+            licenseId
+            userPassword
+        200:
+            license: bool
+- Web3  
+(TODO) Victor
 ## 📤 Project Submission
 <p align="center">
 <a href="https://www.youtube.com/watch?v=DI_l7lQiE4U&ab_channel=MaximePremont"><img src="./.github/assets/video.png" width="85%" alt="Demo video" /></a>
