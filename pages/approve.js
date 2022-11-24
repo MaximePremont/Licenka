@@ -15,18 +15,19 @@ const ApprovePage = () => {
   let contractAddress = process.env.LICENKA_ADDRESS
 
   useEffect(() => {
-    window.ethereum ? ethereum.request({ method: "eth_requestAccounts" }) : console.log("Please install MetaMask")
-    let web3_
-    let contract_ = contract
-    if (!contract_) {
-      web3_ = new Web3js(ethereum)
-      setWeb3(web3_)
-      contract_ = new web3_.eth.Contract(abi, contractAddress)
-      setContract(contract_)
-    }
-    let isSet = contract_.methods.passwordMatch(window.ethereum.selectedAddress, 0).call().then((res) => {
-      setIsPasswordSet(!res)
-    })
+    window.ethereum ? ethereum.request({ method: "eth_requestAccounts" }).then(() => {
+      let web3_
+      let contract_ = contract
+      if (!contract_) {
+        web3_ = new Web3js(ethereum)
+        setWeb3(web3_)
+        contract_ = new web3_.eth.Contract(abi, contractAddress)
+        setContract(contract_)
+      }
+      let isSet = contract_.methods.passwordMatch(window.ethereum.selectedAddress, 0).call().then((res) => {
+        setIsPasswordSet(!res)
+      })
+    }) : console.log("Please install MetaMask")
   }, [])
 
   function handleClick() {
