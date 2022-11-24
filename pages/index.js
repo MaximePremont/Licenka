@@ -1,3 +1,4 @@
+import Image from "next/image";
 import DefaultLayout from "../modules/layout";
 
 const ApprovePage = () => {
@@ -10,7 +11,7 @@ const ApprovePage = () => {
             <span className="text-primary">secure</span> way
           </h1>
         </div>
-        <img
+        <Image
           src="/lock.svg"
           width={475}
           height={483}
@@ -29,7 +30,11 @@ const ApprovePage = () => {
             sollicitudin tempus.
           </p>
         </div>
+<<<<<<< HEAD
         <img
+=======
+        <Image
+>>>>>>> master
           src="/computer.svg"
           width={475}
           height={483}
@@ -54,14 +59,22 @@ const ApprovePage = () => {
             <p>Entreprise</p>
             <p className="text-sm">lorem ipsum</p>
           </div>
+<<<<<<< HEAD
           <img
+=======
+          <Image
+>>>>>>> master
             src="/card_arrow_right.svg"
             width={475}
             height={483}
             alt="logo"
             className="w-2/5"
           />
+<<<<<<< HEAD
           <img
+=======
+          <Image
+>>>>>>> master
             src="/card_arrow_left.svg"
             width={475}
             height={483}
