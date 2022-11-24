@@ -1,9 +1,24 @@
 import Image from "next/image";
 import DefaultLayout from "../modules/layout";
+import { useRouter } from "next/router";
+import MainButton from "../components/MainButton";
 
 const ApprovePage = () => {
+  const router = useRouter();
+
+  const navigateCreate = () => {
+    router.push("/create");
+  };
+
   return (
     <div className="bg-background ">
+      <div className="flex justify-end mr-16">
+        <MainButton
+          callback={navigateCreate}
+          label="Create license"
+          iconSrc="/arrow_forward.svg"
+        />
+      </div>
       <section className="mx-32 flex justify-between">
         <div className="mt-32 w-2/5 container flex">
           <h1>
