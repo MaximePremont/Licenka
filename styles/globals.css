@@ -1,0 +1,39 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    html {
+        scroll-behavior: smooth;
+        @apply text-white;
+    }
+
+    h1 {
+        font-family: Cabinet Grotesk;
+        font-style: normal;
+        font-weight: 700;
+        font-size: 82px;
+        line-height: 101px;
+    }
+
+    p {
+        font-weight: 400;
+        font-size: 36px;
+        line-height: 42px;
+    }
+
+    label {
+        font-style: italic;
+        font-weight: 400;
+        font-size: 24px;
+        line-height: 32px;
+    }
+
+    text-button {
+        font-family: Cabinet Grotesk;
+        font-style: normal;
+        font-weight: 700;
+        font-size: 48px;
+        line-height: 60px;
+    }
+}
