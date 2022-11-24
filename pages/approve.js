@@ -50,34 +50,34 @@ const ApprovePage = () => {
 
   return (
     <div className="space-l-2">
-      <section className="flex">
-        <div className="ml-32 mt-48 w-3/5 container flex flex-col space-y-4">
+      <section className="flex items-center justify-between pt-10" style={{height: '65vh'}}>
+        <div className="ml-32 w-3/5 container flex flex-col">
           <h1>
             Get a <span className="text-primary">{license.name}</span> license,
-          </h1>
-          <h1>
-            for <span className="text-primary">{license.price}</span> BUSD,
-          </h1>
-          <h1>
+            for <span className="text-primary">{license.price}</span> BUSD,&nbsp;
+          {/* </h1>
+          <h1> */}
             <span className="text-primary">
               {license.time == -1 ? "forever" : license.time}
             </span>
             .
           </h1>
-          <p>
+          <p className="text-2xl mt-4">
             By clicking on “get license” you agree to have transaction between
             you and the license&#39; provider
           </p>
         </div>
-        <Image
-          className="w-2/5"
-          src="/joker.svg"
-          width={652}
-          height={877}
-          alt="logo"
-        />
+        <div>
+          <Image
+            // className="w-2/5"
+            src="/joker.svg"
+            width={570}
+            height={800}
+            alt="logo"
+            />
+        </div>
       </section>
-      <section className="mx-32 py-4">
+      <section className="mx-32 py-4" style={{height: '20vh'}}>
         <p className="py-4">Set a password to access your licenses:</p>
         <div className="flex justify-between">
           <div className="container items-center flex justify-between py-4">
