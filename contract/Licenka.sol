@@ -70,7 +70,6 @@ contract Licenka is ILicenka, licenkaPassword {
             _nextLicenseSubscriptionId++;
         }
 
-        // require(_licenseSubcriber[owner][index].validTime == 0 || _licenseSubcriber[owner][index].validTime < block.timestamp, "Already subcribed");
         require(subscriptions[index].isInfinite == false, "Already subcribed");
         LicenseSubscribe memory subscription_ = subscriptions[index];
         if (license.duration == 0)
