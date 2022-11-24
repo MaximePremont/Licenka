@@ -84,7 +84,7 @@ const ApprovePage = () => {
             <input
               type="password"
               id="first_name"
-              class="bg-background border border-gray-300 rounded-lg  p-2.5 w-1/2 mr-8 h-12"
+              className="bg-background border border-gray-300 rounded-lg  p-2.5 w-1/2 mr-8 h-12"
               placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
