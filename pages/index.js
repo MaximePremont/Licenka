@@ -40,9 +40,7 @@ const ApprovePage = () => {
             Our <span className="text-primary">mission</span>
           </h1>
           <p>
-            Lorem ipsum dolor sit amet consectetur. Ornare neque faucibus dolor
-            duis est senectus a condimentum mi. Fringilla id sed leo risus ut
-            sollicitudin tempus.
+          Enable companies to deliver trusted licenses that are truly owned by their users.
           </p>
         </div>
         <Image
@@ -55,20 +53,20 @@ const ApprovePage = () => {
       </section>
       <section className="h-96 py-16 bg-background flex justify-center space-x-32">
         <div className="p-4 shadow-lg shadow-blue-500/50 space-y-4 rounded-xl bg-background w-96 h-64">
-          <p>Entreprise</p>
-          <p className="text-sm">lorem ipsum</p>
+          <p>Company</p>
+          <p className="text-sm">No matter the size of your project, Licenka will allow you to manage your users and the sale of your licenses for only 3% of costs.</p>
         </div>
         <div className="p-4 shadow-lg shadow-blue-500/50 space-y-4 rounded-xl bg-background w-96 h-64">
-          <p>Entreprise</p>
-          <p className="text-sm">lorem ipsum</p>
+          <p>User</p>
+          <p className="text-sm">Own your own license, and take advantage of the security offered by the blockchain.</p>
         </div>
       </section>
       <section className="py-4 space-y-32">
         <h1 className="text-primary text-center">Roadmap</h1>
         <div className="mx-32 grid grid-cols-2 place-content-center gap-32">
           <div className="p-4 shadow-lg shadow-blue-500/50 space-y-4 rounded-xl bg-background w-full h-64">
-            <p>Entreprise</p>
-            <p className="text-sm">lorem ipsum</p>
+            <p>Create</p>
+            <p className="text-sm">Very easily create your own license on the blockchain with the button at the top of this page.</p>
           </div>
           <Image
             src="/card_arrow_right.svg"
@@ -87,12 +85,12 @@ const ApprovePage = () => {
             />
           </div>
           <div className="p-4 shadow-lg shadow-blue-500/50 space-y-4 rounded-xl bg-background w-full h-64">
-            <p>Entreprise</p>
-            <p className="text-sm">lorem ipsum</p>
+            <p>Buy</p>
+            <p className="text-sm">Buy or sell licenses extremely easily via a web interface integrating Metamask and Ledger compatible.</p>
           </div>
           <div className="p-4 shadow-lg shadow-blue-500/50 space-y-4 rounded-xl bg-background w-full h-64">
-            <p>Entreprise</p>
-            <p className="text-sm">lorem ipsum</p>
+            <p>Use</p>
+            <p className="text-sm">Take advantage of your license or have your product taken advantage of everywhere, no matter if your platform is in Web2 or Web3.</p>
           </div>
         </div>
       </section>
