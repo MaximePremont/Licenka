@@ -84,19 +84,19 @@ const ApprovePage = () => {
             licenkaContract.methods
             .subscribe(licenseId)
             .send({ from: window.ethereum.selectedAddress })
-            .then((res) => {
+            .then(() => {
               setWaitingTrans(false)
             })
             .catch(err => { throw err })
           })
-          .catch(err => {
+          .catch(() => {
             setWaitingTrans(false)
           })
         } else {
           licenkaContract.methods
           .subscribe(licenseId)
           .send({ from: window.ethereum.selectedAddress })
-          .catch(err => {
+          .catch(() => {
             setWaitingTrans(false);
           })
         }
