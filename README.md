@@ -41,6 +41,11 @@ One of the challenges is to allow companies to use our solution very easily, so 
 The technologies we used are [Next.js](https://nextjs.org/) for the front and the API, [Vercel](https://vercel.com/) for the deploy, [Docker](https://vercel.com/), [Web3.js](https://github.com/web3/web3.js), **Starton API**, **BNB Chain** and we support **Ledger**.
 
 Our main technical challenge was to be able to buy licenses easily, because it is necessary to approve the transfer of funds beforehand to be able to make the payment, and companies should not need to use Web3 technologies. Thus, we decided to create a page inspired by Paypal, on which the payment is made and which redirects the user to the chosen address once the license has been acquired.
+<p align="center">
+<img src="./.github/assets/figma.png" width="75%" alt="Figma model" />
+<br>Created figma model
+</p>
+
 ## 📄 Facility
 #### See the deployed project on [licenka.space](licenka.space) !
 Here are the steps to install and test our project :
@@ -98,11 +103,26 @@ As explained, our API can be used in 2 different ways: Web2 or Web3 :
 </p>
 
 ### Our project is deployed and available on [licenka.space](licenka.space) !
-#### 🚀 We also created a demo service available on [demo.licenka.space](demo.licenka.space)
+#### 🚀 We also created a demo service available on [demo.licenka.space](demo.licenka.space) , see the code on [this branch](https://github.com/MaximePremont/Licenka/tree/20-create-a-demo-which-use-licenka).
+
 
 - Provide an explanation of the features of your projects. You must link a demonstration video with commentary and screen recording of your presentation (10 slides max) or demo product (example: Loom, 4 minutes max).
 - Include a brief demonstration of the use of **Starton** or its partners **iExec**, **BNB Chain**, **NodeReal,** or **Ledger**.
 The more you use partner technologies, the more points you will earn. Example: Use the **Starton** API on the **BNB Chain** blockchain.
 You have used two partners.
 
-TODO (Victor)
+
+### Features :
+- Web3 implementation
+- Web2 API simple implementation
+- Create a license
+- Check if user has a license
+- Get license informations for a user
+- Buy a license and define a password
+
+### Partners :
+- Starton : for contract calls and management
+- BNB Chain : deployment
+- Ledger : full compatibility of ledger wallets with our system
+
+❤️ Thanks to Starton and all of its partners for making it possible to attend the talks, workshops and the organization of this hackathon.
