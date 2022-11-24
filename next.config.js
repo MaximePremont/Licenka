@@ -352,7 +352,6 @@ const nextConfig = {
         "type": "function"
       }
     ],
-    BUSD_ADDRESS: "0xcA843C14c4Ab2B8aB4A892263A77b0E329259198",
     BUSD_CONTRACT_ABI: [
       {
         "type": "constructor",
