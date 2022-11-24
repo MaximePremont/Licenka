@@ -9,7 +9,7 @@ const Web3js = require("web3");
 const CreatePage = () => {
   const [contract, setContract] = useState(null);
 
-  let abi = process.env.CONTRACT_ABI;
+  let abi = process.env.LICENKA_CONTRACT_ABI;
   let contractAddress = process.env.LICENKA_ADDRESS;
 
   useEffect(() => {
