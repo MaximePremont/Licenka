@@ -164,7 +164,7 @@ As explained, our API can be used in 2 different ways: Web2 or Web3 :
 
     - Modifier to require a wallet to have a valid `subscription` to a `license`.
     ```sol
-        mustBeSubscribe(address owner, uint licenseId)
+        modifier mustBeSubscribe(address owner, uint licenseId)
     ```
 
 ## ☀️ Business model & Growth
