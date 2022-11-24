@@ -55,8 +55,6 @@ const ApprovePage = () => {
           <h1>
             Get a <span className="text-primary">{license.name}</span> license,
             for <span className="text-primary">{license.price}</span> BUSD,&nbsp;
-          {/* </h1>
-          <h1> */}
             <span className="text-primary">
               {license.time == -1 ? "forever" : license.time}
             </span>
@@ -84,7 +82,7 @@ const ApprovePage = () => {
             <input
               type="password"
               id="first_name"
-              class="bg-background border border-gray-300 rounded-lg  p-2.5 w-1/2 mr-8 h-12"
+              className="bg-background border border-gray-300 rounded-lg  p-2.5 w-1/2 mr-8 h-12"
               placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
