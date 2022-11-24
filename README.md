@@ -70,6 +70,10 @@ Team members :
 
 During the hackathon we learned how to create a contract on the BSC blockchain and deploy it using Starton API/Front. Using next.js and Web3.js we were able to create our first Dapp, and interact with our contract using Starton and direct function calling with Web3.js.
 ## 📌 Technical documentation
+To use our system, you must first create a license in order to obtain the license ID. Then it is possible to use it as desired.
+
+🛟 **It is possible to define an expiration for licenses in days when they are created !**
+
 Our solution is deployed and working with 3 parts :  
 1. A main page ([https://licenka.space](https://licenka.space)) to show the project
 2. A license creation page ([https://licenka.space/create](https://licenka.space/create)), to create a new license with our wallet
@@ -112,6 +116,7 @@ As explained, our API can be used in 2 different ways: Web2 or Web3 :
 - Web3 implementation
 - Web2 API simple implementation
 - Create a license
+- Create a license with expiration time
 - Check if user has a license
 - Get license informations for a user
 - Buy a license and define a password
