@@ -1,34 +1,128 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+<p align="center">
+<img src="./.github/assets/logo.png" width="45%" alt="Demo video" />
+</p>
+<h3 align="center">Web3 license manager for the Starton Hackathon</h3>
 
-## Getting Started
+## ⚙️ How to setup your project
+### 🐳 With Docker (recommanded)
+1. Add your [Starton API Key](https://app.starton.io/en/projects) `API_KEY` in the [.env](.env) file of the project
+2. Make sure Docker is working with `docker run hello-world`
+3. Build and start the app with `docker compose up`
+### 🫳🏼 By hand
+It is recommanded to use [NVM](https://github.com/nvm-sh/nvm) to have the correct node version.
+1. Export your Starton API Key with `export API_KEY=xx_xxx_xxxxxxx-xxxx-xxxx-xxxxxxxxxx`, replacing *xxxxx* with your key
+2. Install the correct version of node with `nvm install 16`
+3. Use the correct version of node with `nvm use`
+4. Install dependencies with `npm install`
+5. Build the app with `npm run build`
+6. Start the app with `npm start`
 
-First, run the development server:
+You can now access to the app at [http://localhost:3000](http://localhost:3000)
+#### See the deployed project on [licenka.space](licenka.space) !
+## 💣 Problem
+**It is difficult for small businesses to manage their license sale.**
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+After thinking about the tracks proposed in this hackathon, we have finally found this problem: "It's difficult for small businesses to manage their sold licenses" wich is into the "E-Society" track.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Nowadays, many companies want to sell their software products through the sale of licenses to its users.  
+However, in order to be able to sell licenses, these companies are forced to choose between two options: develop their own license and user management solution, or pay another company for a license management service.
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+In both cases, doing this is very expensive for businesses, which is very complicated for small businesses. This problem can also affect open source projects, which do not have funds, and which must also find their own solution to make the companies that use the project pay, for example.
+The other problem that can arise concerns users, indeed if the platform managing their license were to close, there is no longer any evidence that the user has the paid license.
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+In our opinion, this issue falls within the theme of "Building a decentralized Future" because the important themes of real possession of its information, infalsiability and democratization of decentralized technologies are at the heart of the challenges of Web3.
+## 💡 Solution
+To solve this issue, we decided to create a license management platform called **Licenka**.
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+The objective of our platform is to make it easy to create a license by defining a price in BUSD and linking a wallet that will receive the funds when purchasing the license.
 
-## Learn More
+One of the challenges is to allow companies to use our solution very easily, so we were inspired by Starton in order to offer public API routes allowing companies to very simply buy, and check if a user has a license without Web3 knowledge.
 
-To learn more about Next.js, take a look at the following resources:
+The technologies we used are [Next.js](https://nextjs.org/) for the front and the API, [Vercel](https://vercel.com/) for the deploy, [Docker](https://vercel.com/), [Web3.js](https://github.com/web3/web3.js), **Starton API**, **BNB Chain** and we support **Ledger**.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Our main technical challenge was to be able to buy licenses easily, because it is necessary to approve the transfer of funds beforehand to be able to make the payment, and companies should not need to use Web3 technologies. Thus, we decided to create a page inspired by Paypal, on which the payment is made and which redirects the user to the chosen address once the license has been acquired.
+<p align="center">
+<img src="./.github/assets/figma.png" width="75%" alt="Figma model" />
+<br>Created figma model
+</p>
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## 📄 Facility
+#### See the deployed project on [licenka.space](licenka.space) !
+Here are the steps to install and test our project :
+1. Use `git clone git@github.com:MaximePremont/Licenka.git`
+2. Use `cd Licenka`
+3. Add your [Starton API Key](https://app.starton.io/en/projects) `API_KEY` in the [.env](.env) file of the project
+4. Setup and start like described [here](#how-to-setup-your-project), recommanded : `docker compose up`
 
-## Deploy on Vercel
+You can now access to the app at [http://localhost:3000](http://localhost:3000)
+## 👋 Team and comments
+#### Team name: POCKER
+Team members :
+- [Maxime PREMONT](https://github.com/MaximePremont)
+- [Victor GUYOT](https://github.com/MrSIooth)
+- [Nolann SABRE](https://github.com/Nolann71)
+- [Mikael VALLENET](https://github.com/Mikatech)
+- [Ahmed ABOUELLEIL-SAYED](https://github.com/AhmedFr)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+During the hackathon we learned how to create contract on the BSC blockchain and deploy it using Statons API/Front. Using next.js and Web3.js we were able to create our first Dapp, and interact with our contract using Starton and direct function calling with Web3.js.
+## 📌 Technical documentation
+Our solution is deployed and working with 3 parts :  
+1. A main page ([https://licenka.space](https://licenka.space)) for show the project
+2. A license creation page ([https://licenka.space/create](https://licenka.space/create)), to create a new license with our wallet
+3. A license buy page ([https://licenka.space/approve](https://licenka.space/approuve)), wich allow the user to buy a license with his wallet, and redirect to the company page after that.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+⚠️ To work with the purchase page, the company must indicate the license to be purchased and the page to redirect to like this : *https://licenka.space/approve/?license=XX&redirect=https://xxxxxx.xx*
+
+As explained, our API can be used in 2 different ways: Web2 or Web3 :
+- Web2 API
+    - Know if a user has a license `https://licenka.space/api/license`
+        ```
+        Query:
+            userAddress
+            licenseId
+        200:
+            license: {
+            licenseId: 
+            validTime: 
+            isInfinite: 
+        }
+    - Get license informations for a user `https://www.licenka.space/api/checkLicense`
+        ```
+        Query:
+            userAddress
+            licenseId
+            userPassword
+        200:
+            license: bool
+- Web3  
+(TODO) Victor
+## 📤 Project Submission
+<p align="center">
+<a href="https://www.youtube.com/watch?v=DI_l7lQiE4U&ab_channel=MaximePremont"><img src="./.github/assets/video.png" width="85%" alt="Demo video" /></a>
+<a href="https://www.youtube.com/watch?v=DI_l7lQiE4U&ab_channel=MaximePremont">https://www.youtube.com/watch?v=DI_l7lQiE4U&ab_channel=MaximePremont</a>
+</p>
+
+### Our project is deployed and available on [licenka.space](licenka.space) !
+#### 🚀 We also created a demo service available on [demo.licenka.space](demo.licenka.space) , see the code on [this branch](https://github.com/MaximePremont/Licenka/tree/20-create-a-demo-which-use-licenka).
+
+
+- Provide an explanation of the features of your projects. You must link a demonstration video with commentary and screen recording of your presentation (10 slides max) or demo product (example: Loom, 4 minutes max).
+- Include a brief demonstration of the use of **Starton** or its partners **iExec**, **BNB Chain**, **NodeReal,** or **Ledger**.
+The more you use partner technologies, the more points you will earn. Example: Use the **Starton** API on the **BNB Chain** blockchain.
+You have used two partners.
+
+
+### Features :
+- Web3 implementation
+- Web2 API simple implementation
+- Create a license
+- Check if user has a license
+- Get license informations for a user
+- Buy a license and define a password
+
+### Partners :
+- Starton : for contract calls and management
+- BNB Chain : deployment
+- Ledger : full compatibility of ledger wallets with our system
+
+❤️ Thanks to Starton and all of its partners for making it possible to attend the talks, workshops and the organization of this hackathon.
