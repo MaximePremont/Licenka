@@ -104,6 +104,11 @@ As explained, our API can be used in 2 different ways: Web2 or Web3 :
             license: bool
 - Web3  
 (TODO) Victor
+## ☀️ Business model & Growth
+The objective of our project is to propose a reliable and very inexpensive alternative. Thus, we will earn money by taking **3 %** when purchasing a license with our system.
+
+Our possible project has a very big potential to grow, indeed we have already been able to imagine an even more advanced system which would make it possible to propose an **OAuth** in order to validate that the licenses are possessed by the users for example.
+
 ## 📤 Project Submission
 <p align="center">
 <a href="https://www.youtube.com/watch?v=DI_l7lQiE4U&ab_channel=MaximePremont"><img src="./.github/assets/video.png" width="85%" alt="Demo video" /></a>
