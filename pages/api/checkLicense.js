@@ -24,7 +24,7 @@ async function getCheckLicense(req, res) {
     ).then((response) => {
         console.log(response.data.response)
         res.status(200).json({ license: response.data.response })
-    }).catch((err) => {
+    }).catch(() => {
         res.status(400).json({ error: "password not set" })
     })
 }
