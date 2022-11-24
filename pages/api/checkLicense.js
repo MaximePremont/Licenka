@@ -1,6 +1,7 @@
 const dotenv = require('dotenv')
 dotenv.config()
 
+const Web3js = require("web3");
 const axios = require("axios")
 
 const axiosInstance = axios.create({
@@ -17,7 +18,7 @@ async function getCheckLicense(req, res) {
             functionName: "verifySubscriptionWeb2",
             params: [
                 req.query.userAddress,
-                req.query.userPassword,
+                Web3js.utils.keccak256(req.query.userPassword),
                 req.query.licenseId
             ]
         }
@@ -25,7 +26,7 @@ async function getCheckLicense(req, res) {
         console.log(response.data.response)
         res.status(200).json({ license: response.data.response })
     }).catch(() => {
-        res.status(400).json({ error: "password not set" })
+        res.status(400).json({ error: "password not set / wrong password" })
     })
 }
 
