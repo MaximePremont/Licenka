@@ -10,9 +10,7 @@ contract Licenka is ILicenka, licenkaPassword {
 
     using SafeMath for uint;
 
-    IERC20 _busd;
-    IERC20 _usdt;
-    enum TokenIds { BUSD, USDT }
+    IERC20 public token;
 
     struct License {
         string name;
@@ -30,7 +28,7 @@ contract Licenka is ILicenka, licenkaPassword {
     address _owner;
     uint _nextLicenseId = 1;
     uint _nextLicenseSubscriptionId = 1;
-    uint _percentageFee = 10;
+    uint percentageFee = 3;
 
     //Licences
     mapping (uint => License) public licenses;
@@ -41,10 +39,27 @@ contract Licenka is ILicenka, licenkaPassword {
     mapping (address => uint[]) _subscriptionOwner;
     mapping (address => mapping(uint => uint))  _subcriptionIndex;
 
-    constructor(address busdAdresse_, address usdtAdresse_) {
+    modifier isOwner(address sender) {
+        require(_owner == sender, "You are not the owner");
+        _;
+    }
+
+    constructor(address tokenAdresse_) {
         _owner = msg.sender;
-        _busd = IERC20(busdAdresse_);
-        _usdt = IERC20(usdtAdresse_);
+        token = IERC20(tokenAdresse_);
+    }
+
+    function setFee(uint newFee) external isOwner(msg.sender) {
+        require(0 <= newFee && newFee <= 100, "The fee must be between 0 and 100");
+        percentageFee = newFee;
+    }
+
+    function setToken(address token_) external isOwner(msg.sender) {
+        token = IERC20(token_);
+    }
+
+    function transferFunds(address dest, uint amount) external isOwner(msg.sender) {
+        token.transfer(dest, amount);
     }
 
     function createLicence(address owner, string memory name, uint price, uint duration) external {
@@ -54,9 +69,7 @@ contract Licenka is ILicenka, licenkaPassword {
         _nextLicenseId++;
     }
 
-    function _subscribe(address owner, uint licenseId, uint tokenId) internal {
-        require(tokenId == uint(TokenIds.BUSD) || tokenId == uint(TokenIds.USDT), "Wrong token id"); // test the currency token
-        IERC20 token = (tokenId == uint(TokenIds.BUSD)) ? _busd : _usdt;
+    function _subscribe(address owner, uint licenseId) internal {
         License memory license = licenses[licenseId];
         require(license.owner != address(0x0), "Wrong id number"); //Test if license id is valid
         require(token.allowance(owner, address(this)) >= license.price, "Didn't approve enough fund for the license"); //Test if the user has sufficient fund
@@ -79,15 +92,15 @@ contract Licenka is ILicenka, licenkaPassword {
             subscriptions[index].validTime = rootTimestamp + license.duration;
         }
         token.transferFrom(owner, address(this), license.price);
-        token.transfer(license.owner, license.price.mul(100 - _percentageFee).div(100));
+        token.transfer(license.owner, license.price.mul(100 - percentageFee).div(100));
     }
 
-    function subscribe(uint licenseId, uint tokenId) external {
-        _subscribe(msg.sender, licenseId, tokenId);
+    function subscribe(uint licenseId) external {
+        _subscribe(msg.sender, licenseId);
     }
 
-    function subscribeWeb2(address owner, uint hash, uint licenseId, uint tokenId) external isPasswordSet(owner) isPasswordMatch(owner, hash) {
-        _subscribe(owner, licenseId, tokenId);
+    function subscribeWeb2(address owner, uint hash, uint licenseId) external isPasswordSet(owner) isPasswordMatch(owner, hash) {
+        _subscribe(owner, licenseId);
     }
 
     function _verifySubscription(address owner, uint licenseId) internal view returns(bool) {
@@ -116,5 +129,9 @@ contract Licenka is ILicenka, licenkaPassword {
 
     function getSubscriptions(address owner) external view returns(uint[] memory) {
         return _subscriptionOwner[owner];
+    }
+
+    function getSubscriptionIdForLicense(address owner, uint licenseId) external view returns(uint) {
+        return _subcriptionIndex[owner][licenseId];
     }
 }
