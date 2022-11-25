@@ -8,6 +8,7 @@ const Web3js = require("web3");
 
 const CreatePage = () => {
   const [contract, setContract] = useState(null);
+  const [waitingTrans, setWaitingTrans] = useState(false);
 
   let abi = process.env.LICENKA_CONTRACT_ABI;
   let contractAddress = process.env.LICENKA_ADDRESS;
@@ -36,10 +37,17 @@ const CreatePage = () => {
     if (event.target.validity.value === "limited")
       formatedDuration = event.target.validityTiming.value * 24 * 60 * 60;
 
+    setWaitingTrans(true);
     contract.methods
       .createLicence(wallet, name, formatedPrice, formatedDuration)
       .send({ from: window.ethereum.selectedAddress })
-      .catch((err) => console.log(err));
+      .then(() => {
+        setWaitingTrans(false)
+      })
+      .catch((err) => {
+        setWaitingTrans(false)
+        console.log(err)
+      });
   };
 
   return (
@@ -128,7 +136,7 @@ const CreatePage = () => {
           <div className="flex flex-col-reverse">
             <MainButton
               type="submit"
-              label="Create"
+              label={(!waitingTrans) ? "Create" : "Loading..."}
               iconSrc={"/add_icon.svg"}
             ></MainButton>
           </div>
