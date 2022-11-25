@@ -86,6 +86,8 @@ const ApprovePage = () => {
             .send({ from: window.ethereum.selectedAddress })
             .then(() => {
               setWaitingTrans(false)
+              if (router.query.redirect)
+                window.location.href = router.query.redirect
             })
             .catch(err => { throw err })
           })
