@@ -13,7 +13,7 @@ const axiosInstance = axios.create({
 
 async function getCheckLicense(req, res) {
     axiosInstance.post(
-        "/v3/smart-contract/binance-testnet/0x039CF1B6c8152fec9cb5afbf84220EEC74c0A527/read",
+        "/v3/smart-contract/binance-testnet/0x1aE04F30E59f1c38E72E12bd2bD94e7434E218f8/read",
         {
             functionName: "verifySubscriptionWeb2",
             params: [
