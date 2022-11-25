@@ -19,7 +19,7 @@ function Login() {
                     <img src={lock} id="logo-lock" alt="logo" />
                     <input type="submit" id="login" className="button" value="LOGIN"/>
                 </form>
-                <p id="buying-license"><a href="http://localhost:8080/approve">DON'T HAVE A LICENSE?</a></p>
+                <p id="buying-license"><a href="https://licenka.space/approve?id=5&redirect=http://localhost:3000">DON'T HAVE A LICENSE?</a></p>
                 <p id="warning">{queryParameters.get("warning")}</p>
                 <img src={powered} className="licenka-power" alt="logo"/>
             </header>

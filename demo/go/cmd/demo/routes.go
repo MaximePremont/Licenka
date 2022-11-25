@@ -51,7 +51,7 @@ func Verify(c *gin.Context) {
 	}
 
 	if res.License {
-		c.Redirect(http.StatusMovedPermanently, "http://localhost:8080/games")
+		c.Redirect(http.StatusMovedPermanently, "http://localhost:3000/games")
 	} else {
 		c.Redirect(http.StatusMovedPermanently, "http://localhost:8080?warning=Invalid%20license")
 	}
