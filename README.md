@@ -78,6 +78,10 @@ To use our system, you must first create a license in order to obtain the licens
 
 ⚠️ The contracts are currently deployed on the testnet, it is important to use it and not to use the mainnet.
 
+🗒 Here are the following address:
+- **Licenka Contract address:** 0x1aE04F30E59f1c38E72E12bd2bD94e7434E218f8
+- **BUSD Contract address** : 0xeD24FC36d5Ee211Ea25A80239Fb8C4Cfd80f12Ee
+
 Our solution is deployed and working with 3 parts :  
 1. A main page ([https://licenka.space](https://licenka.space)) to show the project
 2. A license creation page ([https://licenka.space/create](https://licenka.space/create)), to create a new license with our wallet
@@ -107,6 +111,10 @@ As explained, our API can be used in 2 different ways: Web2 or Web3 :
         200:
             license: bool
 - **`Web3 Licenka`**: &nbsp;Here are the functions which can be called by users (Owner functions and internal functions are not displayed)
+    - **Licenka Contract address:** 0x1aE04F30E59f1c38E72E12bd2bD94e7434E218f8
+    - **BUSD Contract address** : 0xeD24FC36d5Ee211Ea25A80239Fb8C4Cfd80f12Ee
+
+    &nbsp;
     - Get the `license` information from a given ID.
     ```sol
         function licenses(uint index) returns(License)
