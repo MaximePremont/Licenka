@@ -4,6 +4,7 @@
 <h3 align="center">Web3 license manager for the Starton Hackathon</h3>
 
 ## ⚙️ How to setup your project
+⚠️ The contracts are currently deployed on the testnet, it is important to use it and not to use the mainnet.
 ### 🐳 With Docker (recommanded)
 1. Add your [Starton API Key](https://app.starton.io/en/projects) `API_KEY` in the [.env](.env) file of the project
 2. Make sure Docker is working with `docker run hello-world`
@@ -51,7 +52,8 @@ Another problem we had to deal with was the fact that we could easily authentica
 Thus, our solution can work both with the simplicity of authentication in Web3, and both with the Web2 version for companies that do not wish to use Metamask auth.
 
 ## 📄 Facility
-#### See the deployed project on [licenka.space](https://licenka.space) !
+#### See the deployed project on [licenka.space](https://licenka.space) !2
+⚠️ The contracts are currently deployed on the testnet, it is important to use it and not to use the mainnet.
 Here are the steps to install and test our project :
 1. Use `git clone git@github.com:MaximePremont/Licenka.git`
 2. Use `cd Licenka`
@@ -73,6 +75,8 @@ During the hackathon we learned how to create a contract on the BSC blockchain a
 To use our system, you must first create a license in order to obtain the license ID. Then it is possible to use it as desired.
 
 🛟 **It is possible to define an expiration for licenses in days when they are created !**
+
+⚠️ The contracts are currently deployed on the testnet, it is important to use it and not to use the mainnet.
 
 Our solution is deployed and working with 3 parts :  
 1. A main page ([https://licenka.space](https://licenka.space)) to show the project
@@ -171,15 +175,16 @@ As explained, our API can be used in 2 different ways: Web2 or Web3 :
 The objective of our project is to propose a reliable and very inexpensive alternative. Thus, we will earn money by taking **3 %** when purchasing a license with our system.
 
 Our possible project has a very big potential to grow, indeed we have already been able to imagine an even more advanced system which would make it possible to propose an **OAuth** in order to validate that the licenses are possessed by the users for example.
+#### 🚀 After some improvements, our project will be ready to be deployed on the mainnet !
 
 ## 📤 Project Submission
+#### 💾 Presentation video
 <p align="center">
-<a href="https://www.youtube.com/watch?v=DI_l7lQiE4U&ab_channel=MaximePremont"><img src="./.github/assets/video.png" width="85%" alt="Demo video" /></a>
-<a href="https://www.youtube.com/watch?v=DI_l7lQiE4U&ab_channel=MaximePremont">https://www.youtube.com/watch?v=DI_l7lQiE4U&ab_channel=MaximePremont</a>
+<a href="https://www.youtube.com/watch?v=ARY3FKYPMy8&ab_channel=MaximePremont"><img src="./.github/assets/video.png" width="85%" alt="Demo video" /></a>
+<a href="https://www.youtube.com/watch?v=ARY3FKYPMy8&ab_channel=MaximePremont">https://www.youtube.com/watch?v=ARY3FKYPMy8&ab_channel=MaximePremont</a>
 </p>
 
 ### Our project is deployed and available on [licenka.space](licenka.space) !
-#### 🚀 We also created a demo service available on [demo.licenka.space](https://demo.licenka.space) , see the code on [this branch](https://github.com/MaximePremont/Licenka/tree/20-create-a-demo-which-use-licenka).
 ### Features :
 - Web3 implementation
 - Web2 API simple implementation
