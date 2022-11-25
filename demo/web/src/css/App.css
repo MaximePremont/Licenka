@@ -16,6 +16,17 @@
 
 }
 
+body {
+  background-image: url("../../public/background.png");
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
 .App-header {
   background-image: url("../../public/background.png");
   min-height: 100vh;
@@ -40,7 +51,7 @@
   }
 }
 
-#title {
+.title {
   /* CloudGames */
 
 
@@ -206,4 +217,21 @@ a:hover {
   height: 30px;
   left: 751px;
   top: 612px;
+}
+
+#warning {
+  position: absolute;
+  width: 232px;
+  height: 36px;
+  left: 846px;
+  top: 850px;
+
+  font-family: 'Montserrat', serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 30px;
+  line-height: 36px;
+  text-align: center;
+
+  color: #FF6B6B;
 }

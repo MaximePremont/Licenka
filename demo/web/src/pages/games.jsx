@@ -2,7 +2,7 @@ import React from 'react';
 
 function Home() {
     return (
-        <h1>this is the homepage</h1>
+        <h1 className="title">License verified</h1>
     );
 }
 
