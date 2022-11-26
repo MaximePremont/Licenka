@@ -29,13 +29,13 @@ func Verify(c *gin.Context) {
 
 	if err := c.Bind(&requestBody); err != nil {
 		fmt.Println()
-		c.JSON(http.StatusForbidden, gin.H{"message": "Invalid credentials"})
+		c.JSON(http.StatusForbidden, gin.H{"message": "Invalid query, check body content"})
 		c.Abort()
 		return
 	}
 
 	licenseId := os.Getenv("LICENSE_ID")
-	resp, err := http.Get("https://www.licenka.space/api/checkLicense?userAddress=" + requestBody.Address + "&licenseId=" + licenseId + "&userPassword=" + requestBody.Password)
+	resp, err := http.Get("https://www.licenka.space/api/wallet/verify?signedMessage=" + requestBody.NonceSigned + "&licenseId=" + licenseId + "&walletAddress=" + requestBody.Address)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"message": "Internal server error"})
 		c.Abort()
@@ -51,8 +51,8 @@ func Verify(c *gin.Context) {
 	}
 
 	if res.License {
-		c.Redirect(http.StatusMovedPermanently, "http://localhost:3000/games")
+		c.JSON(http.StatusOK, gin.H{"license": true})
 	} else {
-		c.Redirect(http.StatusMovedPermanently, "http://localhost:8080?warning=Invalid%20license")
+		c.JSON(http.StatusForbidden, gin.H{"license": false})
 	}
 }
