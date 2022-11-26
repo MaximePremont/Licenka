@@ -24,6 +24,9 @@ async function verify(req, res) {
         res.status(200).json({ verified: false });
         return
     }
+
+    //TODO: Check the timestamp
+
     axiosInstance.post(
         "/v3/smart-contract/binance-testnet/0x1aE04F30E59f1c38E72E12bd2bD94e7434E218f8/read",
         {
