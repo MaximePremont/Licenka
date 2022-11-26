@@ -75,56 +75,6 @@ body {
   text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 
-#address {
-  box-sizing: border-box;
-  background-color: transparent;
-
-  position: absolute;
-  width: 450px;
-  height: 68px;
-  left: 735px;
-  top: 495px;
-
-  border: 1px solid #FFFFFF;
-  border-radius: 6px;
-
-  font-family: 'Montserrat', serif;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 24px;
-  line-height: 20px;
-  color: #FFFFFF;
-
-  padding-left: 60px;
-}
-
-#password {
-  box-sizing: border-box;
-  background-color: transparent;
-
-  position: absolute;
-  width: 450px;
-  height: 68px;
-  left: 735px;
-  top: 590px;
-
-  border: 1px solid #FFFFFF;
-  border-radius: 6px;
-  font-family: 'Montserrat', serif;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 24px;
-  line-height: 20px;
-  color: #FFFFFF;
-
-  padding-left: 60px;
-}
-
-input[type='password'] {
-  font-family: Verdana;
-  letter-spacing: 0.125em;
-}
-
 #login {
   background-color: white;
 
@@ -132,7 +82,7 @@ input[type='password'] {
   width: 450px;
   height: 68px;
   left: 735px;
-  top: 725px;
+  top: 550px;
 
   font-family: 'Montserrat', serif;
   font-style: normal;
@@ -149,10 +99,10 @@ input[type='password'] {
 
 a:link {
   position: absolute;
-  width: 302px;
-  height: 30px;
-  left: 879px;
-  top: 809px;
+  width: 450px;
+  height: 68px;
+  left: 735px;
+  top: 640px;
 
   font-family: 'Montserrat', serif;
   font-style: normal;
@@ -203,28 +153,12 @@ a:hover {
   top: 964px;
 }
 
-#logo-user {
-  position: absolute;
-  width: 30px;
-  height: 30px;
-  left: 751px;
-  top: 514px;
-}
-
-#logo-lock {
-  position: absolute;
-  width: 30px;
-  height: 30px;
-  left: 751px;
-  top: 612px;
-}
-
 #warning {
   position: absolute;
-  width: 232px;
-  height: 36px;
-  left: 846px;
-  top: 850px;
+  width: 450px;
+  height: 68px;
+  left: 735px;
+  top: 470px;
 
   font-family: 'Montserrat', serif;
   font-style: normal;
