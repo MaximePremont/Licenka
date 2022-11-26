@@ -23,21 +23,21 @@ const ApprovePage = () => {
   useEffect(() => {
     window.ethereum
       ? window.ethereum.request({ method: "eth_requestAccounts" }).then(() => {
-          let web3_;
-          let licenkaContract_ = licenkaContract;
-          if (!licenkaContract_) {
-            web3_ = new Web3js(window.ethereum);
-            setWeb3(web3_);
-            licenkaContract_ = new web3_.eth.Contract(licenkaAbi, licenkaAddress);
-            setLicenkaContract(licenkaContract_);
-          }
-          licenkaContract_.methods
-            .passwordMatch(window.ethereum.selectedAddress, 0)
-            .call()
-            .then((res) => {
-              setIsPasswordSet(!res);
-            });
-        })
+        let web3_;
+        let licenkaContract_ = licenkaContract;
+        if (!licenkaContract_) {
+          web3_ = new Web3js(window.ethereum);
+          setWeb3(web3_);
+          licenkaContract_ = new web3_.eth.Contract(licenkaAbi, licenkaAddress);
+          setLicenkaContract(licenkaContract_);
+        }
+        licenkaContract_.methods
+          .passwordMatch(window.ethereum.selectedAddress, 0)
+          .call()
+          .then((res) => {
+            setIsPasswordSet(!res);
+          });
+      })
       : console.log("Please install MetaMask");
     if (router.query.id && licenkaContract) {
       licenkaContract.methods
@@ -78,29 +78,29 @@ const ApprovePage = () => {
         // console.log(new BN(res), new BN(price), new BN(res).lt(new BN(price)))
         if (new BN(res).lt(new BN(price))) {
           tokenContract.methods
-          .approve(licenkaAddress, price)
-          .send({ from: window.ethereum.selectedAddress })
-          .then(() => {
-            licenkaContract.methods
-            .subscribe(licenseId)
+            .approve(licenkaAddress, price)
             .send({ from: window.ethereum.selectedAddress })
             .then(() => {
-              setWaitingTrans(false)
-              if (router.query.redirect)
-                window.location.href = router.query.redirect
+              licenkaContract.methods
+                .subscribe(licenseId)
+                .send({ from: window.ethereum.selectedAddress })
+                .then(() => {
+                  setWaitingTrans(false)
+                  if (router.query.redirect)
+                    window.location.href = router.query.redirect
+                })
+                .catch(err => { throw err })
             })
-            .catch(err => { throw err })
-          })
-          .catch(() => {
-            setWaitingTrans(false)
-          })
+            .catch(() => {
+              setWaitingTrans(false)
+            })
         } else {
           licenkaContract.methods
-          .subscribe(licenseId)
-          .send({ from: window.ethereum.selectedAddress })
-          .catch(() => {
-            setWaitingTrans(false);
-          })
+            .subscribe(licenseId)
+            .send({ from: window.ethereum.selectedAddress })
+            .catch(() => {
+              setWaitingTrans(false);
+            })
         }
       })
       .catch((err) => {
@@ -160,7 +160,7 @@ const ApprovePage = () => {
               label={(!waitingTrans) ? "Get license" : "Loading..."}
               iconSrc={"/add_icon.svg"}
               callback={handleGetLicense}
-              ></MainButton>
+            ></MainButton>
           </div>
         </div>
       </section>
