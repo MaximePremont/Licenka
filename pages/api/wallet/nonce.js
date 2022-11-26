@@ -8,7 +8,8 @@ async function nonce(req, res) {
     let nonce = crypto.randomBytes(16).toString('base64');
 
     const users = db.collection("users");
-    const result = await users.insertOne({ walletAddress: req.query.walletAddress, nonce: nonce});
+    const createdDt = new Date();
+    const result = await users.insertOne({ walletAddress: req.query.walletAddress, nonce: nonce, timestamp: createdDt});
     console.log(result);
     res.status(200).json({ walletAddress: req.query.walletAddress, nonce: nonce});
 }
