@@ -52,7 +52,7 @@ const CreatePage = () => {
       });
   };
 
-  const test = () => {
+  const setTiming = () => {
     setForever(!isForever);
   }
 
@@ -104,7 +104,7 @@ const CreatePage = () => {
                   name="validity"
                   id="answer_forever"
                   defaultChecked
-                  onChange={test}
+                  onChange={setTiming}
                   required
                 />
                 <label
@@ -121,7 +121,7 @@ const CreatePage = () => {
                   value="limited"
                   name="validity"
                   id="answer_limited"
-                  onChange={test}
+                  onChange={setTiming}
                 />
                 <label
                   className="flex p-5 bg-background border border-gray-300 rounded-lg cursor-pointer focus:outline-none peer-checked:ring-red-500 peer-checked:ring-2 peer-checked:border-transparent"
