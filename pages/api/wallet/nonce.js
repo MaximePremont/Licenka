@@ -1,12 +1,16 @@
 const dotenv = require('dotenv')
 dotenv.config()
-
+const crypto = require('crypto');
 const { connectToDatabase } = require('../../../lib/mongodb');
-const ObjectId = require('mongodb').ObjectId;
 
 async function nonce(req, res) {
     let { db } = await connectToDatabase()
-    res.status(200).json({ walletAddress: req.query.walletAddress})
+    let nonce = crypto.randomBytes(16).toString('base64');
+
+    const users = db.collection("users");
+    const result = await users.insertOne({ walletAddress: req.query.walletAddress, nonce: nonce})
+    console.log(result)
+    res.status(200).json({ walletAddress: req.query.walletAddress, nonce: nonce})
 }
 
 export default function handler(req, res) {
