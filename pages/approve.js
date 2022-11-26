@@ -61,29 +61,29 @@ const ApprovePage = () => {
         // console.log(new BN(res), new BN(price), new BN(res).lt(new BN(price)))
         if (new BN(res).lt(new BN(price))) {
           tokenContract.methods
-          .approve(licenkaAddress, price)
-          .send({ from: window.ethereum.selectedAddress })
-          .then(() => {
-            licenkaContract.methods
-            .subscribe(licenseId)
+            .approve(licenkaAddress, price)
             .send({ from: window.ethereum.selectedAddress })
             .then(() => {
-              setWaitingTrans(false)
-              if (router.query.redirect)
-                window.location.href = router.query.redirect
+              licenkaContract.methods
+                .subscribe(licenseId)
+                .send({ from: window.ethereum.selectedAddress })
+                .then(() => {
+                  setWaitingTrans(false)
+                  if (router.query.redirect)
+                    window.location.href = router.query.redirect
+                })
+                .catch(err => { throw err })
             })
-            .catch(err => { throw err })
-          })
-          .catch(() => {
-            setWaitingTrans(false)
-          })
+            .catch(() => {
+              setWaitingTrans(false)
+            })
         } else {
           licenkaContract.methods
-          .subscribe(licenseId)
-          .send({ from: window.ethereum.selectedAddress })
-          .catch(() => {
-            setWaitingTrans(false);
-          })
+            .subscribe(licenseId)
+            .send({ from: window.ethereum.selectedAddress })
+            .catch(() => {
+              setWaitingTrans(false);
+            })
         }
       })
       .catch((err) => {
@@ -127,7 +127,7 @@ const ApprovePage = () => {
               label={(!waitingTrans) ? "Get license" : "Loading..."}
               iconSrc={"/add_icon.svg"}
               callback={handleGetLicense}
-              ></MainButton>
+            ></MainButton>
           </div>
       </section>
     </div>
