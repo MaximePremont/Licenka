@@ -62,7 +62,7 @@ const CreatePage = () => {
         <div className="ml-32 mt-32 w-3/5 container flex flex-col space-y-4">
           <h1>
             Create <span className="text-primary">your </span> license, the way{" "}
-            <span className="text-primary">you</span> want it license
+            <span className="text-primary">you</span> want it
           </h1>
         </div>
         <Image src="/shine.svg" width={475} height={483} alt="logo" />
