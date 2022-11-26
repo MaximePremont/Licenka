@@ -1,6 +1,7 @@
 import Image from "next/image";
 import DefaultLayout from "../modules/layout";
 import MainButton from "../components/MainButton";
+import { ToastContainer, toast } from "react-toastify";
 
 import React, { useState, useEffect } from "react";
 
@@ -13,7 +14,6 @@ const CreatePage = () => {
 
   let abi = process.env.LICENKA_CONTRACT_ABI;
   let contractAddress = process.env.LICENKA_ADDRESS;
-
 
   useEffect(() => {
     window.ethereum
@@ -40,21 +40,41 @@ const CreatePage = () => {
       formatedDuration = event.target.validityTiming.value * 24 * 60 * 60;
 
     setWaitingTrans(true);
-    contract.methods
+    await contract.methods
       .createLicence(wallet, name, formatedPrice, formatedDuration)
       .send({ from: window.ethereum.selectedAddress })
       .then(() => {
-        setWaitingTrans(false)
+        setWaitingTrans(false);
+        toast.success("License created !", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
       })
       .catch((err) => {
-        setWaitingTrans(false)
-        console.log(err)
+        setWaitingTrans(false);
+        console.log(err);
+        toast.error("Something wrong happened", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
       });
   };
 
   const setTiming = () => {
     setForever(!isForever);
-  }
+  };
 
   return (
     <div>
@@ -87,7 +107,7 @@ const CreatePage = () => {
             />
             <input
               type="number"
-              min="0.01"
+              min="1"
               max="999999999"
               pattern="[0-9]+{0,9}"
               id="price"
@@ -146,7 +166,7 @@ const CreatePage = () => {
           <div className="flex flex-col-reverse">
             <MainButton
               type="submit"
-              label={(!waitingTrans) ? "Create" : "Loading..."}
+              label={!waitingTrans ? "Create" : "Loading..."}
               iconSrc={"/add_icon.svg"}
             ></MainButton>
           </div>
@@ -185,6 +205,7 @@ const CreatePage = () => {
           </h1>
         </div>
       </section>
+      <ToastContainer />
     </div>
   );
 };

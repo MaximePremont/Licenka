@@ -2,6 +2,7 @@ import Image from "next/image";
 import DefaultLayout from "../modules/layout";
 import MainButton from "../components/MainButton";
 import { useRouter } from "next/router";
+import { ToastContainer, toast } from "react-toastify";
 import React, { useState, useEffect } from "react";
 
 const Web3js = require("web3");
@@ -26,7 +27,10 @@ const ApprovePage = () => {
           if (!licenkaContract_) {
             web3_ = new Web3js(window.ethereum);
             setWeb3(web3_);
-            licenkaContract_ = new web3_.eth.Contract(licenkaAbi, licenkaAddress);
+            licenkaContract_ = new web3_.eth.Contract(
+              licenkaAbi,
+              licenkaAddress
+            );
             setLicenkaContract(licenkaContract_);
           }
         })
@@ -48,10 +52,12 @@ const ApprovePage = () => {
   }, [licenkaContract, router.query.id]);
 
   async function handleGetLicense() {
-    var BN = web3.utils.BN
-    let price = license.price
-    let licenseId = license.id
-    let tokenAddress = await licenkaContract.methods.token().call({ from: window.ethereum.selectedAddress })
+    var BN = web3.utils.BN;
+    let price = license.price;
+    let licenseId = license.id;
+    let tokenAddress = await licenkaContract.methods
+      .token()
+      .call({ from: window.ethereum.selectedAddress });
     let tokenContract = new web3.eth.Contract(ERC20Abi, tokenAddress);
     setWaitingTrans(true);
     tokenContract.methods
@@ -68,28 +74,62 @@ const ApprovePage = () => {
                 .subscribe(licenseId)
                 .send({ from: window.ethereum.selectedAddress })
                 .then(() => {
-                  setWaitingTrans(false)
+                  setWaitingTrans(false);
                   if (router.query.redirect)
-                    window.location.href = router.query.redirect
+                    window.location.href = router.query.redirect;
                 })
-                .catch(err => { throw err })
+                .catch((err) => {
+                  throw err;
+                });
             })
             .catch(() => {
-              setWaitingTrans(false)
-            })
+              setWaitingTrans(false);
+              toast.error("Something wrong happened", {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+              });
+            });
         } else {
           licenkaContract.methods
             .subscribe(licenseId)
             .send({ from: window.ethereum.selectedAddress })
+            .then(() => {
+              toast.success("License purchased !", {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+              });
+            })
             .catch(() => {
               setWaitingTrans(false);
-            })
+              toast.error("Something wrong happened", {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+              });
+            });
         }
       })
       .catch((err) => {
-        console.log(err)
-        setWaitingTrans(false)
-      })
+        console.log(err);
+        setWaitingTrans(false);
+      });
   }
 
   return (
@@ -102,10 +142,15 @@ const ApprovePage = () => {
           {license ? (
             <h1>
               Get a <span className="text-primary">{license.name}</span>{" "}
-              license, for <span className="text-primary">{Web3js.utils.fromWei(license.price, "ether")}</span>{" "}
+              license, for{" "}
+              <span className="text-primary">
+                {Web3js.utils.fromWei(license.price, "ether")}
+              </span>{" "}
               BUSD,&nbsp;
               <span className="text-primary">
-                {license.duration == 0 ? "forever" : license.duration / 86400 + " day(s)"}
+                {license.duration == 0
+                  ? "forever"
+                  : license.duration / 86400 + " day(s)"}
               </span>
               .
             </h1>
@@ -122,14 +167,15 @@ const ApprovePage = () => {
         </div>
       </section>
       <section className="mx-32 py-4" style={{ height: "20vh" }}>
-          <div className="flex">
-            <MainButton
-              label={(!waitingTrans) ? "Get license" : "Loading..."}
-              iconSrc={"/add_icon.svg"}
-              callback={handleGetLicense}
-            ></MainButton>
-          </div>
+        <div className="flex">
+          <MainButton
+            label={!waitingTrans ? "Get license" : "Loading..."}
+            iconSrc={"/add_icon.svg"}
+            callback={handleGetLicense}
+          ></MainButton>
+        </div>
       </section>
+      <ToastContainer />
     </div>
   );
 };
