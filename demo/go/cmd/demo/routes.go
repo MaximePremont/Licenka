@@ -9,8 +9,8 @@ import (
 )
 
 type FormRequestBody struct {
-	NonceSigned string `form:"address"`
-	Address     string `form:"password"`
+	NonceSigned string `json:"nonce_signed"`
+	Address     string `json:"address"`
 }
 
 type Result struct {
