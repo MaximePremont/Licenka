@@ -10,9 +10,7 @@ const ApprovePage = () => {
   const [web3, setWeb3] = useState(null);
   const [waitingTrans, setWaitingTrans] = useState(false);
   const [licenkaContract, setLicenkaContract] = useState(null);
-  const [password, setPassword] = useState("");
   const [license, setLicense] = useState(undefined);
-  const [isPasswordSet, setIsPasswordSet] = useState(false);
   const router = useRouter();
 
   let licenkaAbi = process.env.LICENKA_CONTRACT_ABI;
@@ -23,21 +21,15 @@ const ApprovePage = () => {
   useEffect(() => {
     window.ethereum
       ? window.ethereum.request({ method: "eth_requestAccounts" }).then(() => {
-        let web3_;
-        let licenkaContract_ = licenkaContract;
-        if (!licenkaContract_) {
-          web3_ = new Web3js(window.ethereum);
-          setWeb3(web3_);
-          licenkaContract_ = new web3_.eth.Contract(licenkaAbi, licenkaAddress);
-          setLicenkaContract(licenkaContract_);
-        }
-        licenkaContract_.methods
-          .passwordMatch(window.ethereum.selectedAddress, 0)
-          .call()
-          .then((res) => {
-            setIsPasswordSet(!res);
-          });
-      })
+          let web3_;
+          let licenkaContract_ = licenkaContract;
+          if (!licenkaContract_) {
+            web3_ = new Web3js(window.ethereum);
+            setWeb3(web3_);
+            licenkaContract_ = new web3_.eth.Contract(licenkaAbi, licenkaAddress);
+            setLicenkaContract(licenkaContract_);
+          }
+        })
       : console.log("Please install MetaMask");
     if (router.query.id && licenkaContract) {
       licenkaContract.methods
@@ -54,15 +46,6 @@ const ApprovePage = () => {
         .catch((err) => console.log(err));
     }
   }, [licenkaContract, router.query.id]);
-
-  function handleClick() {
-    licenkaContract.methods
-      .passwordSet(Web3js.utils.keccak256(password))
-      .send({ from: window.ethereum.selectedAddress })
-      .catch((err) => console.log(err));
-    setIsPasswordSet(true);
-    setPassword("");
-  }
 
   async function handleGetLicense() {
     var BN = web3.utils.BN
@@ -129,9 +112,9 @@ const ApprovePage = () => {
           ) : (
             <h1>No licenses found with this id</h1>
           )}
-          <p className="text-2xl mt-4">
+          <p className="text-2xl w-3/5 mt-4">
             By clicking on “get license” you agree to have transaction between
-            you and the license&#39; provider
+            you and the license&#39;s provider
           </p>
         </div>
         <div>
@@ -139,30 +122,13 @@ const ApprovePage = () => {
         </div>
       </section>
       <section className="mx-32 py-4" style={{ height: "20vh" }}>
-        <p className="py-4">Set a password to access your licenses:</p>
-        <div className="flex justify-between">
-          <div className="container items-center flex justify-between py-4">
-            <input
-              type="password"
-              id="first_name"
-              className="bg-background border border-gray-300 rounded-lg  p-2.5 w-1/2 mr-8 h-12"
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-            <MainButton
-              label={isPasswordSet ? "Change password" : "Set Pasword"}
-              callback={handleClick}
-            ></MainButton>
-          </div>
-          <div className="container items-center flex justify-end py-4">
+          <div className="flex">
             <MainButton
               label={(!waitingTrans) ? "Get license" : "Loading..."}
               iconSrc={"/add_icon.svg"}
               callback={handleGetLicense}
             ></MainButton>
           </div>
-        </div>
       </section>
     </div>
   );
