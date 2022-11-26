@@ -1,4 +1,3 @@
-import Web3js from "web3";
 const dotenv = require('dotenv');
 dotenv.config();
 import { ethers } from "ethers";
