@@ -12,7 +12,7 @@ const ApprovePage = () => {
 
   return (
     <div className="bg-background ">
-      <div className="flex justify-end mr-16">
+      <div className="absolute top-6 right-12">
         <MainButton
           callback={navigateCreate}
           label="Create license"
