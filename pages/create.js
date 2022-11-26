@@ -79,99 +79,96 @@ const CreatePage = () => {
   return (
     <div>
       <section className="flex">
-        <div className="ml-32 mt-32 w-3/5 container flex flex-col space-y-4">
+        <div className="ml-32 mt-32 w-3/5 container flex flex-col space-y-8">
           <h1>
             Create <span className="text-primary">your </span> license, the way{" "}
             <span className="text-primary">you</span> want it
           </h1>
+          <form onSubmit={submitCreate}>
+            <div className="w-4/5 container flex flex-col space-y-8">
+              <input
+                type="text"
+                id="name"
+                className="bg-background border border-gray-300 rounded-lg  p-2.5 h-16 w-3/4"
+                placeholder="License name"
+                required
+              />
+              <input
+                type="text"
+                id="wallet"
+                pattern="0x[0-9a-fA-F]{40}"
+                className="bg-background border border-gray-300 rounded-lg  p-2.5 h-16 w-3/4"
+                placeholder="Wallet address"
+                required
+              />
+              <input
+                type="number"
+                min="1"
+                max="999999999"
+                pattern="[0-9]+{0,9}"
+                id="price"
+                className="bg-background border border-gray-300 rounded-lg  p-2.5 h-16 w-3/4"
+                placeholder="Price in BUSD"
+                required
+              />
+              <ul className="flex w-3/4 justify-between">
+                <li className="relative">
+                  <input
+                    className="sr-only peer"
+                    type="radio"
+                    value="forever"
+                    name="validity"
+                    id="answer_forever"
+                    defaultChecked
+                    onChange={setTiming}
+                    required
+                  />
+                  <label
+                    className="flex p-5 bg-background border border-gray-300 rounded-lg cursor-pointer focus:outline-none peer-checked:ring-green-500 peer-checked:ring-2 peer-checked:border-transparent"
+                    htmlFor="answer_forever"
+                  >
+                    Forever
+                  </label>
+                </li>
+                <li className="relative">
+                  <input
+                    className="sr-only peer"
+                    type="radio"
+                    value="limited"
+                    name="validity"
+                    id="answer_limited"
+                    onChange={setTiming}
+                  />
+                  <label
+                    className="flex p-5 bg-background border border-gray-300 rounded-lg cursor-pointer focus:outline-none peer-checked:ring-red-500 peer-checked:ring-2 peer-checked:border-transparent"
+                    htmlFor="answer_limited"
+                  >
+                    Limited
+                  </label>
+                </li>
+                <input
+                  id="validityTiming"
+                  type="number"
+                  inputMode="numeric"
+                  placeholder="Validity in days"
+                  pattern="[0-9]*"
+                  defaultValue="30"
+                  min={1}
+                  disabled={isForever}
+                  className="bg-background border border-gray-300 rounded-lg disabled:border-gray-800 disabled:text-gray-800  p-2.5 h-16"
+                ></input>
+              </ul>
+              <MainButton
+                type="submit"
+                label={!waitingTrans ? "Create" : "Loading..."}
+                iconSrc={"/add_icon.svg"}
+              ></MainButton>
+            </div>
+          </form>
         </div>
         <Image src="/shine.svg" width={475} height={483} alt="logo" />
       </section>
-      <section className="mx-32 py-4">
-        <form onSubmit={submitCreate} className="flex justify-between">
-          <div className="w-3/5 container flex flex-col space-y-8">
-            <input
-              type="text"
-              id="name"
-              className="bg-background border border-gray-300 rounded-lg  p-2.5 h-16 w-3/4"
-              placeholder="License name"
-              required
-            />
-            <input
-              type="text"
-              id="wallet"
-              pattern="0x[0-9a-fA-F]{40}"
-              className="bg-background border border-gray-300 rounded-lg  p-2.5 h-16 w-3/4"
-              placeholder="Wallet address"
-              required
-            />
-            <input
-              type="number"
-              min="1"
-              max="999999999"
-              pattern="[0-9]+{0,9}"
-              id="price"
-              className="bg-background border border-gray-300 rounded-lg  p-2.5 h-16 w-3/4"
-              placeholder="Price in BUSD"
-              required
-            />
-            <ul className="flex w-3/4 justify-between">
-              <li className="relative">
-                <input
-                  className="sr-only peer"
-                  type="radio"
-                  value="forever"
-                  name="validity"
-                  id="answer_forever"
-                  defaultChecked
-                  onChange={setTiming}
-                  required
-                />
-                <label
-                  className="flex p-5 bg-background border border-gray-300 rounded-lg cursor-pointer focus:outline-none peer-checked:ring-green-500 peer-checked:ring-2 peer-checked:border-transparent"
-                  htmlFor="answer_forever"
-                >
-                  Forever
-                </label>
-              </li>
-              <li className="relative">
-                <input
-                  className="sr-only peer"
-                  type="radio"
-                  value="limited"
-                  name="validity"
-                  id="answer_limited"
-                  onChange={setTiming}
-                />
-                <label
-                  className="flex p-5 bg-background border border-gray-300 rounded-lg cursor-pointer focus:outline-none peer-checked:ring-red-500 peer-checked:ring-2 peer-checked:border-transparent"
-                  htmlFor="answer_limited"
-                >
-                  Limited
-                </label>
-              </li>
-              <input
-                id="validityTiming"
-                type="number"
-                inputMode="numeric"
-                placeholder="Validity in days"
-                pattern="[0-9]*"
-                defaultValue="30"
-                min={1}
-                disabled={isForever}
-                className="bg-background border border-gray-300 rounded-lg disabled:border-gray-800 disabled:text-gray-800  p-2.5 h-16"
-              ></input>
-            </ul>
-          </div>
-          <div className="flex flex-col-reverse">
-            <MainButton
-              type="submit"
-              label={!waitingTrans ? "Create" : "Loading..."}
-              iconSrc={"/add_icon.svg"}
-            ></MainButton>
-          </div>
-        </form>
-      </section>
+      <section className="mx-32 py-4"></section>
       <section className="flex">
         <div className="ml-32 mt-32 w-3/5 container flex flex-col space-y-4">
           <h1>
