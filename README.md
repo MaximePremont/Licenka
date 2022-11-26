@@ -7,8 +7,10 @@
 ⚠️ The contracts are currently deployed on the testnet, it is important to use it and not to use the mainnet.
 ### 🐳 With Docker (recommanded)
 1. Add your [Starton API Key](https://app.starton.io/en/projects) `API_KEY` in the [.env](.env) file of the project
-2. Make sure Docker is working with `docker run hello-world`
-3. Build and start the app with `docker compose up`
+2. Verify that you have a MongoDB Ready to utilization on [Atlas](https://www.mongodb.com/cloud/atlas/register)
+3. Add `MONGODB_URI` and `DB_NAME` in the [.env](.env) file of the project, you could use whatever you want for `DB_NAME`
+4. Make sure Docker is working with `docker run hello-world`
+5. Build and start the app with `docker compose up`
 ### 🫳🏼 By hand
 It is recommanded to use [NVM](https://github.com/nvm-sh/nvm) to have the correct node version.
 1. Export your Starton API Key with `export API_KEY=xx_xxx_xxxxxxx-xxxx-xxxx-xxxxxxxxxx`, replacing *xxxxx* with your key
@@ -47,9 +49,9 @@ Our main technical challenge was to be able to buy licenses easily, because it i
 <br>Created figma model
 </p>
 
-Another problem we had to deal with was the fact that we could easily authenticate a user with metamask to verify that he had a license. However, it should be possible on top of that to be able to call the Web2 API without having to authenticate, and without verification everyone could enter the wallet of someone who owns the license. For this, users can set a password to use the Web2 version.
+Another problem we had to deal with was the fact that we could easily authenticate a user with metamask to verify that he had a license. However, it should be possible on top of that to be able to call the Web2 API without having to authenticate with credentials, and without verification everyone could enter the wallet of someone who owns the license. For this, users sign a message with their wallet to use the Web2 version.
 
-Thus, our solution can work both with the simplicity of authentication in Web3, and both with the Web2 version for companies that do not wish to use Metamask auth.
+Thus, our solution can work both with the simplicity of authentication in Web3, and both with the Web2 version for companies that do not wish to implement themselves Metamask auth.
 
 ## 📄 Facility
 #### See the deployed project on [licenka.space](https://licenka.space) !2
@@ -58,7 +60,8 @@ Here are the steps to install and test our project :
 1. Use `git clone git@github.com:MaximePremont/Licenka.git`
 2. Use `cd Licenka`
 3. Add your [Starton API Key](https://app.starton.io/en/projects) `API_KEY` in the [.env](.env) file of the project
-4. Setup and start like described [here](#how-to-setup-your-project), recommanded : `docker compose up`
+4. Verify that you have a MongoDB Ready to utilization on [Atlas](https://www.mongodb.com/cloud/atlas/register) Add `MONGODB_URI` and `DB_NAME` in the [.env](.env) file of the project, you could use whatever you want for `DB_NAME`
+5. Setup and start like described [here](#how-to-setup-your-project), recommanded : `docker compose up`
 
 You can now access to the app at [http://localhost:3000](http://localhost:3000)
 ## 👋 Team and comments
