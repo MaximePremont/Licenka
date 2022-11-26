@@ -1,8 +1,16 @@
+import Web3js from "web3";
 const dotenv = require('dotenv');
 dotenv.config();
 import { ethers } from "ethers";
 const { connectToDatabase } = require('../../../lib/mongodb');
+const axios = require("axios")
 
+const axiosInstance = axios.create({
+    baseURL: "https://api.starton.io",
+    headers: {
+        "x-api-key": process.env.API_KEY,
+    },
+})
 
 async function verify(req, res) {
     let { db } = await connectToDatabase();
@@ -16,7 +24,21 @@ async function verify(req, res) {
         res.status(200).json({ verified: false });
         return
     }
-    res.status(200).json({ verified: true });
+    axiosInstance.post(
+        "/v3/smart-contract/binance-testnet/0x1aE04F30E59f1c38E72E12bd2bD94e7434E218f8/read",
+        {
+            functionName: "verifySubscriptionWeb2",
+            params: [
+                req.query.userAddress,
+                req.query.licenseId
+            ]
+        }
+    ).then((response) => {
+        console.log(response.data.response)
+        res.status(200).json({ verified: "true" })
+    }).catch(() => {
+        res.status(400).json({ error: "User has no license" })
+    })
 }
 
 export default function handler(req, res) {
@@ -28,6 +50,10 @@ export default function handler(req, res) {
         }
         if (!req.query.signedMessage) {
             res.status(400).json({ error: 'Missing signedMessage' })
+            return
+        }
+        if (!req.query.licenseId) {
+            res.status(400).json({ error: 'Missing licenseId' })
             return
         }
         verify(req, res)
