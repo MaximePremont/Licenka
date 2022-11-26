@@ -9,9 +9,11 @@ const Web3js = require("web3");
 const CreatePage = () => {
   const [contract, setContract] = useState(null);
   const [waitingTrans, setWaitingTrans] = useState(false);
+  const [isForever, setForever] = useState(true);
 
   let abi = process.env.LICENKA_CONTRACT_ABI;
   let contractAddress = process.env.LICENKA_ADDRESS;
+
 
   useEffect(() => {
     window.ethereum
@@ -25,7 +27,7 @@ const CreatePage = () => {
           }
         })
       : console.log("Please install MetaMask");
-  }, []);
+  }, [isForever]);
 
   const submitCreate = async (event) => {
     event.preventDefault();
@@ -49,6 +51,10 @@ const CreatePage = () => {
         console.log(err)
       });
   };
+
+  const test = () => {
+    setForever(!isForever);
+  }
 
   return (
     <div>
@@ -74,6 +80,7 @@ const CreatePage = () => {
             <input
               type="text"
               id="wallet"
+              pattern="0x[0-9a-fA-F]{40}"
               className="bg-background border border-gray-300 rounded-lg  p-2.5 h-16 w-3/4"
               placeholder="Wallet address"
               required
@@ -82,41 +89,43 @@ const CreatePage = () => {
               type="number"
               min="0.01"
               max="999999999"
-              step="0.01"
+              pattern="[0-9]+{0,9}"
               id="price"
               className="bg-background border border-gray-300 rounded-lg  p-2.5 h-16 w-3/4"
               placeholder="Price in BUSD"
               required
             />
-            <ul class="flex w-3/4 justify-between">
-              <li class="relative">
+            <ul className="flex w-3/4 justify-between">
+              <li className="relative">
                 <input
-                  class="sr-only peer"
+                  className="sr-only peer"
                   type="radio"
                   value="forever"
                   name="validity"
                   id="answer_forever"
-                  checked
+                  defaultChecked
+                  onChange={test}
                   required
                 />
                 <label
-                  class="flex p-5 bg-background border border-gray-300 rounded-lg cursor-pointer focus:outline-none peer-checked:ring-green-500 peer-checked:ring-2 peer-checked:border-transparent"
-                  for="answer_forever"
+                  className="flex p-5 bg-background border border-gray-300 rounded-lg cursor-pointer focus:outline-none peer-checked:ring-green-500 peer-checked:ring-2 peer-checked:border-transparent"
+                  htmlFor="answer_forever"
                 >
                   Forever
                 </label>
               </li>
-              <li class="relative">
+              <li className="relative">
                 <input
-                  class="sr-only peer"
+                  className="sr-only peer"
                   type="radio"
                   value="limited"
                   name="validity"
                   id="answer_limited"
+                  onChange={test}
                 />
                 <label
-                  class="flex p-5 bg-background border border-gray-300 rounded-lg cursor-pointer focus:outline-none peer-checked:ring-red-500 peer-checked:ring-2 peer-checked:border-transparent"
-                  for="answer_limited"
+                  className="flex p-5 bg-background border border-gray-300 rounded-lg cursor-pointer focus:outline-none peer-checked:ring-red-500 peer-checked:ring-2 peer-checked:border-transparent"
+                  htmlFor="answer_limited"
                 >
                   Limited
                 </label>
@@ -124,12 +133,13 @@ const CreatePage = () => {
               <input
                 id="validityTiming"
                 type="number"
-                inputmode="numeric"
+                inputMode="numeric"
                 placeholder="Validity in days"
                 pattern="[0-9]*"
                 defaultValue="30"
                 min={1}
-                className="bg-background border border-gray-300 rounded-lg  p-2.5 h-16"
+                disabled={isForever}
+                className="bg-background border border-gray-300 rounded-lg disabled:border-gray-800 disabled:text-gray-800  p-2.5 h-16"
               ></input>
             </ul>
           </div>
