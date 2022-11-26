@@ -13,11 +13,7 @@ function Login() {
                 <h1 className="title">CloudGames</h1>
                 <img src={logo} className="App-logo" alt="logo" />
                 <form method="POST" action="http://localhost:8080/verify">
-                    <input type="text" id="address" className="userInput" name="address" placeholder="ADDRESS"/><br/>
-                    <img src={user} id="logo-user" alt="logo" />
-                    <input type="password" id="password" className="userInput" name="password" placeholder="PASSWORD"/><br/>
-                    <img src={lock} id="logo-lock" alt="logo" />
-                    <input type="submit" id="login" className="button" value="LOGIN"/>
+                    <input type="submit" id="login" className="button" value="Login with Licenka"/>
                 </form>
                 <p id="buying-license"><a href="https://licenka.space/approve?id=5&redirect=http://localhost:3000">DON'T HAVE A LICENSE?</a></p>
                 <p id="warning">{queryParameters.get("warning")}</p>
