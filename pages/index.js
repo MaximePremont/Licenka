@@ -94,7 +94,7 @@ const ApprovePage = () => {
           </Animator>
         </ScrollPage>
         <Animator animation={batch(FadeIn())}>
-          <div className="py-4 h-max">
+          <div className="py-4 h-max space-y-16">
             <h1 className="text-primary text-center">Roadmap</h1>
             <div className="mx-32 grid grid-cols-2 place-content-center gap-x-32 gap-y-16">
               <div className="flex justify-end">
