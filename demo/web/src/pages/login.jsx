@@ -17,7 +17,7 @@ function Login() {
             <header className="App-header">
                 <h1 className="title">CloudGames</h1>
                 <img src={logo} className="App-logo" alt="logo" />
-                <button onClick={routeChange} id="login" className="button" />
+                <button onClick={routeChange} id="login" className="button">Login with Licenka</button>
                 <p id="buying-license"><a href="http://localhost:3000/approve?id=10&redirect=http://localhost:3001">DON'T HAVE A LICENSE?</a></p>
                 <p id="warning">{queryParameters.get("warning")}</p>
                 <img src={powered} className="licenka-power" alt="logo" />
