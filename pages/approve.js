@@ -12,6 +12,7 @@ const ApprovePage = () => {
   const [waitingTrans, setWaitingTrans] = useState(false);
   const [licenkaContract, setLicenkaContract] = useState(null);
   const [license, setLicense] = useState(undefined);
+  const [isInvalidId, setInvalidId] = useState(false);
   const router = useRouter();
 
   let licenkaAbi = process.env.LICENKA_CONTRACT_ABI;
@@ -40,12 +41,16 @@ const ApprovePage = () => {
         .licenses(router.query.id)
         .call({ from: window.ethereum.selectedAddress })
         .then((res) => {
-          setLicense({
-            id: router.query.id,
-            name: res.name,
-            price: res.price,
-            duration: res.duration,
-          });
+          if (res.name) {
+            setLicense({
+              id: router.query.id,
+              name: res.name,
+              price: res.price,
+              duration: res.duration,
+            });
+          } else {
+            setInvalidId(true);
+          }
         })
         .catch((err) => console.log(err));
     }
@@ -139,7 +144,7 @@ const ApprovePage = () => {
         style={{ height: "65vh" }}
       >
         <div className="ml-32 w-3/5 container flex flex-col">
-          {license ? (
+          {license && !isInvalidId ? (
             <h1>
               Get a <span className="text-primary">{license.name}</span>{" "}
               license, for{" "}
@@ -154,27 +159,33 @@ const ApprovePage = () => {
               </span>
               .
             </h1>
+          ) : isInvalidId ? (
+            <h1>Sorry there is no license existing with this id</h1>
           ) : (
-            <h1>No licenses found with this id</h1>
+            <h1>Fetching license's information...</h1>
           )}
-          <p className="text-2xl w-3/5 mt-4">
-            By clicking on “get license” you agree to have transaction between
-            you and the license&#39;s provider
-          </p>
         </div>
         <div>
           <Image src="/joker.svg" width={570} height={800} alt="logo" />
         </div>
       </section>
-      <section className="mx-32 py-4" style={{ height: "20vh" }}>
-        <div className="flex">
-          <MainButton
-            label={!waitingTrans ? "Get license" : "Loading..."}
-            iconSrc={"/add_icon.svg"}
-            callback={handleGetLicense}
-          ></MainButton>
-        </div>
-      </section>
+      {!isInvalidId ? (
+        <section className="mx-32 py-4 w-3/5 space-y-4">
+          <p className="text-lg w-2/5 mt-4">
+            By clicking on “get license” you agree to have a transaction between
+            you and the license&#39;s provider
+          </p>
+          <div className="flex">
+            <MainButton
+              label={!waitingTrans ? "Get license" : "Loading..."}
+              iconSrc={"/add_icon.svg"}
+              callback={handleGetLicense}
+            ></MainButton>
+          </div>
+        </section>
+      ) : (
+        <div className="h-6"></div>
+      )}
       <ToastContainer />
     </div>
   );
