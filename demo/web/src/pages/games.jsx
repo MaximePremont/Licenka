@@ -10,9 +10,10 @@ function Home() {
 
     fetch("http://localhost:8080/verify", {
         method: "POST",
+        mode: 'no-cors',
         headers: {
             Accept: "application/json",
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
         },
         body: JSON.stringify({
             nonce_signed,

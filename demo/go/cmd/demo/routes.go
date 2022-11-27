@@ -26,8 +26,9 @@ func ApproveLicense(c *gin.Context) {
 
 func Verify(c *gin.Context) {
 	var requestBody FormRequestBody
+	fmt.Println(requestBody)
 
-	if err := c.Bind(&requestBody); err != nil {
+	if err := c.BindJSON(&requestBody); err != nil {
 		fmt.Println()
 		c.JSON(http.StatusForbidden, gin.H{"message": "Invalid query, check body content"})
 		c.Abort()
@@ -35,7 +36,7 @@ func Verify(c *gin.Context) {
 	}
 
 	licenseId := os.Getenv("LICENSE_ID")
-	resp, err := http.Get("https://www.licenka.space/api/wallet/verify?signedMessage=" + requestBody.NonceSigned + "&licenseId=" + licenseId + "&walletAddress=" + requestBody.Address)
+	resp, err := http.Get("http://localhost:3000/api/wallet/verify?signedMessage=" + requestBody.NonceSigned + "&licenseId=" + licenseId + "&walletAddress=" + requestBody.Address)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"message": "Internal server error"})
 		c.Abort()
@@ -44,6 +45,7 @@ func Verify(c *gin.Context) {
 
 	var res Result
 	err = json.NewDecoder(resp.Body).Decode(&res)
+	fmt.Println("res ", res)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"message": "Internal server error"})
 		c.Abort()
