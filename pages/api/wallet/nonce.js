@@ -9,7 +9,7 @@ async function nonce(req, res) {
 
     const users = db.collection("users");
     const createdDt = new Date();
-    const result = await users.insertOne({ walletAddress: req.query.walletAddress, nonce: nonce, timestamp: createdDt});
+    const result = await users.updateOne({walletAddress: req.query.walletAddress}, {$set: {nonce: nonce, timestamp: createdDt},}, { upsert: true});
     console.log(result);
     res.status(200).json({ walletAddress: req.query.walletAddress, nonce: nonce});
 }
