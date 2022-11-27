@@ -205,6 +205,10 @@ Our possible project has a very big potential to grow, indeed we have already be
 <a href="https://www.youtube.com/watch?v=ARY3FKYPMy8&ab_channel=MaximePremont">https://www.youtube.com/watch?v=ARY3FKYPMy8&ab_channel=MaximePremont</a>
 </p>
 
+## 🧪 Demonstration app
+We have built an demonstration app, called CloudGaming, you've seen in the previous video. This application is in [demo](demo/) folder. If you want to know how to implement Licenka and/or test it, check the demo [demo/README.md](demo/README.md).
+
+## ⭐️ Conclusions
 ### Our project is deployed and available on [licenka.space](licenka.space) !
 ### Features :
 - Web3 implementation
