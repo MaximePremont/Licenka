@@ -8,7 +8,7 @@ function Login() {
     const [queryParameters] = useSearchParams()
     let navigate = useNavigate(); 
     const routeChange = () =>{ 
-        let path = `http://localhost:3000/oauth?redirect=http://localhost:3001/auth&licence_id=7`; 
+        let path = `http://localhost:3000/oauth?redirect_uri=http://localhost:3001/auth&licence_id=7`; 
         window.location.replace(path);
     }
 
