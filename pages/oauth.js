@@ -8,15 +8,16 @@ const Web3js = require("web3");
 const OauthPage = () => {
   const [licenkaContract, setLicenkaContract] = useState(null);
   const [license, setLicense] = useState(undefined);
-  const [callSigned, setCallSigned] = useState(false);
   const router = useRouter();
   const { redirect_uri, license_id } = router.query;
   const redirect_uri_error = `${redirect_uri}?error=invalid_request`;
 
+  let signedCalled = false;
   let licenkaAbi = process.env.LICENKA_CONTRACT_ABI;
   let licenkaAddress = process.env.LICENKA_ADDRESS;
 
   useEffect(() => {
+    console.log("hell")
     window.ethereum
       ? window.ethereum.request({ method: "eth_requestAccounts" }).then(() => {
         let web3_;
@@ -36,15 +37,15 @@ const OauthPage = () => {
           if (!res.name) {
             window.location.replace(redirect_uri_error);
           }
-          if (callSigned === false) {
-            handleGetLicense();
-          }
           setLicense({
             id: license_id,
             name: res.name,
             price: res.price,
             duration: res.duration,
           });
+          if (!signedCalled) {
+            handleGetLicense();
+          }
         })
         .catch((err) => {
           console.log(err);
@@ -54,7 +55,7 @@ const OauthPage = () => {
   }, [licenkaContract, license_id]);
 
   function handleGetLicense() {
-    setCallSigned(true);
+    signedCalled = true;
     console.log("handleGetLicense");
     const web3 = new Web3js(window.ethereum);
     web3.eth.getAccounts().then((accounts) => {
