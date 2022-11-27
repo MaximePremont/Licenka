@@ -1,7 +1,6 @@
 const dotenv = require('dotenv')
 dotenv.config()
 
-const Web3js = require("web3");
 const axios = require("axios")
 
 const axiosInstance = axios.create({
@@ -15,10 +14,9 @@ async function getCheckLicense(req, res) {
     axiosInstance.post(
         "/v3/smart-contract/binance-testnet/0x3253978d5A4AFFfF21AcfC2733C5d8CF2344e976/read",
         {
-            functionName: "verifySubscriptionWeb2",
+            functionName: "verifySubscription",
             params: [
                 req.query.userAddress,
-                Web3js.utils.keccak256(req.query.userPassword),
                 req.query.licenseId
             ]
         }
@@ -26,7 +24,7 @@ async function getCheckLicense(req, res) {
         console.log(response.data.response)
         res.status(200).json({ license: response.data.response })
     }).catch(() => {
-        res.status(400).json({ error: "password not set / wrong password" })
+        res.status(400).json({ error: "error" })
     })
 }
 
@@ -35,10 +33,6 @@ export default function handler(req, res) {
     if (req.method === 'GET') {
         if (!req.query.userAddress) {
             res.status(400).json({ error: 'Missing userAddress' })
-            return
-        }
-        if (!req.query.userPassword) {
-            res.status(400).json({ error: 'Missing userPassword' })
             return
         }
         if (!req.query.licenseId) {
