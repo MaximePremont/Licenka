@@ -79,7 +79,7 @@ To use our system, you must first create a license in order to obtain the licens
 ⚠️ The contracts are currently deployed on the testnet, it is important to use it and not to use the mainnet.
 
 🗒 Here are the following address:
-- **Licenka Contract address:** 0x1aE04F30E59f1c38E72E12bd2bD94e7434E218f8
+- **Licenka Contract address:** 0x3253978d5A4AFFfF21AcfC2733C5d8CF2344e976
 - **BUSD Contract address** : 0xeD24FC36d5Ee211Ea25A80239Fb8C4Cfd80f12Ee
 
 Our solution is deployed and working with 3 parts :  
@@ -111,7 +111,7 @@ As explained, our API can be used in 2 different ways: Web2 or Web3 :
         200:
             license: bool
 - **`Web3 Licenka`**: &nbsp;Here are the functions which can be called by users (Owner functions and internal functions are not displayed)
-    - **Licenka Contract address:** 0x1aE04F30E59f1c38E72E12bd2bD94e7434E218f8
+    - **Licenka Contract address:** 0x3253978d5A4AFFfF21AcfC2733C5d8CF2344e976
     - **BUSD Contract address** : 0xeD24FC36d5Ee211Ea25A80239Fb8C4Cfd80f12Ee
 
     &nbsp;
@@ -120,8 +120,8 @@ As explained, our API can be used in 2 different ways: Web2 or Web3 :
         function licenses(uint index) returns(License)
 
         struct License {
-            string name;
             address owner;
+            string name;
             uint price;
             uint duration;
         }
@@ -129,19 +129,17 @@ As explained, our API can be used in 2 different ways: Web2 or Web3 :
 
     - Get the `subscription` information from a given ID.
     ```sol
-        function subscriptions(uint index) returns(LicenseSubscribe)
+        function subscriptions(uint index) returns(Subscription)
 
-        struct LicenseSubscribe {
-            string name;
+        struct Subscription {
             address owner;
-            uint price;
-            uint duration;
+            uint validTime;
         }
     ```
 
-    - Create a `license` with a given **name**, **price**, and **duration** (0 for an endless license). Each payment will be sent to the **destination** address.
+    - Create a `license` with a given **name**, **price**, and **duration** (0 for an endless license). Each payment will be sent to the **owner** address.
     ```sol
-        function createLicence(address destination, string memory name, uint price, uint duration)
+        function createLicence(address owner, string memory name, uint price, uint duration)
     ```
 
     - Create a `subscription` to a `license`.

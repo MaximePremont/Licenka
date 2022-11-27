@@ -40,8 +40,8 @@ const CreatePage = () => {
       formatedDuration = event.target.validityTiming.value * 24 * 60 * 60;
 
     setWaitingTrans(true);
-    await contract.methods
-      .createLicence(wallet, name, formatedPrice, formatedDuration)
+    contract.methods
+      .createLicense(wallet, name, formatedPrice, formatedDuration)
       .send({ from: window.ethereum.selectedAddress })
       .then(() => {
         setWaitingTrans(false);
