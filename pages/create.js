@@ -103,7 +103,7 @@ const CreatePage = () => {
               />
               <input
                 type="number"
-                min="1"
+                min="0"
                 max="999999999"
                 pattern="[0-9]+{0,9}"
                 id="price"
