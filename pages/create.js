@@ -43,9 +43,8 @@ const CreatePage = () => {
     contract.methods
       .createLicense(wallet, name, formatedPrice, formatedDuration)
       .send({ from: window.ethereum.selectedAddress })
-      .then((id) => {
-        console.log(id);
-        // setLicenseId(id);
+      .then((info) => {
+        setLicenseId(info.events.LicenseCreate.returnValues.licenseId);
         setWaitingTrans(false);
         toast.success("License created !", {
           position: "top-right",
@@ -161,13 +160,20 @@ const CreatePage = () => {
                   className="bg-background border border-gray-300 rounded-lg disabled:border-gray-800 disabled:text-gray-800  p-2.5 h-16"
                 ></input>
               </ul>
-              <div className="flex w-3/4 justify-between">
+              <div className="flex w-3/4 justify-between items-center">
                 <MainButton
                   type="submit"
                   label={!waitingTrans ? "Create" : "Loading..."}
                   iconSrc={"/add_icon.svg"}
                 ></MainButton>
-                {licenseId ? <p>Your license has the id n°</p> : <></>}
+                {licenseId ? (
+                  <h1 className="text-2xl text-center">
+                    Your license has the id number:
+                    <br /> <h1 className="text-5xl">{licenseId}</h1>
+                  </h1>
+                ) : (
+                  <></>
+                )}
               </div>
             </div>
           </form>

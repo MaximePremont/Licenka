@@ -2,7 +2,7 @@
 const nextConfig = {
   reactStrictMode: true,
   env: {
-    LICENKA_ADDRESS: "0xc40c9f39FAc556518d7f34d0D1baAb230f7Cd358",
+    LICENKA_ADDRESS: "0x150B6328F1810589aF899f6d9F17E0347f77c8b8",
     LICENKA_CONTRACT_ABI: [
       {
         "inputs": [
@@ -33,13 +33,7 @@ const nextConfig = {
           {
             "indexed": false,
             "internalType": "uint256",
-            "name": "price",
-            "type": "uint256"
-          },
-          {
-            "indexed": false,
-            "internalType": "uint256",
-            "name": "duration",
+            "name": "licenseId",
             "type": "uint256"
           }
         ],
@@ -133,13 +127,7 @@ const nextConfig = {
           }
         ],
         "name": "createLicense",
-        "outputs": [
-          {
-            "internalType": "uint256",
-            "name": "",
-            "type": "uint256"
-          }
-        ],
+        "outputs": [],
         "stateMutability": "nonpayable",
         "type": "function"
       },
