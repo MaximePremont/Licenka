@@ -7,16 +7,18 @@
 ⚠️ The contracts are currently deployed on the testnet, it is important to use it and not to use the mainnet.
 ### 🐳 With Docker (recommanded)
 1. Add your [Starton API Key](https://app.starton.io/en/projects) `API_KEY` in the [.env](.env) file of the project
-2. Make sure Docker is working with `docker run hello-world`
-3. Build and start the app with `docker compose up`
+2. Setup MongoDB vars `MONGODB_URI` and `DB_NAME` in the [.env](.env) file of the project
+3. Make sure Docker is working with `docker run hello-world`
+4. Build and start the app with `docker compose up`
 ### 🫳🏼 By hand
 It is recommanded to use [NVM](https://github.com/nvm-sh/nvm) to have the correct node version.
 1. Export your Starton API Key with `export API_KEY=xx_xxx_xxxxxxx-xxxx-xxxx-xxxxxxxxxx`, replacing *xxxxx* with your key
-2. Install the correct version of node with `nvm install 18`
-3. Use the correct version of node with `nvm use`
-4. Install dependencies with `npm install`
-5. Build the app with `npm run build`
-6. Start the app with `npm start`
+2. Export your MongoDB vars with `export MONGODB_URI=xxx && export DB_NAME=xxx`, replacing *xxx* with your vars
+3. Install the correct version of node with `nvm install 18`
+4. Use the correct version of node with `nvm use`
+5. Install dependencies with `npm install`
+6. Build the app with `npm run build`
+7. Start the app with `npm start`
 
 You can now access to the app at [http://localhost:3000](http://localhost:3000) or [http://localhost:80](http://localhost:80)
 #### See the deployed project on [licenka.space](https://licenka.space) !
@@ -39,7 +41,7 @@ The objective of our platform is to make it easy to create a license by defining
 
 One of the challenges is to allow companies to use our solution very easily, so we were inspired by Starton in order to offer public API routes allowing companies to very simply buy, and check if a user has a license without Web3 knowledge.
 
-The technologies we used are [Next.js](https://nextjs.org/) for the front and the API, [Vercel](https://vercel.com/) for the deploy, [Docker](https://vercel.com/), [Web3.js](https://github.com/web3/web3.js), **Starton API**, **BNB Chain** and we support **Ledger**.
+The technologies we used are [Next.js](https://nextjs.org/) for the front and the API, [Vercel](https://vercel.com/) for the deploy, [Docker](https://www.docker.com/), [MongoDB](https://www.mongodb.com/), [Web3.js](https://github.com/web3/web3.js), **Starton API**, **BNB Chain** and we support **Ledger**.
 
 Our main technical challenge was to be able to buy licenses easily, because it is necessary to approve the transfer of funds beforehand to be able to make the payment, and companies should not need to use Web3 technologies. Thus, we decided to create a page inspired by Paypal, on which the payment is made and which redirects the user to the chosen address once the license has been acquired.
 <p align="center">
@@ -47,9 +49,14 @@ Our main technical challenge was to be able to buy licenses easily, because it i
 <br>Created figma model
 </p>
 
-Another problem we had to deal with was the fact that we could easily authenticate a user with metamask to verify that he had a license. However, it should be possible on top of that to be able to call the Web2 API without having to authenticate, and without verification everyone could enter the wallet of someone who owns the license. For this, users can set a password to use the Web2 version.
+Another problem we had to deal with was the fact that we could easily authenticate a user with metamask, on a Web2 app, to verify that he had a license. However we have developed a "oauth" flow (describe below). After oauth flow the client will receive a signed_nonce, which is use to call our Web2 API to authenticate the user and permit to client to know if the user has the license. This process avoids to the Web2 version for companies that do not wish to use Metamask auth.
 
-Thus, our solution can work both with the simplicity of authentication in Web3, and both with the Web2 version for companies that do not wish to use Metamask auth.
+<p align="center">
+<img src="./.github/assets/oauth_schema.png" width="75%" alt="Figma model" />
+<br>Oauth flow
+</p>
+
+Thus, our solution can work both with the implementation of their own authentication flow for Web3 client, and both with the Web2 version for companies that do not wish to use Metamask auth.
 
 ## 📄 Facility
 #### See the deployed project on [licenka.space](https://licenka.space) !2
@@ -58,7 +65,8 @@ Here are the steps to install and test our project :
 1. Use `git clone git@github.com:MaximePremont/Licenka.git`
 2. Use `cd Licenka`
 3. Add your [Starton API Key](https://app.starton.io/en/projects) `API_KEY` in the [.env](.env) file of the project
-4. Setup and start like described [here](#how-to-setup-your-project), recommanded : `docker compose up`
+4. Setup MongoDB vars `MONGODB_URI` and `DB_NAME` in the [.env](.env) file of the project
+5. Setup and start like described [here](#how-to-setup-your-project), recommanded : `docker compose up`
 
 You can now access to the app at [http://localhost:3000](http://localhost:3000)
 ## 👋 Team and comments
@@ -85,7 +93,8 @@ To use our system, you must first create a license in order to obtain the licens
 Our solution is deployed and working with 3 parts :  
 1. A main page ([https://licenka.space](https://licenka.space)) to show the project
 2. A license creation page ([https://licenka.space/create](https://licenka.space/create)), to create a new license with our wallet
-3. A license buy page ([https://licenka.space/approve](https://licenka.space/approuve)), which allow the user to buy a license with his wallet, and redirect to the company page after that.
+3. A license buy page ([https://licenka.space/approve](https://licenka.space/approve)), which allow the user to buy a license with his wallet, and redirect to the company page after that.
+4. A oauth page ([https://licenka.space/oauth?redirect_uri=https://demo.licenka.space/auth&licence_id=7](https://licenka.space/oauth?redirect_uri=https://demo.licenka.space/auth&licence_id=7))
 
 ⚠️ To work with the purchase page, the company must indicate the license to be purchased and the page to redirects to something like this : *https://licenka.space/approve/?license=XX&redirect=https://xxxxxx.xx*
 
@@ -107,9 +116,15 @@ As explained, our API can be used in 2 different ways: Web2 or Web3 :
         Query:
             userAddress
             licenseId
-            userPassword
+            signedNonce
         200:
             license: bool
+    - Get a nonce of user, with this nonce signed we can authenticate user `https://www.licenka.space/api/wallet/nonce`
+        ```
+        Query:
+            walletAddress
+        200:
+            nonce: string
 - **`Web3 Licenka`**: &nbsp;Here are the functions which can be called by users (Owner functions and internal functions are not displayed)
     - **Licenka Contract address:** 0x150B6328F1810589aF899f6d9F17E0347f77c8b8
     - **BUSD Contract address** : 0xeD24FC36d5Ee211Ea25A80239Fb8C4Cfd80f12Ee
@@ -180,7 +195,7 @@ As explained, our API can be used in 2 different ways: Web2 or Web3 :
 ## ☀️ Business model & Growth
 The objective of our project is to propose a reliable and very inexpensive alternative. Thus, we will earn money by taking **3 %** when purchasing a license with our system.
 
-Our possible project has a very big potential to grow, indeed we have already been able to imagine an even more advanced system which would make it possible to propose an **OAuth** in order to validate that the licenses are possessed by the users for example.
+Our possible project has a very big potential to grow, indeed we have already been able to imagine an even more advanced system which would make it possible to propose an client and/or an user dashboard to they can manage their purchased or selled licenses.
 #### 🚀 After some improvements, our project will be ready to be deployed on the mainnet !
 
 ## 📤 Project Submission
@@ -198,7 +213,9 @@ Our possible project has a very big potential to grow, indeed we have already be
 - Create a license with expiration time
 - Check if user has a license
 - Get license informations for a user
-- Buy a license and define a password
+- Buy a license
+- Oauth flow with wallet signature of an nonce
+- Be able to authenticate user with signed nonce
 
 ### Partners :
 - Starton : for contract calls and management
