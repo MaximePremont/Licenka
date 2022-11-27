@@ -39,7 +39,7 @@ function Games() {
                 <h1 className="title">Verification in progress</h1> :
                 isLicenseVerifed ?
                     <h1 className="title">License verified</h1> :
-                    <Navigate to="/login?warning=License%20unverified" />
+                    <Navigate to="/?warning=License%20unverified" />
             }
         </div>
     );

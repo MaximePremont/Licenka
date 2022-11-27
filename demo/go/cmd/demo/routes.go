@@ -29,7 +29,7 @@ func Verify(c *gin.Context) {
 
 	if err := c.BindJSON(&requestBody); err != nil {
 		fmt.Println("Test")
-		c.JSON(http.StatusOK, gin.H{"message": "Invalid query, check body content"})
+		c.JSON(http.StatusForbidden, gin.H{"message": "Invalid query, check body content"})
 		return
 	}
 	licenseId := os.Getenv("LICENSE_ID")
@@ -52,6 +52,6 @@ func Verify(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{"license": true})
 	} else {
 		fmt.Println("Test")
-		c.JSON(http.StatusOK, gin.H{"license": false})
+		c.JSON(http.StatusForbidden, gin.H{"license": false})
 	}
 }
