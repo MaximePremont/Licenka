@@ -35,6 +35,7 @@ const OauthPage = () => {
           if (!res.name) {
             window.location.replace(redirect_uri_error);
           }
+          handleGetLicense();
           setLicense({
             id: licence_id,
             name: res.name,
@@ -47,7 +48,6 @@ const OauthPage = () => {
           window.location.replace(redirect_uri_error);
         });
     }
-    handleGetLicense();
   }, [licenkaContract, licence_id]);
 
   function handleGetLicense() {
