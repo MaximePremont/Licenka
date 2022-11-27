@@ -5,6 +5,7 @@ import { Navigate } from 'react-router-dom';
 
 function Auth() {
     const [queryParameters] = useSearchParams()
+    console.log("nonce : ", queryParameters.get("nonce_signed"), "address : ", queryParameters.get("address"))
     if (queryParameters.get("nonce_signed") != null &&
         queryParameters.get("address") != null) {
         const cookies = new Cookies();
@@ -12,7 +13,7 @@ function Auth() {
         cookies.set("nonce_signed", queryParameters.get("nonce_signed"))
     }
         return (
-            <Navigate to="/games" />
+            <p>Hello</p>
 
         );
 }
