@@ -27,7 +27,7 @@ async function verify(req, res) {
     //TODO: Check the timestamp
 
     axiosInstance.post(
-        "/v3/smart-contract/binance-testnet/0x3253978d5A4AFFfF21AcfC2733C5d8CF2344e976/read",
+        "/v3/smart-contract/binance-testnet/0xc40c9f39FAc556518d7f34d0D1baAb230f7Cd358/read",
         {
             functionName: "verifySubscription",
             params: [
