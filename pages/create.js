@@ -104,6 +104,7 @@ const CreatePage = () => {
               <input
                 type="number"
                 min="0"
+                step={0.01}
                 max="999999999"
                 pattern="[0-9]+{0,9}"
                 id="price"
