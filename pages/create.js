@@ -11,6 +11,7 @@ const CreatePage = () => {
   const [contract, setContract] = useState(null);
   const [waitingTrans, setWaitingTrans] = useState(false);
   const [isForever, setForever] = useState(true);
+  const [licenseId, setLicenseId] = useState(undefined);
 
   let abi = process.env.LICENKA_CONTRACT_ABI;
   let contractAddress = process.env.LICENKA_ADDRESS;
@@ -38,12 +39,13 @@ const CreatePage = () => {
 
     if (event.target.validity.value === "limited")
       formatedDuration = event.target.validityTiming.value * 24 * 60 * 60;
-
     setWaitingTrans(true);
     contract.methods
       .createLicense(wallet, name, formatedPrice, formatedDuration)
       .send({ from: window.ethereum.selectedAddress })
-      .then(() => {
+      .then((id) => {
+        console.log(id);
+        // setLicenseId(id);
         setWaitingTrans(false);
         toast.success("License created !", {
           position: "top-right",
@@ -159,11 +161,14 @@ const CreatePage = () => {
                   className="bg-background border border-gray-300 rounded-lg disabled:border-gray-800 disabled:text-gray-800  p-2.5 h-16"
                 ></input>
               </ul>
-              <MainButton
-                type="submit"
-                label={!waitingTrans ? "Create" : "Loading..."}
-                iconSrc={"/add_icon.svg"}
-              ></MainButton>
+              <div className="flex w-3/4 justify-between">
+                <MainButton
+                  type="submit"
+                  label={!waitingTrans ? "Create" : "Loading..."}
+                  iconSrc={"/add_icon.svg"}
+                ></MainButton>
+                {licenseId ? <p>Your license has the id n°</p> : <></>}
+              </div>
             </div>
           </form>
         </div>
