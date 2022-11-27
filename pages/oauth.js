@@ -35,7 +35,6 @@ const OauthPage = () => {
           if (!res.name) {
             window.location.replace(redirect_uri_error);
           }
-          handleGetLicense();
           setLicense({
             id: licence_id,
             name: res.name,
@@ -51,6 +50,7 @@ const OauthPage = () => {
   }, [licenkaContract, licence_id]);
 
   function handleGetLicense() {
+    console.log("handleGetLicense");
     const web3 = new Web3js(window.ethereum);
     web3.eth.getAccounts().then((accounts) => {
       fetch("/api/wallet/nonce?walletAddress=" + accounts[0]).then(async (res) => {
@@ -61,7 +61,7 @@ const OauthPage = () => {
           window.location.replace(`${redirect_uri}?nonce_signed=${signature}?address=${accounts[0]}`);
         }).catch((err) => {
           console.log(err);
-          //window.location.replace(redirect_uri_error);
+          window.location.replace(redirect_uri_error);
         });
       }).catch((err) => {
         console.log(err);
@@ -69,7 +69,7 @@ const OauthPage = () => {
       });
     }).catch((err) => {
       console.log(err);
-      //window.location.replace(redirect_uri_error);
+      window.location.replace(redirect_uri_error);
     });
   }
 
