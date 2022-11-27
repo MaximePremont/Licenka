@@ -43,7 +43,8 @@ const CreatePage = () => {
     contract.methods
       .createLicense(wallet, name, formatedPrice, formatedDuration)
       .send({ from: window.ethereum.selectedAddress })
-      .then(() => {
+      .then((info) => {
+        console.log(info);
         setWaitingTrans(false);
         toast.success("License created !", {
           position: "top-right",
