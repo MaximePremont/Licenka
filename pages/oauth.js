@@ -61,8 +61,7 @@ const OauthPage = () => {
         const data = await res.json();
         const nonce = data.nonce;
         web3.eth.personal.sign(nonce, accounts[0]).then((signature) => {
-          console.log(signature)
-          window.location.replace(`${redirect_uri}?nonce_signed=${signature}?address=${accounts[0]}`);
+          window.location.replace(`${redirect_uri}?nonce_signed=${signature}&address=${accounts[0]}`);
         }).catch((err) => {
           console.log(err);
           window.location.replace(redirect_uri_error);
