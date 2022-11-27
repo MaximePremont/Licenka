@@ -27,9 +27,9 @@ async function verify(req, res) {
     //TODO: Check the timestamp
 
     axiosInstance.post(
-        "/v3/smart-contract/binance-testnet/0x1aE04F30E59f1c38E72E12bd2bD94e7434E218f8/read",
+        "/v3/smart-contract/binance-testnet/0x3253978d5A4AFFfF21AcfC2733C5d8CF2344e976/read",
         {
-            functionName: "verifySubscriptionWeb2",
+            functionName: "verifySubscription",
             params: [
                 req.query.userAddress,
                 req.query.licenseId
