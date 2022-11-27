@@ -19,6 +19,7 @@
     "next": "13.0.4",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-scroll-motion": "^0.3.0",
     "react-toastify": "^9.1.1",
     "web3": "^1.7.4"
   },
