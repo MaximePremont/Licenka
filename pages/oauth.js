@@ -51,11 +51,9 @@ const OauthPage = () => {
   }, [licenkaContract, licence_id]);
 
   function handleGetLicense() {
-
-
     const web3 = new Web3js(window.ethereum);
     web3.eth.getAccounts().then((accounts) => {
-      fetch("/api/wallet/nonce?address=" + accounts[0]).then(async (res) => {
+      fetch("/api/wallet/nonce?walletAddress=" + accounts[0]).then(async (res) => {
         const data = await res.json();
         const nonce = data.nonce;
         web3.eth.personal.sign(nonce, accounts[0]).then((signature) => {
