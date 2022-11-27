@@ -8,7 +8,7 @@ function Home() {
     const nonce_signed = cookies.get('nonce_signed');
     const address = cookies.get('address');
 
-    fetch("http://localhost:3000/verify", {
+    fetch("http://localhost:8080/verify", {
         method: "POST",
         headers: {
             Accept: "application/json",
