@@ -79,7 +79,7 @@ To use our system, you must first create a license in order to obtain the licens
 ⚠️ The contracts are currently deployed on the testnet, it is important to use it and not to use the mainnet.
 
 🗒 Here are the following address:
-- **Licenka Contract address:** 0x3253978d5A4AFFfF21AcfC2733C5d8CF2344e976
+- **Licenka Contract address:** 0xc40c9f39FAc556518d7f34d0D1baAb230f7Cd358
 - **BUSD Contract address** : 0xeD24FC36d5Ee211Ea25A80239Fb8C4Cfd80f12Ee
 
 Our solution is deployed and working with 3 parts :  
@@ -111,7 +111,7 @@ As explained, our API can be used in 2 different ways: Web2 or Web3 :
         200:
             license: bool
 - **`Web3 Licenka`**: &nbsp;Here are the functions which can be called by users (Owner functions and internal functions are not displayed)
-    - **Licenka Contract address:** 0x3253978d5A4AFFfF21AcfC2733C5d8CF2344e976
+    - **Licenka Contract address:** 0xc40c9f39FAc556518d7f34d0D1baAb230f7Cd358
     - **BUSD Contract address** : 0xeD24FC36d5Ee211Ea25A80239Fb8C4Cfd80f12Ee
 
     &nbsp;
