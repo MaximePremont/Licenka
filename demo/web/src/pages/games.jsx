@@ -2,34 +2,38 @@ import React from 'react';
 import Cookies from 'universal-cookie';
 import {Navigate} from "react-router-dom";
 
-function Home() {
+async function Games() {
     const cookies = new Cookies();
     console.log(cookies.get('nonce_signed'), cookies.get('address'))
     const nonce_signed = cookies.get('nonce_signed');
     const address = cookies.get('address');
 
-    fetch("http://localhost:8080/verify", {
+    const res = await fetch("http://localhost:8080/verify", {
         method: "POST",
-        mode: 'no-cors',
         headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
+            'Access-Control-Allow-Origin': '*',
+            'Content-Type': 'application/json',
         },
+        withCredentials: true,
+        credentials: 'same-origin',
         body: JSON.stringify({
             nonce_signed,
             address
         })
-    }).then(res => {
-        if (res.ok) {
-            return (
-                <h1 className="title">License verified</h1>
-            );
-        } else {
-            return (
-                <Navigate to="/login?warning=License%20unverified" />
-            );
-        }
     })
+    console.log(res)
+    if (res.ok) {
+        console.log("2")
+        return (
+            <h1 className="title">License verified</h1>
+        );
+    } else {
+        console.log("1")
+        return (
+            <Navigate to="/login?warning=License%20unverified" />
+        );
+    }
+
 }
 
-export default Home;
+export default Games;

@@ -13,7 +13,7 @@ function Auth() {
         cookies.set("nonce_signed", queryParameters.get("nonce_signed"))
     }
         return (
-            <p>Hello</p>
+            <Navigate to="/games" />
 
         );
 }

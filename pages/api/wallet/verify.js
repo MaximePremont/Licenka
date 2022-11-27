@@ -18,7 +18,7 @@ async function verify(req, res) {
     if (nonce == null) {
         res.status(500).json({error: 'walletAddress not register in database'})
     }
-    const signerAddr = ethers.utils.verifyMessage("qsddqdqsd", "0x9c1e97ee80495239effd1a053a018994ced938f40f1584e103660b056a46d5915d4ce2cb7ca67f4e018cf1544602f7683200108ee6d743c10016e53ac8ed5eae1c");
+    const signerAddr = ethers.utils.verifyMessage(nonce["nonce"], req.query.signedMessage);
     if (signerAddr !== req.query.walletAddress) {
         res.status(200).json({ verified: false });
         return

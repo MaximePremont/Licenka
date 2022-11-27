@@ -8,9 +8,9 @@ import (
 	"os"
 )
 
-type FormRequestBody struct {
-	NonceSigned string `json:"nonce_signed"`
-	Address     string `json:"address"`
+type RequestBody struct {
+	Nonce_signed string `json:"nonce_signed"`
+	Address      string `json:"address"`
 }
 
 type Result struct {
@@ -25,21 +25,18 @@ func ApproveLicense(c *gin.Context) {
 }
 
 func Verify(c *gin.Context) {
-	var requestBody FormRequestBody
-	fmt.Println(requestBody)
+	var requestBody RequestBody
 
 	if err := c.BindJSON(&requestBody); err != nil {
-		fmt.Println()
-		c.JSON(http.StatusForbidden, gin.H{"message": "Invalid query, check body content"})
-		c.Abort()
+		fmt.Println("Test")
+		c.JSON(http.StatusOK, gin.H{"message": "Invalid query, check body content"})
 		return
 	}
-
 	licenseId := os.Getenv("LICENSE_ID")
-	resp, err := http.Get("http://localhost:3000/api/wallet/verify?signedMessage=" + requestBody.NonceSigned + "&licenseId=" + licenseId + "&walletAddress=" + requestBody.Address)
+	resp, err := http.Get("http://localhost:3000/api/wallet/verify?signedMessage=" + requestBody.Nonce_signed + "&licenseId=" + licenseId + "&walletAddress=" + requestBody.Address)
 	if err != nil {
+		fmt.Println(err)
 		c.JSON(http.StatusInternalServerError, gin.H{"message": "Internal server error"})
-		c.Abort()
 		return
 	}
 
@@ -48,13 +45,13 @@ func Verify(c *gin.Context) {
 	fmt.Println("res ", res)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"message": "Internal server error"})
-		c.Abort()
 		return
 	}
 
 	if res.License {
 		c.JSON(http.StatusOK, gin.H{"license": true})
 	} else {
-		c.JSON(http.StatusForbidden, gin.H{"license": false})
+		fmt.Println("Test")
+		c.JSON(http.StatusOK, gin.H{"license": false})
 	}
 }
