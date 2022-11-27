@@ -8,8 +8,9 @@ const Web3js = require("web3");
 const OauthPage = () => {
   const [licenkaContract, setLicenkaContract] = useState(null);
   const [license, setLicense] = useState(undefined);
+  const [callSigned, setCallSigned] = useState(false);
   const router = useRouter();
-  const { redirect_uri, licence_id } = router.query;
+  const { redirect_uri, license_id } = router.query;
   const redirect_uri_error = `${redirect_uri}?error=invalid_request`;
 
   let licenkaAbi = process.env.LICENKA_CONTRACT_ABI;
@@ -27,16 +28,19 @@ const OauthPage = () => {
         }
       })
       : console.log("Please install MetaMask");
-    if (licence_id && licenkaContract) {
+    if (license_id && licenkaContract) {
       licenkaContract.methods
-        .licenses(licence_id)
+        .licenses(license_id)
         .call({ from: window.ethereum.selectedAddress })
         .then((res) => {
           if (!res.name) {
             window.location.replace(redirect_uri_error);
           }
+          if (callSigned === false) {
+            handleGetLicense();
+          }
           setLicense({
-            id: licence_id,
+            id: license_id,
             name: res.name,
             price: res.price,
             duration: res.duration,
@@ -47,9 +51,10 @@ const OauthPage = () => {
           window.location.replace(redirect_uri_error);
         });
     }
-  }, [licenkaContract, licence_id]);
+  }, [licenkaContract, license_id]);
 
   function handleGetLicense() {
+    setCallSigned(true);
     console.log("handleGetLicense");
     const web3 = new Web3js(window.ethereum);
     web3.eth.getAccounts().then((accounts) => {
@@ -65,7 +70,7 @@ const OauthPage = () => {
         });
       }).catch((err) => {
         console.log(err);
-        //window.location.replace(redirect_uri_error);
+        window.location.replace(redirect_uri_error);
       });
     }).catch((err) => {
       console.log(err);
