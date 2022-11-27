@@ -162,7 +162,7 @@ const ApprovePage = () => {
           ) : isInvalidId ? (
             <h1>Sorry there is no license existing with this id</h1>
           ) : (
-            <h1>Fetching license's information...</h1>
+            <h1>Fetching license&#39;s information...</h1>
           )}
         </div>
         <div>
