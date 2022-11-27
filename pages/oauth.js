@@ -51,11 +51,13 @@ const OauthPage = () => {
   }, [licenkaContract, licence_id]);
 
   function handleGetLicense() {
-    fetch("/api/wallet/nonce?address=" + licence_id).then(async (res) => {
-      const data = await res.json();
-      const nonce = data.nonce;
-      const web3 = new Web3js(window.ethereum);
-      web3.eth.getAccounts().then((accounts) => {
+
+
+    const web3 = new Web3js(window.ethereum);
+    web3.eth.getAccounts().then((accounts) => {
+      fetch("/api/wallet/nonce?address=" + licence_id).then(async (res) => {
+        const data = await res.json();
+        const nonce = data.nonce;
         web3.eth.personal.sign(nonce, accounts[0]).then((signature) => {
           console.log(signature)
           window.location.replace(`${redirect_uri}?nonce_signed=${signature}?adress=${accounts[0]}`);
