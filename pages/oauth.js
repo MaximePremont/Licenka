@@ -43,7 +43,6 @@ const OauthPage = () => {
             duration: res.duration,
           });
           if (!signedCalled) {
-            signedCalled = true;
             handleGetLicense();
           }
         })
