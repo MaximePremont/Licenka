@@ -10,7 +10,7 @@ function Games() {
     const address = cookies.get('address');
 
     useEffect(() => {
-        fetch("http://localhost:8080/verify", {
+        fetch(`${process.env.REACT_APP_BACK_BASE_URL}/verify`, {
             method: "POST",
             headers: {
                 'Access-Control-Allow-Origin': '*',

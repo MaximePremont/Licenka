@@ -6,13 +6,13 @@ import Auth from "./pages/auth";
 
 function App() {
   return (
-      <BrowserRouter>
-        <Routes>
-            <Route index element={<Login />} />
-            <Route path="/games" element={<Games />} />
-            <Route path="/auth" element={<Auth />} />
-        </Routes>
-      </BrowserRouter>
+    <BrowserRouter>
+      <Routes>
+        <Route index element={<Login />} />
+        <Route path="/games" element={<Games />} />
+        <Route path="/auth" element={<Auth />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
