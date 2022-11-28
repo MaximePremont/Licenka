@@ -43,7 +43,6 @@ const OauthPage = () => {
             duration: res.duration,
           });
           if (!signedCalled) {
-            signedCalled = true;
             handleGetLicense();
           }
         })
@@ -53,6 +52,7 @@ const OauthPage = () => {
         });
     }
   }, [licenkaContract, license_id]);
+
 
   function handleGetLicense() {
     signedCalled = true;
