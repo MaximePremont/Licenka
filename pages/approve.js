@@ -13,6 +13,7 @@ const ApprovePage = () => {
   const [licenkaContract, setLicenkaContract] = useState(null);
   const [license, setLicense] = useState(undefined);
   const [isInvalidId, setInvalidId] = useState(false);
+  const [alreadyOwned, setAlreadyOwned] = useState(false);
   const router = useRouter();
 
   let licenkaAbi = process.env.LICENKA_CONTRACT_ABI;
@@ -43,6 +44,15 @@ const ApprovePage = () => {
             });
           } else {
             setInvalidId(true);
+          }
+        })
+        .catch((err) => console.log(err));
+        licenkaContract.methods
+        .verifySubscription(window.ethereum.selectedAddress, router.query.id)
+        .call({ from: 0 })
+        .then((res) => {
+          if (res) {
+            setAlreadyOwned(true)
           }
         })
         .catch((err) => console.log(err));
@@ -97,11 +107,11 @@ const ApprovePage = () => {
           {license && !isInvalidId ? (
             <h1>
               Get a <span className="text-primary">{license.name}</span>{" "}
-              license, for{" "}
+              license for{" "}
               <span className="text-primary">
-                {Web3js.utils.fromWei(license.price, "ether")}
-              </span>{" "}
-              BUSD,&nbsp;
+                {license.price == 0 ? "Free" : Web3js.utils.fromWei(license.price, "ether")}
+              </span>
+              {license.price == 0 ? "" : " BUSD"}, &nbsp;
               <span className="text-primary">
                 {license.duration == 0
                   ? "forever"
@@ -127,9 +137,10 @@ const ApprovePage = () => {
           </p>
           <div className="flex">
             <MainButton
-              label={!waitingTrans ? "Get license" : "Loading..."}
+              label={alreadyOwned ? "Already owned" : (!waitingTrans ? "Get license" : "Loading...")}
               iconSrc={"/add_icon.svg"}
               callback={handleGetLicense}
+              isDisabled={alreadyOwned}
             ></MainButton>
           </div>
         </section>
