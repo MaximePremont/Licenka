@@ -21,21 +21,14 @@ const ApprovePage = () => {
   let ERC20Abi = process.env.BUSD_CONTRACT_ABI;
 
   useEffect(() => {
-    window.ethereum
-      ? window.ethereum.request({ method: "eth_requestAccounts" }).then(() => {
-          let web3_;
-          let licenkaContract_ = licenkaContract;
-          if (!licenkaContract_) {
-            web3_ = new Web3js(window.ethereum);
-            setWeb3(web3_);
-            licenkaContract_ = new web3_.eth.Contract(
-              licenkaAbi,
-              licenkaAddress
-            );
-            setLicenkaContract(licenkaContract_);
-          }
-        })
-      : console.log("Please install MetaMask");
+    if (window.ethereum)
+      window.ethereum.request({ method: "eth_requestAccounts" })
+    let web3_;
+    if (!licenkaContract) {
+      web3_ = new Web3js(window.ethereum);
+      setWeb3(web3_);
+      setLicenkaContract(new web3_.eth.Contract(licenkaAbi, licenkaAddress));
+    }
     if (router.query.id && licenkaContract) {
       licenkaContract.methods
         .licenses(router.query.id)
@@ -56,86 +49,41 @@ const ApprovePage = () => {
     }
   }, [licenkaContract, router.query.id]);
 
+  function transactionPopUp(message, isSuccess) {
+    const funct = isSuccess ? toast.success : toast.error;
+    funct(message, {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+    });
+  }
+
   async function handleGetLicense() {
-    var BN = web3.utils.BN;
+    setWaitingTrans(true);
     let price = license.price;
     let licenseId = license.id;
-    let tokenAddress = await licenkaContract.methods
-      .token()
-      .call({ from: window.ethereum.selectedAddress });
+    let tokenAddress = await licenkaContract.methods.token().call({from: 0});
     let tokenContract = new web3.eth.Contract(ERC20Abi, tokenAddress);
     setWaitingTrans(true);
-    tokenContract.methods
-      .allowance(window.ethereum.selectedAddress, licenkaAddress)
-      .call({ from: window.ethereum.selectedAddress })
-      .then((res) => {
-        // console.log(new BN(res), new BN(price), new BN(res).lt(new BN(price)))
-        if (new BN(res).lt(new BN(price))) {
-          tokenContract.methods
-            .approve(licenkaAddress, price)
-            .send({ from: window.ethereum.selectedAddress })
-            .then(() => {
-              licenkaContract.methods
-                .subscribe(licenseId)
-                .send({ from: window.ethereum.selectedAddress })
-                .then(() => {
-                  setWaitingTrans(false);
-                  if (router.query.redirect) {
-                    window.location.replace(router.query.redirect);
-                  }
-                })
-                .catch((err) => {
-                  throw err;
-                });
-            })
-            .catch(() => {
-              setWaitingTrans(false);
-              toast.error("Something wrong happened", {
-                position: "top-right",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "colored",
-              });
-            });
-        } else {
-          licenkaContract.methods
-            .subscribe(licenseId)
-            .send({ from: window.ethereum.selectedAddress })
-            .then(() => {
-              toast.success("License purchased !", {
-                position: "top-right",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "colored",
-              });
-            })
-            .catch(() => {
-              setWaitingTrans(false);
-              toast.error("Something wrong happened", {
-                position: "top-right",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "colored",
-              });
-            });
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-        setWaitingTrans(false);
-      });
+    try {
+      const approved = await tokenContract.methods.allowance(window.ethereum.selectedAddress, licenkaAddress).call({ from: 0 })
+      if (new web3.utils.BN(approved).lt(new web3.utils.BN(price)))
+        await tokenContract.methods.approve(licenkaAddress, price).send({ from: window.ethereum.selectedAddress })
+
+      await licenkaContract.methods.subscribe(licenseId).send({ from: window.ethereum.selectedAddress })
+      transactionPopUp("License purchased !", true)
+      if (router.query.redirect)
+        window.location.replace(router.query.redirect);
+    } catch (err) {
+      transactionPopUp("Something wrong happened", false)
+      console.log(err)
+    }
+    setWaitingTrans(false);
   }
 
   return (
