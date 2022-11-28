@@ -14,12 +14,12 @@ const axiosInstance = axios.create({
 async function verify(req, res) {
     let { db } = await connectToDatabase();
     const users = db.collection("users");
-    const nonce = await users.findOne({walletAddress: req.query.walletAddress});
+    const nonce = await users.findOne({ walletAddress: req.query.walletAddress });
     if (nonce == null) {
-        res.status(500).json({error: 'walletAddress not register in database'})
+        res.status(500).json({ error: 'walletAddress not register in database' })
     }
     const signerAddr = ethers.utils.verifyMessage(nonce["nonce"], req.query.signedMessage);
-    if (signerAddr !== req.query.walletAddress) {
+    if (signerAddr != req.query.walletAddress) {
         res.status(200).json({ verified: false });
         return
     }
