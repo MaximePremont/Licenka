@@ -3,9 +3,10 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/gin-gonic/gin"
 	"net/http"
 	"os"
+
+	"github.com/gin-gonic/gin"
 )
 
 type RequestBody struct {
@@ -34,7 +35,7 @@ func Verify(c *gin.Context) {
 		c.JSON(http.StatusForbidden, gin.H{"message": "Invalid query, check body content"})
 		return
 	}
-	resp, err := http.Get(baseUrl + "api/wallet/verify?signedMessage=" + requestBody.Nonce_signed + "&licenseId=" + licenseId + "&walletAddress=" + requestBody.Address)
+	resp, err := http.Get(baseUrl + "/api/wallet/verify?signedMessage=" + requestBody.Nonce_signed + "&licenseId=" + licenseId + "&walletAddress=" + requestBody.Address)
 	if err != nil {
 		fmt.Println(err)
 		c.JSON(http.StatusInternalServerError, gin.H{"message": "Internal server error"})
