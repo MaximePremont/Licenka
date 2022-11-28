@@ -5,8 +5,8 @@
   "main": "cmd/demo/main.go",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "go run ./cmd/demo/.",
-    "build": "go build ./cmd/demo/."
+    "start": "./node_modules/.bin/go run ./cmd/demo/.",
+    "build": "./node_modules/.bin/go build ./cmd/demo/."
   },
   "keywords": [],
   "author": "",
