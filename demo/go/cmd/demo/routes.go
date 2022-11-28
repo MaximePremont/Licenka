@@ -19,21 +19,22 @@ type Result struct {
 
 func ApproveLicense(c *gin.Context) {
 	licenseId := os.Getenv("LICENSE_ID")
-	url := "https://www.licenka.space/approve?id=" + licenseId
-	fmt.Println(url)
-	c.Redirect(http.StatusMovedPermanently, "https://www.licenka.space/approve?id="+licenseId)
+	baseUrl := os.Getenv("LICENKA_BASE_URL")
+	url := baseUrl + "approve?id=" + licenseId
+	c.Redirect(http.StatusMovedPermanently, url)
 }
 
 func Verify(c *gin.Context) {
 	var requestBody RequestBody
+	baseUrl := os.Getenv("LICENKA_BASE_URL")
+	licenseId := os.Getenv("LICENSE_ID")
 
 	if err := c.BindJSON(&requestBody); err != nil {
 		fmt.Println("Test")
 		c.JSON(http.StatusForbidden, gin.H{"message": "Invalid query, check body content"})
 		return
 	}
-	licenseId := os.Getenv("LICENSE_ID")
-	resp, err := http.Get("http://localhost:3000/api/wallet/verify?signedMessage=" + requestBody.Nonce_signed + "&licenseId=" + licenseId + "&walletAddress=" + requestBody.Address)
+	resp, err := http.Get(baseUrl + "api/wallet/verify?signedMessage=" + requestBody.Nonce_signed + "&licenseId=" + licenseId + "&walletAddress=" + requestBody.Address)
 	if err != nil {
 		fmt.Println(err)
 		c.JSON(http.StatusInternalServerError, gin.H{"message": "Internal server error"})
