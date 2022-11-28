@@ -53,6 +53,7 @@ const OauthPage = () => {
     }
   }, [licenkaContract, license_id]);
 
+
   function handleGetLicense() {
     signedCalled = true;
     const web3 = new Web3js(window.ethereum);
