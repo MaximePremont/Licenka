@@ -1,10 +1,12 @@
 package main
 
 import (
+	"os"
+	"time"
+
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
-	"time"
 )
 
 func AllowAll() gin.HandlerFunc {
@@ -25,5 +27,5 @@ func main() {
 	router.Use(AllowAll())
 	router.GET("/approve", ApproveLicense)
 	router.POST("/verify", Verify)
-	router.Run("localhost:8080")
+	router.Run("0.0.0.0:" + os.Getenv("PORT"))
 }
