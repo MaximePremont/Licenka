@@ -1,17 +1,17 @@
 {
-    "name": "go",
-    "version": "1.0.0",
-    "description": "",
-    "main": "cmd/demo/main.go",
-    "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
-        "start": "./node_modules/.bin/go run ./cmd/demo/.",
-        "build": "./node_modules/.bin/go build ./cmd/demo/."
-    },
-    "keywords": [],
-    "author": "",
-    "license": "MIT",
-    "dependencies": {
-        "go": "^3.0.1"
-    }
+  "name": "go",
+  "version": "1.0.0",
+  "description": "",
+  "main": "cmd/demo/main.go",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "./node_modules/.bin/go run ./cmd/demo/.",
+    "build": "exit 0"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "go": "^3.0.1"
+  }
 }
