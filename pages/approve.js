@@ -21,16 +21,16 @@ const ApprovePage = () => {
   let ERC20Abi = process.env.BUSD_CONTRACT_ABI;
 
   useEffect(() => {
-    if (window.ethereum)
+    if (window.ethereum) {
       window.ethereum.request({ method: "eth_requestAccounts" })
-    let web3_;
-    if (!licenkaContract) {
-      web3_ = new Web3js(window.ethereum);
-      setWeb3(web3_);
-      setLicenkaContract(new web3_.eth.Contract(licenkaAbi, licenkaAddress));
-    }
-    if (router.query.id && licenkaContract) {
-      licenkaContract.methods
+      let web3_;
+      if (!licenkaContract) {
+        web3_ = new Web3js(window.ethereum);
+        setWeb3(web3_);
+        setLicenkaContract(new web3_.eth.Contract(licenkaAbi, licenkaAddress));
+      }
+      if (router.query.id && licenkaContract) {
+        licenkaContract.methods
         .licenses(router.query.id)
         .call({ from: window.ethereum.selectedAddress })
         .then((res) => {
@@ -46,6 +46,7 @@ const ApprovePage = () => {
           }
         })
         .catch((err) => console.log(err));
+      }
     }
   }, [licenkaContract, router.query.id]);
 
