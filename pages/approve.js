@@ -2,6 +2,7 @@ import Image from "next/image";
 import DefaultLayout from "../modules/layout";
 import MainButton from "../components/MainButton";
 import { useRouter } from "next/router";
+import { ToastContainer, toast } from "react-toastify";
 import React, { useState, useEffect } from "react";
 
 const Web3js = require("web3");
@@ -10,9 +11,8 @@ const ApprovePage = () => {
   const [web3, setWeb3] = useState(null);
   const [waitingTrans, setWaitingTrans] = useState(false);
   const [licenkaContract, setLicenkaContract] = useState(null);
-  const [password, setPassword] = useState("");
   const [license, setLicense] = useState(undefined);
-  const [isPasswordSet, setIsPasswordSet] = useState(false);
+  const [isInvalidId, setInvalidId] = useState(false);
   const router = useRouter();
 
   let licenkaAbi = process.env.LICENKA_CONTRACT_ABI;
@@ -21,92 +21,70 @@ const ApprovePage = () => {
   let ERC20Abi = process.env.BUSD_CONTRACT_ABI;
 
   useEffect(() => {
-    window.ethereum
-      ? window.ethereum.request({ method: "eth_requestAccounts" }).then(() => {
-          let web3_;
-          let licenkaContract_ = licenkaContract;
-          if (!licenkaContract_) {
-            web3_ = new Web3js(window.ethereum);
-            setWeb3(web3_);
-            licenkaContract_ = new web3_.eth.Contract(licenkaAbi, licenkaAddress);
-            setLicenkaContract(licenkaContract_);
-          }
-          licenkaContract_.methods
-            .passwordMatch(window.ethereum.selectedAddress, 0)
-            .call()
-            .then((res) => {
-              setIsPasswordSet(!res);
-            });
-        })
-      : console.log("Please install MetaMask");
-    if (router.query.id && licenkaContract) {
-      licenkaContract.methods
+    if (window.ethereum) {
+      window.ethereum.request({ method: "eth_requestAccounts" })
+      let web3_;
+      if (!licenkaContract) {
+        web3_ = new Web3js(window.ethereum);
+        setWeb3(web3_);
+        setLicenkaContract(new web3_.eth.Contract(licenkaAbi, licenkaAddress));
+      }
+      if (router.query.id && licenkaContract) {
+        licenkaContract.methods
         .licenses(router.query.id)
         .call({ from: window.ethereum.selectedAddress })
         .then((res) => {
-          setLicense({
-            id: router.query.id,
-            name: res.name,
-            price: res.price,
-            duration: res.duration,
-          });
+          if (res.name) {
+            setLicense({
+              id: router.query.id,
+              name: res.name,
+              price: res.price,
+              duration: res.duration,
+            });
+          } else {
+            setInvalidId(true);
+          }
         })
         .catch((err) => console.log(err));
+      }
     }
   }, [licenkaContract, router.query.id]);
 
-  function handleClick() {
-    licenkaContract.methods
-      .passwordSet(Web3js.utils.keccak256(password))
-      .send({ from: window.ethereum.selectedAddress })
-      .catch((err) => console.log(err));
-    setIsPasswordSet(true);
-    setPassword("");
+  function transactionPopUp(message, isSuccess) {
+    const funct = isSuccess ? toast.success : toast.error;
+    funct(message, {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+    });
   }
 
   async function handleGetLicense() {
-    var BN = web3.utils.BN
-    let price = license.price
-    let licenseId = license.id
-    let tokenAddress = await licenkaContract.methods.token().call({ from: window.ethereum.selectedAddress })
+    setWaitingTrans(true);
+    let price = license.price;
+    let licenseId = license.id;
+    let tokenAddress = await licenkaContract.methods.token().call({from: 0});
     let tokenContract = new web3.eth.Contract(ERC20Abi, tokenAddress);
     setWaitingTrans(true);
-    tokenContract.methods
-      .allowance(window.ethereum.selectedAddress, licenkaAddress)
-      .call({ from: window.ethereum.selectedAddress })
-      .then((res) => {
-        // console.log(new BN(res), new BN(price), new BN(res).lt(new BN(price)))
-        if (new BN(res).lt(new BN(price))) {
-          tokenContract.methods
-          .approve(licenkaAddress, price)
-          .send({ from: window.ethereum.selectedAddress })
-          .then(() => {
-            licenkaContract.methods
-            .subscribe(licenseId)
-            .send({ from: window.ethereum.selectedAddress })
-            .then(() => {
-              setWaitingTrans(false)
-              if (router.query.redirect)
-                window.location.href = router.query.redirect
-            })
-            .catch(err => { throw err })
-          })
-          .catch(() => {
-            setWaitingTrans(false)
-          })
-        } else {
-          licenkaContract.methods
-          .subscribe(licenseId)
-          .send({ from: window.ethereum.selectedAddress })
-          .catch(() => {
-            setWaitingTrans(false);
-          })
-        }
-      })
-      .catch((err) => {
-        console.log(err)
-        setWaitingTrans(false)
-      })
+    try {
+      const approved = await tokenContract.methods.allowance(window.ethereum.selectedAddress, licenkaAddress).call({ from: 0 })
+      if (new web3.utils.BN(approved).lt(new web3.utils.BN(price)))
+        await tokenContract.methods.approve(licenkaAddress, price).send({ from: window.ethereum.selectedAddress })
+
+      await licenkaContract.methods.subscribe(licenseId).send({ from: window.ethereum.selectedAddress })
+      transactionPopUp("License purchased !", true)
+      if (router.query.redirect)
+        window.location.replace(router.query.redirect);
+    } catch (err) {
+      transactionPopUp("Something wrong happened", false)
+      console.log(err)
+    }
+    setWaitingTrans(false);
   }
 
   return (
@@ -116,54 +94,49 @@ const ApprovePage = () => {
         style={{ height: "65vh" }}
       >
         <div className="ml-32 w-3/5 container flex flex-col">
-          {license ? (
+          {license && !isInvalidId ? (
             <h1>
               Get a <span className="text-primary">{license.name}</span>{" "}
-              license, for <span className="text-primary">{Web3js.utils.fromWei(license.price, "ether")}</span>{" "}
+              license, for{" "}
+              <span className="text-primary">
+                {Web3js.utils.fromWei(license.price, "ether")}
+              </span>{" "}
               BUSD,&nbsp;
               <span className="text-primary">
-                {license.duration == 0 ? "forever" : license.duration / 86400 + " day(s)"}
+                {license.duration == 0
+                  ? "forever"
+                  : license.duration / 86400 + " day(s)"}
               </span>
               .
             </h1>
+          ) : isInvalidId ? (
+            <h1>Sorry there is no license with this id (yet)</h1>
           ) : (
-            <h1>No licenses found with this id</h1>
+            <h1>Fetching license&#39;s information...</h1>
           )}
-          <p className="text-2xl mt-4">
-            By clicking on “get license” you agree to have transaction between
-            you and the license&#39; provider
-          </p>
         </div>
         <div>
           <Image src="/joker.svg" width={570} height={800} alt="logo" />
         </div>
       </section>
-      <section className="mx-32 py-4" style={{ height: "20vh" }}>
-        <p className="py-4">Set a password to access your licenses:</p>
-        <div className="flex justify-between">
-          <div className="container items-center flex justify-between py-4">
-            <input
-              type="password"
-              id="first_name"
-              className="bg-background border border-gray-300 rounded-lg  p-2.5 w-1/2 mr-8 h-12"
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
+      {!isInvalidId ? (
+        <section className="mx-32 py-4 w-3/5 space-y-4">
+          <p className="text-lg w-2/5 mt-4">
+            By clicking on “get license” you agree to have a transaction between
+            you and the license&#39;s provider
+          </p>
+          <div className="flex">
             <MainButton
-              label={isPasswordSet ? "Change password" : "Set Pasword"}
-              callback={handleClick}
-            ></MainButton>
-          </div>
-          <div className="container items-center flex justify-end py-4">
-            <MainButton
-              label={(!waitingTrans) ? "Get license" : "Loading..."}
+              label={!waitingTrans ? "Get license" : "Loading..."}
               iconSrc={"/add_icon.svg"}
               callback={handleGetLicense}
-              ></MainButton>
+            ></MainButton>
           </div>
-        </div>
-      </section>
+        </section>
+      ) : (
+        <div className="h-6"></div>
+      )}
+      <ToastContainer />
     </div>
   );
 };

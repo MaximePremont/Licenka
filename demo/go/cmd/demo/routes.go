@@ -8,37 +8,36 @@ import (
 	"os"
 )
 
-type FormRequestBody struct {
-	Address  string `form:"address"`
-	Password string `form:"password"`
+type RequestBody struct {
+	Nonce_signed string `json:"nonce_signed"`
+	Address      string `json:"address"`
 }
 
 type Result struct {
-	License bool `json:"license"`
+	License bool `json:"verified"`
 }
 
 func ApproveLicense(c *gin.Context) {
 	licenseId := os.Getenv("LICENSE_ID")
-	url := "https://www.licenka.space/approve?id=" + licenseId
-	fmt.Println(url)
-	c.Redirect(http.StatusMovedPermanently, "https://www.licenka.space/approve?id="+licenseId)
+	baseUrl := os.Getenv("LICENKA_BASE_URL")
+	url := baseUrl + "approve?id=" + licenseId
+	c.Redirect(http.StatusMovedPermanently, url)
 }
 
 func Verify(c *gin.Context) {
-	var requestBody FormRequestBody
+	var requestBody RequestBody
+	baseUrl := os.Getenv("LICENKA_BASE_URL")
+	licenseId := os.Getenv("LICENSE_ID")
 
-	if err := c.Bind(&requestBody); err != nil {
-		fmt.Println()
-		c.JSON(http.StatusForbidden, gin.H{"message": "Invalid credentials"})
-		c.Abort()
+	if err := c.BindJSON(&requestBody); err != nil {
+		fmt.Println("Test")
+		c.JSON(http.StatusForbidden, gin.H{"message": "Invalid query, check body content"})
 		return
 	}
-
-	licenseId := os.Getenv("LICENSE_ID")
-	resp, err := http.Get("https://www.licenka.space/api/checkLicense?userAddress=" + requestBody.Address + "&licenseId=" + licenseId + "&userPassword=" + requestBody.Password)
+	resp, err := http.Get(baseUrl + "api/wallet/verify?signedMessage=" + requestBody.Nonce_signed + "&licenseId=" + licenseId + "&walletAddress=" + requestBody.Address)
 	if err != nil {
+		fmt.Println(err)
 		c.JSON(http.StatusInternalServerError, gin.H{"message": "Internal server error"})
-		c.Abort()
 		return
 	}
 
@@ -46,13 +45,12 @@ func Verify(c *gin.Context) {
 	err = json.NewDecoder(resp.Body).Decode(&res)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"message": "Internal server error"})
-		c.Abort()
 		return
 	}
 
 	if res.License {
-		c.Redirect(http.StatusMovedPermanently, "http://localhost:3000/games")
+		c.JSON(http.StatusOK, gin.H{"license": true})
 	} else {
-		c.Redirect(http.StatusMovedPermanently, "http://localhost:8080?warning=Invalid%20license")
+		c.JSON(http.StatusForbidden, gin.H{"license": false})
 	}
 }

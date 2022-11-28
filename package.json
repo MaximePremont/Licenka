@@ -14,9 +14,13 @@
     "dotenv": "^16.0.3",
     "eslint": "8.28.0",
     "eslint-config-next": "13.0.4",
+    "ethers": "^5.7.2",
+    "mongodb": "^4.12.1",
     "next": "13.0.4",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-scroll-motion": "^0.3.0",
+    "react-toastify": "^9.1.1",
     "web3": "^1.7.4"
   },
   "devDependencies": {

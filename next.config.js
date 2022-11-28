@@ -2,7 +2,7 @@
 const nextConfig = {
   reactStrictMode: true,
   env: {
-    LICENKA_ADDRESS: "0x1aE04F30E59f1c38E72E12bd2bD94e7434E218f8",
+    LICENKA_ADDRESS: "0x150B6328F1810589aF899f6d9F17E0347f77c8b8",
     LICENKA_CONTRACT_ABI: [
       {
         "inputs": [
@@ -14,6 +14,94 @@ const nextConfig = {
         ],
         "stateMutability": "nonpayable",
         "type": "constructor"
+      },
+      {
+        "anonymous": false,
+        "inputs": [
+          {
+            "indexed": true,
+            "internalType": "address",
+            "name": "owner",
+            "type": "address"
+          },
+          {
+            "indexed": true,
+            "internalType": "string",
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "indexed": false,
+            "internalType": "uint256",
+            "name": "licenseId",
+            "type": "uint256"
+          }
+        ],
+        "name": "LicenseCreate",
+        "type": "event"
+      },
+      {
+        "anonymous": false,
+        "inputs": [
+          {
+            "indexed": true,
+            "internalType": "uint256",
+            "name": "licenseId",
+            "type": "uint256"
+          },
+          {
+            "indexed": true,
+            "internalType": "bool",
+            "name": "isPaused",
+            "type": "bool"
+          }
+        ],
+        "name": "LicensePause",
+        "type": "event"
+      },
+      {
+        "anonymous": false,
+        "inputs": [
+          {
+            "indexed": true,
+            "internalType": "address",
+            "name": "owner",
+            "type": "address"
+          },
+          {
+            "indexed": true,
+            "internalType": "uint256",
+            "name": "licenseId",
+            "type": "uint256"
+          }
+        ],
+        "name": "SubscriptionCreate",
+        "type": "event"
+      },
+      {
+        "anonymous": false,
+        "inputs": [
+          {
+            "indexed": true,
+            "internalType": "address",
+            "name": "owner",
+            "type": "address"
+          },
+          {
+            "indexed": true,
+            "internalType": "uint256",
+            "name": "subscriptionId",
+            "type": "uint256"
+          },
+          {
+            "indexed": false,
+            "internalType": "uint256",
+            "name": "duration",
+            "type": "uint256"
+          }
+        ],
+        "name": "SubscriptionExtend",
+        "type": "event"
       },
       {
         "inputs": [
@@ -38,9 +126,22 @@ const nextConfig = {
             "type": "uint256"
           }
         ],
-        "name": "createLicence",
+        "name": "createLicense",
         "outputs": [],
         "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [],
+        "name": "fee",
+        "outputs": [
+          {
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+          }
+        ],
+        "stateMutability": "view",
         "type": "function"
       },
       {
@@ -66,7 +167,7 @@ const nextConfig = {
         "inputs": [
           {
             "internalType": "address",
-            "name": "owner",
+            "name": "sender",
             "type": "address"
           },
           {
@@ -75,7 +176,7 @@ const nextConfig = {
             "type": "uint256"
           }
         ],
-        "name": "getSubscriptionIdForLicense",
+        "name": "getSubscription",
         "outputs": [
           {
             "internalType": "uint256",
@@ -90,7 +191,7 @@ const nextConfig = {
         "inputs": [
           {
             "internalType": "address",
-            "name": "owner",
+            "name": "sender",
             "type": "address"
           }
         ],
@@ -116,14 +217,14 @@ const nextConfig = {
         "name": "licenses",
         "outputs": [
           {
-            "internalType": "string",
-            "name": "name",
-            "type": "string"
-          },
-          {
             "internalType": "address",
             "name": "owner",
             "type": "address"
+          },
+          {
+            "internalType": "string",
+            "name": "name",
+            "type": "string"
           },
           {
             "internalType": "uint256",
@@ -142,36 +243,12 @@ const nextConfig = {
       {
         "inputs": [
           {
-            "internalType": "address",
-            "name": "owner",
-            "type": "address"
-          },
-          {
             "internalType": "uint256",
-            "name": "hash",
+            "name": "newFee",
             "type": "uint256"
           }
         ],
-        "name": "passwordMatch",
-        "outputs": [
-          {
-            "internalType": "bool",
-            "name": "",
-            "type": "bool"
-          }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-      },
-      {
-        "inputs": [
-          {
-            "internalType": "uint256",
-            "name": "hash",
-            "type": "uint256"
-          }
-        ],
-        "name": "passwordSet",
+        "name": "setFee",
         "outputs": [],
         "stateMutability": "nonpayable",
         "type": "function"
@@ -180,11 +257,16 @@ const nextConfig = {
         "inputs": [
           {
             "internalType": "uint256",
-            "name": "newFee",
+            "name": "licenseId",
             "type": "uint256"
+          },
+          {
+            "internalType": "bool",
+            "name": "isPaused",
+            "type": "bool"
           }
         ],
-        "name": "setFee",
+        "name": "setLicensePause",
         "outputs": [],
         "stateMutability": "nonpayable",
         "type": "function"
@@ -218,29 +300,6 @@ const nextConfig = {
       {
         "inputs": [
           {
-            "internalType": "address",
-            "name": "owner",
-            "type": "address"
-          },
-          {
-            "internalType": "uint256",
-            "name": "hash",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "licenseId",
-            "type": "uint256"
-          }
-        ],
-        "name": "subscribeWeb2",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-      },
-      {
-        "inputs": [
-          {
             "internalType": "uint256",
             "name": "",
             "type": "uint256"
@@ -249,19 +308,14 @@ const nextConfig = {
         "name": "subscriptions",
         "outputs": [
           {
-            "internalType": "uint256",
-            "name": "licenseId",
-            "type": "uint256"
+            "internalType": "address",
+            "name": "owner",
+            "type": "address"
           },
           {
             "internalType": "uint256",
             "name": "validTime",
             "type": "uint256"
-          },
-          {
-            "internalType": "bool",
-            "name": "isInfinite",
-            "type": "bool"
           }
         ],
         "stateMutability": "view",
@@ -312,35 +366,6 @@ const nextConfig = {
           }
         ],
         "name": "verifySubscription",
-        "outputs": [
-          {
-            "internalType": "bool",
-            "name": "",
-            "type": "bool"
-          }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-      },
-      {
-        "inputs": [
-          {
-            "internalType": "address",
-            "name": "owner",
-            "type": "address"
-          },
-          {
-            "internalType": "uint256",
-            "name": "hash",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "licenseId",
-            "type": "uint256"
-          }
-        ],
-        "name": "verifySubscriptionWeb2",
         "outputs": [
           {
             "internalType": "bool",

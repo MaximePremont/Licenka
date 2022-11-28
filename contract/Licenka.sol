@@ -3,44 +3,21 @@ pragma solidity >=0.8.0 <0.9.0;
 
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/utils/math/SafeMath.sol";
-import "./LicenkaPassword.sol";
 import "./ILicenka.sol";
+import "./LicenkaLicense.sol";
+import "./LicenkaSubscription.sol";
 
 /**
 * @dev Licenka is a contract that allows you to create a license.
 */
-contract Licenka is ILicenka, licenkaPassword {
+contract Licenka is ILicenka, LicenkaLicense, LicenkaSubscription {
 
     using SafeMath for uint;
 
     IERC20 public token;
 
-    struct License {
-        string name;
-        address owner;
-        uint price;
-        uint duration;
-    }
-
-    struct LicenseSubscribe {
-        uint licenseId;
-        uint validTime;
-        bool isInfinite;
-    }
-
     address _owner;
-    uint _nextLicenseId = 1;
-    uint _nextLicenseSubscriptionId = 1;
-    uint percentageFee = 3;
-
-    //Licences
-    mapping (uint => License) public licenses;
-    mapping (address => uint[]) _licenseOwner;
-
-    //Subscriptions
-    mapping (uint => LicenseSubscribe) public subscriptions;
-    mapping (address => uint[]) _subscriptionOwner;
-    mapping (address => mapping(uint => uint))  _subcriptionIndex;
+    uint public fee = 3;
 
     /**
     * @dev Check if the caller is the owner of the contract.
@@ -63,7 +40,7 @@ contract Licenka is ILicenka, licenkaPassword {
     */
     function setFee(uint newFee) external isOwner(msg.sender) {
         require(0 <= newFee && newFee <= 100, "The fee must be between 0 and 100");
-        percentageFee = newFee;
+        fee = newFee;
     }
 
     /**
@@ -74,7 +51,7 @@ contract Licenka is ILicenka, licenkaPassword {
     }
 
     /**
-    * @dev Transfert funds from the wallet to a given address. Only callable by the owner.
+    * @dev Transfert funds from the contract to a given address. Only callable by the owner.
     */
     function transferFunds(address dest, uint amount) external isOwner(msg.sender) {
         token.transfer(dest, amount);
@@ -83,98 +60,27 @@ contract Licenka is ILicenka, licenkaPassword {
     /**
     * @dev Create a new license.
     */
-    function createLicence(address owner, string memory name, uint price, uint duration) external {
-        License memory license = License(name, owner, price, duration);
-        licenses[_nextLicenseId] = license;
-        _licenseOwner[owner].push(_nextLicenseId);
-        _nextLicenseId++;
+    function createLicense(address owner, string memory name, uint price, uint duration) override external {
+        _mintLicense(owner, name, price, duration);
     }
 
-
-    function _subscribe(address owner, uint licenseId) internal {
+    /**
+    * @dev Subscribe to a license.
+    */
+    function subscribe(uint licenseId) override external licenseExist(licenseId) licenseUnpaused(licenseId) {
         License memory license = licenses[licenseId];
-        require(license.owner != address(0x0), "Wrong id number"); //Test if license id is valid
-        require(token.allowance(owner, address(this)) >= license.price, "Didn't approve enough fund for the license"); //Test if the user has sufficient fund
+        require(token.allowance(msg.sender, address(this)) >= license.price, "Didn't approve enough fund for the license"); //Test if the user has sufficient fund
 
-        uint index = _subcriptionIndex[owner][licenseId];
-        if (index == 0) { //if First time subscribing, add the licence to array
-            subscriptions[_nextLicenseSubscriptionId] = LicenseSubscribe(licenseId, 0, false);
-            _subscriptionOwner[owner].push(_nextLicenseSubscriptionId);
-            _subcriptionIndex[owner][licenseId] = _nextLicenseSubscriptionId;
-            index = _nextLicenseSubscriptionId;
-            _nextLicenseSubscriptionId++;
-        }
+        _subscribe(msg.sender, licenseId, license.duration);
 
-        require(subscriptions[index].isInfinite == false, "Already subcribed");
-        LicenseSubscribe memory subscription_ = subscriptions[index];
-        if (license.duration == 0)
-            subscriptions[index].isInfinite = true;
-        else {
-            uint rootTimestamp = subscription_.validTime < block.timestamp  ? block.timestamp : subscription_.validTime;
-            subscriptions[index].validTime = rootTimestamp + license.duration;
-        }
-        token.transferFrom(owner, address(this), license.price);
-        token.transfer(license.owner, license.price.mul(100 - percentageFee).div(100));
+        token.transferFrom(msg.sender, address(this), license.price);
+        token.transfer(license.owner, license.price.mul(100 - fee).div(100));
     }
 
     /**
-    * @dev Subscribe to a license. With your own wallet
+    * @dev Verify if a wallet is subscribed to a license.
     */
-    function subscribe(uint licenseId) external {
-        _subscribe(msg.sender, licenseId);
-    }
-
-    /**
-    * @dev Create a new license. With the api call
-    */
-    function subscribeWeb2(address owner, uint hash, uint licenseId) external isPasswordSet(owner) isPasswordMatch(owner, hash) {
-        _subscribe(owner, licenseId);
-    }
-
-    function _verifySubscription(address owner, uint licenseId) internal view returns(bool) {
-        if (_subcriptionIndex[owner][licenseId] == 0)
-            return false;
-        uint index = _subcriptionIndex[owner][licenseId];
-        LicenseSubscribe memory subscription_ = subscriptions[index];
-        if (subscription_.isInfinite == true)
-            return true;
-        if (subscription_.validTime > block.timestamp)
-            return true;
-        return false;
-    }
-
-    /**
-    * @dev Verify if a wallet owns a license.
-    */
-    function verifySubscription(address owner, uint licenseId) external view returns(bool) {
+    function verifySubscription(address owner, uint licenseId) override external view licenseExist(licenseId) returns(bool) {
         return _verifySubscription(owner, licenseId);
-    }
-
-    /**
-    * @dev Verify if a wallet owns a license. With the api call
-    */
-    function verifySubscriptionWeb2(address owner, uint hash, uint licenseId) external view isPasswordSet(owner) isPasswordMatch(owner, hash) returns(bool) {
-        return _verifySubscription(owner, licenseId);
-    }
-
-    /**
-    * @dev Get all owned licenses by a wallet.
-    */
-    function getLicenses(address owner) external view returns(uint[] memory) {
-        return _licenseOwner[owner];
-    }
-
-    /**
-    * @dev Get all owned subscriptions by a wallet.
-    */
-    function getSubscriptions(address owner) external view returns(uint[] memory) {
-        return _subscriptionOwner[owner];
-    }
-
-    /**
-    * @dev Get a wallet subscription for a given license.
-    */
-    function getSubscriptionIdForLicense(address owner, uint licenseId) external view returns(uint) {
-        return _subcriptionIndex[owner][licenseId];
     }
 }
