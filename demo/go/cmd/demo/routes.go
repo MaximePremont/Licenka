@@ -14,7 +14,7 @@ type RequestBody struct {
 }
 
 type Result struct {
-	License bool `json:"license"`
+	License bool `json:"verified"`
 }
 
 func ApproveLicense(c *gin.Context) {
@@ -42,7 +42,6 @@ func Verify(c *gin.Context) {
 
 	var res Result
 	err = json.NewDecoder(resp.Body).Decode(&res)
-	fmt.Println("res ", res)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"message": "Internal server error"})
 		return
@@ -51,7 +50,6 @@ func Verify(c *gin.Context) {
 	if res.License {
 		c.JSON(http.StatusOK, gin.H{"license": true})
 	} else {
-		fmt.Println("Test")
 		c.JSON(http.StatusForbidden, gin.H{"license": false})
 	}
 }

@@ -31,13 +31,12 @@ async function verify(req, res) {
         {
             functionName: "verifySubscription",
             params: [
-                req.query.userAddress,
+                req.query.walletAddress,
                 req.query.licenseId
             ]
         }
     ).then((response) => {
-        console.log(response.data.response)
-        res.status(200).json({ verified: "true" })
+        res.status(200).json({ verified: response.data.response })
     }).catch(() => {
         res.status(400).json({ error: "User has no license" })
     })
