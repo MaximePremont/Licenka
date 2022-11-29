@@ -8,13 +8,31 @@ const Web3js = require("web3");
 const OauthPage = () => {
   const [licenkaContract, setLicenkaContract] = useState(null);
   const [license, setLicense] = useState(undefined);
+  const [web3, setWeb3] = useState(undefined);
+  const [signedCalled, setSignedCalled] = useState(false);
   const router = useRouter();
   const { redirect_uri, license_id } = router.query;
   const redirect_uri_error = `${redirect_uri}?error=invalid_request`;
 
-  let signedCalled = false;
   let licenkaAbi = process.env.LICENKA_CONTRACT_ABI;
   let licenkaAddress = process.env.LICENKA_ADDRESS;
+
+  async function fetchLicense() {
+    try {
+      const res = await licenkaContract.methods.licenses(license_id).call({ from: window.ethereum.selectedAddress })
+      if (!res.name) throw("License not found")
+      setLicense({id: license_id, name: res.name, price: res.price, duration: res.duration,});
+      handleGetLicense();
+    } catch (err){
+        console.log(err);
+        window.location.replace(redirect_uri_error);
+    }
+  }
+
+  useEffect(() => {
+    if (signedCalled == true)
+      fetchLicense()
+  }, [signedCalled]);
 
   useEffect(() => {
     window.ethereum
@@ -23,40 +41,19 @@ const OauthPage = () => {
         let licenkaContract_ = licenkaContract;
         if (!licenkaContract_) {
           web3_ = new Web3js(window.ethereum);
+          setWeb3(web3_);
           licenkaContract_ = new web3_.eth.Contract(licenkaAbi, licenkaAddress);
           setLicenkaContract(licenkaContract_);
         }
       })
       : console.log("Please install MetaMask");
-    if (license_id && licenkaContract) {
-      licenkaContract.methods
-        .licenses(license_id)
-        .call({ from: window.ethereum.selectedAddress })
-        .then((res) => {
-          if (!res.name) {
-            window.location.replace(redirect_uri_error);
-          }
-          setLicense({
-            id: license_id,
-            name: res.name,
-            price: res.price,
-            duration: res.duration,
-          });
-          if (!signedCalled) {
-            handleGetLicense();
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-          window.location.replace(redirect_uri_error);
-        });
+    if (license_id && licenkaContract && !signedCalled) {
+      setSignedCalled(true)
     }
   }, [licenkaContract, license_id]);
 
 
   function handleGetLicense() {
-    signedCalled = true;
-    const web3 = new Web3js(window.ethereum);
     web3.eth.getAccounts().then((accounts) => {
       fetch("/api/wallet/nonce?walletAddress=" + accounts[0]).then(async (res) => {
         const data = await res.json();
