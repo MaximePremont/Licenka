@@ -14,6 +14,7 @@ const ApprovePage = () => {
   const [license, setLicense] = useState(undefined);
   const [isInvalidId, setInvalidId] = useState(false);
   const [alreadyOwned, setAlreadyOwned] = useState(false);
+  const [chainId, setChainId] = useState(undefined);
   const router = useRouter();
 
   let licenkaAbi = process.env.LICENKA_CONTRACT_ABI;
@@ -21,7 +22,31 @@ const ApprovePage = () => {
 
   let ERC20Abi = process.env.BUSD_CONTRACT_ABI;
 
+  
+  async function getNetwork() {
+    if (!window.ethereum) {
+      console.log("Please install MetaMask");
+      return
+    }
+    if (window.ethereum.networkVersion === process.env.NETWORK_CHAIN_ID) return
+
+    try {
+      await window.ethereum.request({method: 'wallet_switchEthereumChain', params: [{ chainId: Web3js.utils.toHex(process.env.NETWORK_CHAIN_ID) }]});
+      setChainId(window.ethereum.networkVersion)
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
   useEffect(() => {
+    if (chainId !== undefined)
+      getNetwork()
+    else
+      setChainId(window.ethereum.networkVersion)
+  }, [chainId])
+
+  useEffect(() => {
+    console.log("useEffect")
     if (window.ethereum) {
       window.ethereum.request({ method: "eth_requestAccounts" })
       let web3_;
@@ -29,6 +54,11 @@ const ApprovePage = () => {
         web3_ = new Web3js(window.ethereum);
         setWeb3(web3_);
         setLicenkaContract(new web3_.eth.Contract(licenkaAbi, licenkaAddress));
+        console.log(web3_.currentProvider)
+        // console.log(Web3js)
+        window.ethereum.on('accountsChanged', (state) => {
+          console.log(state)
+        });
       }
       if (router.query.id && licenkaContract) {
         licenkaContract.methods

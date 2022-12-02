@@ -2,6 +2,7 @@
 const nextConfig = {
   reactStrictMode: true,
   env: {
+    NETWORK_CHAIN_ID: 97,
     LICENKA_ADDRESS: "0x150B6328F1810589aF899f6d9F17E0347f77c8b8",
     LICENKA_CONTRACT_ABI: [
       {
