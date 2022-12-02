@@ -1,6 +1,6 @@
 import Image from "next/image";
 import DefaultLayout from "../modules/layout";
-import MainButton from "../components/MainButton";
+import SimpleButton from "../components/SimpleButton";
 import { ToastContainer, toast } from "react-toastify";
 
 import React, { useState, useEffect } from "react";
@@ -161,11 +161,11 @@ const CreatePage = () => {
                 ></input>
               </ul>
               <div className="flex w-3/4 justify-between items-center">
-                <MainButton
+                <SimpleButton
                   type="submit"
                   label={!waitingTrans ? "Create" : "Loading..."}
                   iconSrc={"/add_icon.svg"}
-                ></MainButton>
+                ></SimpleButton>
                 {licenseId ? (
                   <h1 className="text-2xl text-center">
                     Your license has the id number:

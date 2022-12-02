@@ -1,6 +1,6 @@
 import Image from "next/image";
 import DefaultLayout from "../modules/layout";
-import MainButton from "../components/MainButton";
+import SimpleButton from "../components/SimpleButton";
 import { useRouter } from "next/router";
 import { ToastContainer, toast } from "react-toastify";
 import React, { useState, useEffect } from "react";
@@ -136,12 +136,12 @@ const ApprovePage = () => {
             you and the license&#39;s provider
           </p>
           <div className="flex">
-            <MainButton
+            <SimpleButton
               label={alreadyOwned ? "Already owned" : (!waitingTrans ? "Get license" : "Loading...")}
               iconSrc={"/add_icon.svg"}
               callback={handleGetLicense}
-              isDisabled={alreadyOwned}
-            ></MainButton>
+              disabled={alreadyOwned}
+            ></SimpleButton>
           </div>
         </section>
       ) : (
