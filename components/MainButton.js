@@ -1,5 +1,3 @@
-import Image from "next/image";
-
 const MainButton = ({ style, className, callback, type, disabled, children }) => {
 
   return (
