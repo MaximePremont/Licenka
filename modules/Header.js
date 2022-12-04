@@ -12,7 +12,11 @@ const Header = () => {
                 </Link>
             </div>
             <div className="flex items-center">
-                <Dropdown>
+                <Dropdown label="My Account">
+                    <ul>
+                        <li className="pt-2">Now this is a sto</li>
+                        <li className="pt-2">Now this is a sto</li>
+                    </ul>
                 </Dropdown>
             </div>
         </div>

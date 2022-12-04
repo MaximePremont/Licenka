@@ -2,7 +2,7 @@
 import { useState, useRef, Children } from "react";
 import Container from "./Container"
 
-const Dropdown = ({children}) => {
+const Dropdown = ({label, children}) => {
 
     const [isOpen, setIsOpen] = useState(false);
     const wrapper = useRef(null);
@@ -24,13 +24,12 @@ const Dropdown = ({children}) => {
         className="w-64 h-16 flex justify-center items-center text-xl"
         onClick={() => toggle()}
         >
-          My Account
+          {label}
         </div>
           <div ref={wrapper} className={" relative w-64 overflow-hidden transition-all ease-in-out duration-300 " + (isOpen ? "" : "h-0 collapse")}>
-              <ul ref={list}>
-                  <li className="pt-2">Now this is a sto</li>
-                  <li className="pt-2">Now this is a sto</li>
-              </ul>
+            <div ref={list}>
+              {children}
+            </div>
           </div>
         
     </Container>
