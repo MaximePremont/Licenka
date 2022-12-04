@@ -13,9 +13,9 @@ const Header = () => {
             </div>
             <div className="flex items-center">
                 <Dropdown label="My Account">
-                    <ul>
-                        <li className="pt-2">Now this is a sto</li>
-                        <li className="pt-2">Now this is a sto</li>
+                    <ul className="grid grid-cols-1 text-center">
+                        <li className="pt-2 text-lg">Profil</li>
+                        <li className="pt-2 text-lg">Disconect</li>
                     </ul>
                 </Dropdown>
             </div>
