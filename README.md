@@ -199,12 +199,13 @@ Our possible project has a very big potential to grow, indeed we have already be
 #### 🚀 After some improvements, our project will be ready to be deployed on the mainnet !
 
 ## 📤 Project Submission
-#### 💾 Presentation video
+#### 💾 Presentation video 2.0
 <p align="center">
-<a href="https://www.youtube.com/watch?v=ARY3FKYPMy8&ab_channel=MaximePremont"><img src="./.github/assets/video.png" width="85%" alt="Demo video" /></a>
-<a href="https://www.youtube.com/watch?v=ARY3FKYPMy8&ab_channel=MaximePremont">https://www.youtube.com/watch?v=ARY3FKYPMy8&ab_channel=MaximePremont</a>
+<a href="https://www.youtube.com/watch?v=vazbtqNn8To&ab_channel=MaximePremont"><img src="./.github/assets/video.png" width="85%" alt="Demo video 2.0" /></a>
+<a href="https://www.youtube.com/watch?v=vazbtqNn8To&ab_channel=MaximePremont">https://www.youtube.com/watch?v=vazbtqNn8To&ab_channel=MaximePremont</a>
 </p>
 
+You can also find the 1.0 video [here](https://www.youtube.com/watch?v=ARY3FKYPMy8&t=159s&ab_channel=MaximePremont).
 ## 🧪 Demonstration app
 We have built an demonstration app, called CloudGaming, you've seen in the previous video. This application is in [demo](demo/) folder. If you want to know how to implement Licenka and/or test it, check the demo [demo/README.md](demo/README.md).
 
