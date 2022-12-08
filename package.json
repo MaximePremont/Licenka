@@ -2,6 +2,7 @@
   "name": "licenka",
   "version": "0.1.0",
   "private": true,
+  "license": "No License",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
