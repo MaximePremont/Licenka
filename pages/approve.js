@@ -31,31 +31,26 @@ const ApprovePage = () => {
         setLicenkaContract(new web3_.eth.Contract(licenkaAbi, licenkaAddress));
       }
       if (router.query.id && licenkaContract) {
-        licenkaContract.methods
-        .licenses(router.query.id)
-        .call({ from: window.ethereum.selectedAddress })
-        .then((res) => {
+        fetch("/api/getLicense?licenseId=" + router.query.id)
+        .then(async (res) => {
+          res = await res.json();
           if (res.name) {
-            setLicense({
-              id: router.query.id,
-              name: res.name,
-              price: res.price,
-              duration: res.duration,
-            });
+            setLicense({ id: router.query.id, name: res.name, price: res.price, duration: res.duration });
           } else {
             setInvalidId(true);
           }
         })
-        .catch((err) => console.log(err));
-        licenkaContract.methods
-        .verifySubscription(window.ethereum.selectedAddress, router.query.id)
-        .call({ from: 0 })
-        .then((res) => {
-          if (res) {
-            setAlreadyOwned(true)
-          }
-        })
-        .catch((err) => console.log(err));
+        .catch(() => setInvalidId(true));
+        if (window.ethereum.selectedAddress) {
+          fetch(`/api/checkLicense?licenseId=${router.query.id}&userAddress=${window.ethereum.selectedAddress}`)
+          .then(async (res) => {
+            res = await res.json();
+            setAlreadyOwned(res.license)
+          })
+          .catch((err) => {
+            console.log(err)
+          })
+        }
       }
     }
   }, [licenkaContract, router.query.id]);
