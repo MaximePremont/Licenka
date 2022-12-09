@@ -19,9 +19,10 @@ const OauthPage = () => {
 
   async function fetchLicense() {
     try {
-      const res = await licenkaContract.methods.licenses(license_id).call({ from: window.ethereum.selectedAddress })
+      let res = await fetch("/api/getLicense?licenseId=" + license_id)
+      res = await res.json();
       if (!res.name) throw("License not found")
-      setLicense({id: license_id, name: res.name, price: res.price, duration: res.duration,});
+      setLicense({ id: license_id, name: res.name, price: res.price, duration: res.duration });
       handleGetLicense();
     } catch (err){
         console.log(err);
