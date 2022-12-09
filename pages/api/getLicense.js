@@ -10,35 +10,32 @@ const axiosInstance = axios.create({
 	},
 })
 
-async function getCheckLicense(req, res) {
+async function getLicense(req, res) {
     axiosInstance.post(
         "/v3/smart-contract/binance-testnet/0x150B6328F1810589aF899f6d9F17E0347f77c8b8/read",
         {
-            functionName: "verifySubscription(address,uint256)",
+            functionName: "licenses(uint256)",
             params: [
-                req.query.userAddress,
                 req.query.licenseId
             ]
         }
     ).then((response) => {
-        res.status(200).json({ license: response.data.response })
+        let keys = ['owner', 'name', 'price', 'duration']
+        let i = 0;
+        res.status(200).json({ ...response.data.response.reduce((a, v) => ({ ...a, [keys[i++]]: v}), {}) })
     }).catch(() => {
-        res.status(400).json({ error: "error" })
+        res.status(400).json({ error: "err" })
     })
 }
 
 export default function handler(req, res) {
     console.log(req.method)
     if (req.method === 'GET') {
-        if (!req.query.userAddress) {
-            res.status(400).json({ error: 'Missing userAddress' })
-            return
-        }
         if (!req.query.licenseId) {
             res.status(400).json({ error: 'Missing licenseId' })
             return
         }
-        getCheckLicense(req, res)
+        getLicense(req, res)
         return
     }
     res.status(404).json({ message: 'Unknown route' })
