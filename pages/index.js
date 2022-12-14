@@ -1,7 +1,7 @@
 import Image from "next/image";
 import DefaultLayout from "../modules/layout";
 import { useRouter } from "next/router";
-import MainButton from "../components/MainButton";
+import SimpleButton from "../components/SimpleButton";
 
 import dynamic from "next/dynamic";
 const Animator = dynamic(
@@ -30,7 +30,7 @@ const ApprovePage = () => {
   return (
     <div className="bg-background ">
       <div className="absolute top-6 right-12">
-        <MainButton
+        <SimpleButton
           callback={navigateCreate}
           label="Create license"
           iconSrc="/arrow_forward.svg"
