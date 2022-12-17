@@ -30,7 +30,7 @@ const ApprovePage = () => {
         setWeb3(web3_);
         setLicenkaContract(new web3_.eth.Contract(licenkaAbi, licenkaAddress));
       }
-      if (router.query.id && licenkaContract) {
+      if (router.query.id) {
         fetch("/api/getLicense?licenseId=" + router.query.id)
         .then(async (res) => {
           res = await res.json();
@@ -41,6 +41,8 @@ const ApprovePage = () => {
           }
         })
         .catch(() => setInvalidId(true));
+      }
+      if (router.query.id && window.ethereum.selectedAddress) {
         if (window.ethereum.selectedAddress) {
           fetch(`/api/checkLicense?licenseId=${router.query.id}&userAddress=${window.ethereum.selectedAddress}`)
           .then(async (res) => {
